@@ -1,7 +1,9 @@
 package com.jingna.hulu.huluapp.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.custom.GlideImageLoader;
@@ -15,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class Main1Activity extends AppCompatActivity {
 
@@ -60,4 +63,16 @@ public class Main1Activity extends AppCompatActivity {
         banner.start();
 
     }
+
+    @OnClick({R.id.iv2})
+    public void onClick(View view){
+        Intent intent = new Intent();
+        switch (view.getId()){
+            case R.id.iv2:
+                intent.setClass(Main1Activity.this, LineDangerActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
 }

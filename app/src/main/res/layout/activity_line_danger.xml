@@ -15,6 +15,7 @@
             style="@style/tv_top_title" />
 
         <RelativeLayout
+            android:id="@+id/activity_line_danger_rl_back"
             style="@style/rl_return">
 
             <ImageView
@@ -25,6 +26,7 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:background="#E1E1E1"
         android:id="@+id/activity_line_danger_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
