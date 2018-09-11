@@ -8,4 +8,35 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--顶部bar样式
+    <RelativeLayout-->
+    <style name="rl_top_bar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">90px</item>
+        <item name="android:background">#F1F5F6</item>
+    </style>
+    <!--顶部标题样式-->
+    <style name="tv_top_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">36px</item>
+        <item name="android:textColor">@color/black_333333</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+    <!--返回图片样式-->
+    <style name="iv_return">
+        <item name="android:layout_width">16px</item>
+        <item name="android:layout_height">26px</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@drawable/back_b</item>
+        <item name="android:layout_marginLeft">20px</item>
+        <item name="android:layout_marginRight">20px</item>
+    </style>
+    <!--返回RelativeLayout样式-->
+    <style name="rl_return">
+        <item name="android:layout_width">100px</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
 </resources>

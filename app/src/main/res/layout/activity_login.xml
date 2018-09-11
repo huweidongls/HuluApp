@@ -74,5 +74,17 @@
         android:layout_marginTop="32px"
         android:layout_width="match_parent"
         android:layout_height="2px"/>
+    
+    <Button
+        android:id="@+id/activity_login_btn"
+        android:textColor="@color/white_ffffff"
+        android:textSize="32px"
+        android:layout_marginRight="107px"
+        android:layout_marginLeft="107px"
+        android:background="@drawable/bg_login"
+        android:layout_marginTop="120px"
+        android:text="登陆"
+        android:layout_width="match_parent"
+        android:layout_height="80px" />
 
 </LinearLayout>

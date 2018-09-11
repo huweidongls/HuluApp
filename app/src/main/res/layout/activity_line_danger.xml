@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jingna.hulu.huluapp.activity.LineDangerActivity">
+
+    <RelativeLayout
+        style="@style/rl_top_bar">
+
+        <TextView
+            android:text="线路隐患"
+            style="@style/tv_top_title" />
+
+        <RelativeLayout
+            style="@style/rl_return">
+
+            <ImageView
+                style="@style/iv_return" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_line_danger_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
