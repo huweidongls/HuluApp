@@ -78,7 +78,8 @@
 
         <activity android:name=".activity.PersonActivity" />
         <activity android:name=".activity.CallPhoneActivity" />
-        <activity android:name=".activity.VideoActivity"></activity>
+        <activity android:name=".activity.VideoActivity" />
+        <activity android:name=".activity.NewsActivity"></activity>
     </application>
 
 </manifest>

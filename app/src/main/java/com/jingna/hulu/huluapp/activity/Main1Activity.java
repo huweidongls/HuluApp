@@ -64,7 +64,7 @@ public class Main1Activity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6})
+    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6, R.id.iv7})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -90,6 +90,10 @@ public class Main1Activity extends BaseActivity {
                 break;
             case R.id.iv6:
                 intent.setClass(Main1Activity.this, VideoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.iv7:
+                intent.setClass(Main1Activity.this, NewsActivity.class);
                 startActivity(intent);
                 break;
         }

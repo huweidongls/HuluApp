@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1F5F6"
+    tools:context="com.jingna.hulu.huluapp.activity.NewsActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_news_rl_top"
+        style="@style/rl_top_bar">
+
+        <RelativeLayout
+            android:id="@+id/activity_news_rl_back"
+            style="@style/rl_return">
+
+            <ImageView
+                style="@style/iv_return" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:elevation="2px"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_search"
+            android:layout_marginRight="30px"
+            android:layout_toRightOf="@+id/activity_news_rl_back"
+            android:layout_width="match_parent"
+            android:layout_height="64px">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30px"
+                android:textColor="#838383"
+                android:textSize="28px"
+                android:text="请输入搜索文字"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:src="@drawable/search"
+                android:layout_marginRight="40px"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="26px"
+                android:layout_height="31px" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_news_rv"
+        android:layout_below="@+id/activity_news_rl_top"
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
