@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="156px">
+
+    <TextView
+        android:layout_marginTop="30px"
+        android:id="@+id/tv_name"
+        android:textSize="36px"
+        android:textColor="@color/black_333333"
+        android:text="名字名字"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="4px"
+        android:layout_below="@+id/tv_name"
+        android:textSize="30px"
+        android:textColor="@color/black_333333"
+        android:text="部门名称(123123)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/video"
+        android:layout_width="64px"
+        android:layout_height="36px" />
+
+</RelativeLayout>

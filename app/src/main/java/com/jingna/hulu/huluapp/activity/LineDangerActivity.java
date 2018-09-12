@@ -1,6 +1,5 @@
 package com.jingna.hulu.huluapp.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +7,7 @@ import android.view.View;
 
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.ActivityLineDangerAdapter;
+import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LineDangerActivity extends AppCompatActivity {
+public class LineDangerActivity extends BaseActivity {
 
     @BindView(R.id.activity_line_danger_rv)
     RecyclerView recyclerView;

@@ -46,6 +46,8 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -216,6 +218,40 @@
                 android:background="@color/line"
                 android:layout_width="match_parent"
                 android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="40px"
+                    android:id="@+id/tv5"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_333333"
+                    android:textSize="32px"
+                    android:text="照片："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="40px"
+                    android:textSize="28px"
+                    android:textColor="#646464"
+                    android:layout_toRightOf="@+id/tv5"
+                    android:text="（最多可添加9张照片）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="20px"
+                    android:layout_below="@+id/tv5"
+                    android:id="@+id/activity_events_reported_rv_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 

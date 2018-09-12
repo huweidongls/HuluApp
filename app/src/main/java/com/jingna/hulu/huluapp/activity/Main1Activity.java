@@ -1,11 +1,11 @@
 package com.jingna.hulu.huluapp.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.jingna.hulu.huluapp.R;
+import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.custom.GlideImageLoader;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.youth.banner.Banner;
@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Main1Activity extends AppCompatActivity {
+public class Main1Activity extends BaseActivity {
 
     @BindView(R.id.banner)
     Banner banner;
@@ -64,7 +64,7 @@ public class Main1Activity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3})
+    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -78,6 +78,18 @@ public class Main1Activity extends AppCompatActivity {
                 break;
             case R.id.iv3:
                 intent.setClass(Main1Activity.this, EventsReportedActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.iv4:
+                intent.setClass(Main1Activity.this, PersonActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.iv5:
+                intent.setClass(Main1Activity.this, CallPhoneActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.iv6:
+                intent.setClass(Main1Activity.this, VideoActivity.class);
                 startActivity(intent);
                 break;
         }
