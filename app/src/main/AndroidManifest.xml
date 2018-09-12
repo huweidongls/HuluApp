@@ -49,7 +49,9 @@
             android:value="px" />
 
         <activity android:name=".activity.Main1Activity" />
-        <activity android:name=".activity.LineDangerActivity"></activity>
+        <activity android:name=".activity.LineDangerActivity" />
+        <activity android:name=".activity.MyTaskActivity" />
+        <activity android:name=".activity.EventsReportedActivity"></activity>
     </application>
 
 </manifest>

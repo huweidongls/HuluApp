@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jingna.hulu.huluapp.activity.EventsReportedActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_events_reported_rl_top"
+        style="@style/rl_top_bar">
+
+        <TextView
+            android:text="事件上报"
+            style="@style/tv_top_title" />
+
+        <RelativeLayout
+            android:id="@+id/activity_events_reported_rl_back"
+            style="@style/rl_return">
+
+            <ImageView
+                style="@style/iv_return" />
+
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_alignParentRight="true"
+            android:layout_width="100px"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:textSize="34px"
+                android:textColor="@color/black_333333"
+                android:text="上报"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_below="@+id/activity_events_reported_rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_marginTop="40px"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tv"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_333333"
+                    android:textSize="32px"
+                    android:text="事件分类："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Spinner
+                    android:background="@drawable/bg_spinner"
+                    android:layout_toRightOf="@+id/tv"
+                    android:id="@+id/activity_events_reported_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="70px">
+
+                </Spinner>
+
+            </RelativeLayout>
+            
+            <View
+                android:layout_marginTop="40px"
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"
+                android:layout_width="match_parent"
+                android:layout_height="125px">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tv1"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_333333"
+                    android:textSize="32px"
+                    android:text="事件标题："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black_333333"
+                    android:textSize="28px"
+                    android:hint="请输入标题"
+                    android:layout_toRightOf="@+id/tv1"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <View
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="40px"
+                    android:id="@+id/tv2"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_333333"
+                    android:textSize="32px"
+                    android:text="事件内容："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:layout_marginTop="40px"
+                    android:gravity="start"
+                    android:textColor="@color/black_333333"
+                    android:textSize="28px"
+                    android:hint="请输入内容"
+                    android:layout_toRightOf="@+id/tv2"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="195px" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_marginTop="40px"
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_marginBottom="40px"
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="40px"
+                    android:id="@+id/tv3"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_333333"
+                    android:textSize="32px"
+                    android:text="录音："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <View
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"
+                android:layout_width="match_parent"
+                android:layout_height="125px">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tv4"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_333333"
+                    android:textSize="32px"
+                    android:text="获取定位："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_toLeftOf="@+id/iv_location_b"
+                    android:layout_toRightOf="@+id/tv4"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black_333333"
+                    android:textSize="32px"
+                    android:text="自动获取用户当前位置"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/iv_location_b"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/location_b"
+                    android:layout_width="30px"
+                    android:layout_height="42px" />
+
+            </RelativeLayout>
+
+            <View
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

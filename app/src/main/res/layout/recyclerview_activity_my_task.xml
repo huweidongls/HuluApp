@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="105px">
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:textColor="@color/black_333333"
+        android:textSize="32px"
+        android:text="隐患事件标题标题标题标题标题标题…"
+        android:layout_width="544px"
+        android:layout_height="wrap_content" />
+    
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/right_b"
+        android:layout_width="14px"
+        android:layout_height="26px" />
+
+</RelativeLayout>

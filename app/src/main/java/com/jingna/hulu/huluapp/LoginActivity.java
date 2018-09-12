@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.activity_login_btn:
                 intent.setClass(LoginActivity.this, Main1Activity.class);
                 startActivity(intent);
+                finish();
                 break;
         }
     }

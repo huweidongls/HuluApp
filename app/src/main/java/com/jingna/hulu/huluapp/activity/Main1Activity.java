@@ -64,12 +64,20 @@ public class Main1Activity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.iv2})
+    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
+            case R.id.iv1:
+                intent.setClass(Main1Activity.this, MyTaskActivity.class);
+                startActivity(intent);
+                break;
             case R.id.iv2:
                 intent.setClass(Main1Activity.this, LineDangerActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.iv3:
+                intent.setClass(Main1Activity.this, EventsReportedActivity.class);
                 startActivity(intent);
                 break;
         }
