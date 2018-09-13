@@ -32,4 +32,6 @@
     <color name="gray_909090">#909090</color>
 
     <color name="line">#979797</color>
+
+    <color name="colorRedBg">#fa5148</color>
 </resources>

@@ -91,15 +91,13 @@
 
     </RelativeLayout>
 
-    <TextView
+    <ImageView
+        android:src="@drawable/map"
+        android:scaleType="centerCrop"
         android:id="@+id/tv_map"
         android:layout_marginTop="30px"
         android:layout_marginRight="40px"
         android:layout_marginLeft="40px"
-        android:textSize="34px"
-        android:textColor="@color/black_333333"
-        android:gravity="center"
-        android:text="地图"
         android:layout_below="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_height="400px" />

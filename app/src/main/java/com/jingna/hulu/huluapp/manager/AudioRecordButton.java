@@ -8,6 +8,7 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.utils.FileUtils;
@@ -94,6 +95,19 @@ public class AudioRecordButton extends android.support.v7.widget.AppCompatButton
 //                return true;
 //            }
 //        });
+        setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (isHasRecordPromission()) {
+                    mReady = true;
+                    mAudioManager.prepareAudio();
+                    changeState(STATE_RECORDING);
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        });
 
     }
 
@@ -291,9 +305,9 @@ public class AudioRecordButton extends android.support.v7.widget.AppCompatButton
                     setText(mContext.getString(R.string.long_click_record));//长按录音
                     break;
                 case STATE_RECORDING:
-                    setBackgroundColor(Color.rgb(0xcd, 0xcd, 0xcd));
+//                    setBackgroundColor(Color.rgb(0xcd, 0xcd, 0xcd));
                     setText(R.string.hang_up_finsh);//松开结束
-                    setTextColor(Color.WHITE);
+//                    setTextColor(Color.WHITE);
                     if (isRecording) {
                         // 复写dialog.recording();
                         mDialogManager.recording();

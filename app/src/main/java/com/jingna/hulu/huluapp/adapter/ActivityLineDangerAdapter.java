@@ -1,12 +1,15 @@
 package com.jingna.hulu.huluapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.jingna.hulu.huluapp.R;
+import com.jingna.hulu.huluapp.activity.DetailsDangerActivity;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.util.List;
@@ -35,7 +38,14 @@ public class ActivityLineDangerAdapter extends RecyclerView.Adapter<ActivityLine
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, DetailsDangerActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -45,8 +55,11 @@ public class ActivityLineDangerAdapter extends RecyclerView.Adapter<ActivityLine
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        private LinearLayout ll;
+
         public ViewHolder(View itemView) {
             super(itemView);
+            ll = itemView.findViewById(R.id.ll);
         }
     }
 

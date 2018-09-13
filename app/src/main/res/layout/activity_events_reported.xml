@@ -41,6 +41,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:layout_above="@+id/rl_bottom"
         android:layout_below="@+id/activity_events_reported_rl_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -179,6 +180,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="40px"
+                    android:layout_toRightOf="@+id/tv3"
+                    android:id="@+id/em_lv_recodeList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:listSelector="#0000"/>
+
             </RelativeLayout>
 
             <View
@@ -264,5 +273,25 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/rl_bottom"
+        android:background="#F8F8F8"
+        android:layout_width="match_parent"
+        android:layout_height="114px">
+
+        <com.jingna.hulu.huluapp.manager.AudioRecordButton
+            android:layout_centerInParent="true"
+            android:id="@+id/em_tv_btn"
+            android:layout_width="650px"
+            android:layout_height="78px"
+            android:background="@drawable/bg_audio_button"
+            android:gravity="center"
+            android:text="@string/long_click_record"
+            android:textColor="#646464"
+            android:textSize="32px"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

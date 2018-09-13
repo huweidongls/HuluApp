@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.gaoyuan.weixinrecord.R;
+import com.jingna.hulu.huluapp.R;
 
 
 public class DialogManager {

@@ -1,19 +1,31 @@
 package com.jingna.hulu.huluapp.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.donkingliang.imageselector.utils.ImageSelector;
 import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.jingna.hulu.huluapp.R;
+import com.jingna.hulu.huluapp.adapter.ExampleAdapter;
 import com.jingna.hulu.huluapp.adapter.IntercalationAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
+import com.jingna.hulu.huluapp.history.DBManager;
+import com.jingna.hulu.huluapp.manager.AudioRecordButton;
+import com.jingna.hulu.huluapp.manager.MediaManager;
+import com.jingna.hulu.huluapp.utils.PermissionHelper;
+import com.jingna.hulu.huluapp.utils.Record;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.util.ArrayList;
@@ -29,9 +41,19 @@ public class EventsReportedActivity extends BaseActivity {
     RecyclerView rvPic;
     @BindView(R.id.activity_events_reported_sp)
     Spinner spinner;
+    @BindView(R.id.em_tv_btn)
+    AudioRecordButton mEmTvBtn;
+    @BindView(R.id.em_lv_recodeList)
+    RecyclerView mEmLvRecodeList;
 
     private IntercalationAdapter adapter;
     private List<String> mList;
+
+    List<Record> mRecords;
+    ExampleAdapter mExampleAdapter;
+    PermissionHelper mHelper;
+    //db
+    private DBManager mgr;
 
     private static final int REQUEST_CODE = 0x00000011;
 
@@ -46,6 +68,8 @@ public class EventsReportedActivity extends BaseActivity {
 
         initData();
         initSpinner();
+        initAdapter();
+        initListener();
 
     }
 
@@ -86,6 +110,10 @@ public class EventsReportedActivity extends BaseActivity {
 
     private void initData() {
 
+        mRecords = new ArrayList<>();
+        //初始化DBManager
+        mgr = new DBManager(this);
+
         GridLayoutManager manager = new GridLayoutManager(EventsReportedActivity.this, 3);
         rvPic.setLayoutManager(manager);
         mList = new ArrayList<>();
@@ -125,6 +153,97 @@ public class EventsReportedActivity extends BaseActivity {
                 finish();
                 break;
         }
+    }
+
+    private void initAdapter() {
+        LinearLayoutManager manager = new LinearLayoutManager(EventsReportedActivity.this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        mEmLvRecodeList.setLayoutManager(manager);
+        mExampleAdapter = new ExampleAdapter(this, mRecords);
+        mEmLvRecodeList.setAdapter(mExampleAdapter);
+
+        //开始获取数据库数据
+//        List<Record> records = mgr.query();
+//        if (records == null || records.isEmpty()) return;
+//        for (Record record : records) {
+//            Log.e("wgy", "initAdapter: " + record.toString());
+//        }
+//        mRecords.addAll(records);
+//        mExampleAdapter.notifyDataSetChanged();
+//        mEmLvRecodeList.setSelection(mRecords.size() - 1);
+    }
+
+    private void initListener() {
+        mEmTvBtn.setHasRecordPromission(false);
+        //        授权处理
+        mHelper = new PermissionHelper(this);
+
+        mHelper.requestPermissions("请授予[录音]，[读写]权限，否则无法录音",
+                new PermissionHelper.PermissionListener() {
+                    @Override
+                    public void doAfterGrand(String... permission) {
+                        mEmTvBtn.setHasRecordPromission(true);
+//                        mEmTvBtn.setAudioFinishRecorderListener((seconds, filePath) -> {
+//                            Record recordModel = new Record();
+//                            recordModel.setSecond((int) seconds <= 0 ? 1 : (int) seconds);
+//                            recordModel.setPath(filePath);
+//                            recordModel.setPlayed(false);
+//                            mRecords.add(recordModel);
+//                            mExampleAdapter.notifyDataSetChanged();
+//                            mEmLvRecodeList.setSelection(mRecords.size() - 1);
+//
+//                            //添加到数据库
+//                            mgr.add(recordModel);
+//                        });
+                        mEmTvBtn.setAudioFinishRecorderListener(new AudioRecordButton.AudioFinishRecorderListener() {
+                            @Override
+                            public void onFinished(float seconds, String filePath) {
+                                Record recordModel = new Record();
+                                recordModel.setSecond((int) seconds <= 0 ? 1 : (int) seconds);
+                                recordModel.setPath(filePath);
+                                recordModel.setPlayed(false);
+                                mRecords.add(recordModel);
+                                mExampleAdapter.notifyDataSetChanged();
+//                                mEmLvRecodeList.setSelection(mRecords.size() - 1);
+
+                                //添加到数据库
+//                                mgr.add(recordModel);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void doAfterDenied(String... permission) {
+                        mEmTvBtn.setHasRecordPromission(false);
+                        Toast.makeText(EventsReportedActivity.this, "请授权,否则无法录音", Toast.LENGTH_SHORT).show();
+                    }
+                }, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+    }
+
+    //直接把参数交给mHelper就行了
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        mHelper.handleRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onPause() {
+        MediaManager.release();//保证在退出该页面时，终止语音播放
+        super.onPause();
+    }
+
+    public DBManager getMgr() {
+        return mgr;
+    }
+
+    public void setMgr(DBManager mgr) {
+        this.mgr = mgr;
     }
 
 }
