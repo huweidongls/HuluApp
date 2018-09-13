@@ -221,6 +221,185 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:background="#E1E1E1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/iv1"
+                    android:layout_marginLeft="30px"
+                    android:src="@drawable/rectangle"
+                    android:layout_width="8px"
+                    android:layout_height="40px" />
+
+                <TextView
+                    android:layout_marginLeft="12px"
+                    android:layout_marginBottom="40px"
+                    android:layout_marginTop="40px"
+                    android:layout_toRightOf="@+id/iv1"
+                    android:textColor="@color/black_333333"
+                    android:textSize="36px"
+                    android:text="处理前："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginBottom="40px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv6"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="30px"
+                    android:layout_marginTop="40px"
+                    android:textSize="32px"
+                    android:textColor="@color/black_333333"
+                    android:text="处置内容："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:textColor="@color/black_333333"
+                    android:textSize="30px"
+                    android:layout_marginRight="30px"
+                    android:layout_toRightOf="@+id/tv6"
+                    android:layout_marginTop="40px"
+                    android:text="事件内容内容内容内容内容内容内容 内容内容内容内容内容内容内容内容 内容内容内容内容内容内容内容内容 内容内容内容内容内容内容内容内容 内容内容内容内容内容内容内容内容 内容内容内容"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+            
+            <View
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv7"
+                    android:textStyle="bold"
+                    android:layout_marginTop="40px"
+                    android:textSize="32px"
+                    android:textColor="@color/black_333333"
+                    android:text="照片："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="40px"
+                    android:layout_toRightOf="@+id/tv7"
+                    android:textSize="32px"
+                    android:textColor="#646464"
+                    android:text="（最多可添加9张照片）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="20px"
+                    android:layout_below="@+id/tv7"
+                    android:id="@+id/activity_details_danger_rv_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="125px">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tv8"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="30px"
+                    android:textSize="32px"
+                    android:textColor="@color/black_333333"
+                    android:text="完成隐患："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/off"
+                    android:layout_toRightOf="@+id/tv8"
+                    android:layout_width="102px"
+                    android:layout_height="62px" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="#E1E1E1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/iv2"
+                    android:layout_marginLeft="30px"
+                    android:src="@drawable/rectangle"
+                    android:layout_width="8px"
+                    android:layout_height="40px" />
+
+                <TextView
+                    android:layout_marginLeft="12px"
+                    android:layout_marginBottom="40px"
+                    android:layout_marginTop="40px"
+                    android:layout_toRightOf="@+id/iv2"
+                    android:textColor="@color/black_333333"
+                    android:textSize="36px"
+                    android:text="处理后："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginBottom="40px"
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv9"
+                    android:textStyle="bold"
+                    android:layout_marginTop="40px"
+                    android:textSize="32px"
+                    android:textColor="@color/black_333333"
+                    android:text="照片："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="40px"
+                    android:layout_toRightOf="@+id/tv9"
+                    android:textSize="32px"
+                    android:textColor="#646464"
+                    android:text="（最多可添加9张照片）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="20px"
+                    android:layout_below="@+id/tv9"
+                    android:id="@+id/activity_details_danger_rv_pic1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
         </LinearLayout>
 
     </ScrollView>
