@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.donkingliang.imageselector.utils.ImageSelector;
 import com.donkingliang.imageselector.utils.ImageSelectorUtils;
@@ -24,6 +27,8 @@ public class EventsReportedActivity extends BaseActivity {
 
     @BindView(R.id.activity_events_reported_rv_pic)
     RecyclerView rvPic;
+    @BindView(R.id.activity_events_reported_sp)
+    Spinner spinner;
 
     private IntercalationAdapter adapter;
     private List<String> mList;
@@ -40,6 +45,42 @@ public class EventsReportedActivity extends BaseActivity {
         ButterKnife.bind(EventsReportedActivity.this);
 
         initData();
+        initSpinner();
+
+    }
+
+    private void initSpinner() {
+
+        //原始string数组
+        final String[] spinnerItems = {"事件分类1","事件分类2","事件分类3","事件分类4","事件分类5"};
+        //简单的string数组适配器：样式res，数组
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(EventsReportedActivity.this,
+                android.R.layout.simple_spinner_item, spinnerItems);
+        //下拉的样式res
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //绑定 Adapter到控件
+        spinner.setAdapter(spinnerAdapter);
+        //选择监听
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //parent就是父控件spinner
+            //view就是spinner内填充的textview,id=@android:id/text1
+            //position是值所在数组的位置
+            //id是值所在行的位置，一般来说与positin一致
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+//                LogUtil.i("onItemSelected : parent.id="+parent.getId()+
+//                        ",isSpinnerId="+(parent.getId() == R.id.spinner_1)+
+//                        ",viewid="+view.getId()+ ",pos="+pos+",id="+id);
+//                ToastUtil.showShort(instance,"选择了["+spinnerItems[pos]+"]");
+                //设置spinner内的填充文字居中
+                //((TextView)view).setGravity(Gravity.CENTER);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
 
     }
 

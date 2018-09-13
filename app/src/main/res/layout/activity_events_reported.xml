@@ -77,6 +77,14 @@
                     android:layout_height="70px">
 
                 </Spinner>
+                
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20px"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/bottom_b"
+                    android:layout_width="22px"
+                    android:layout_height="14px" />
 
             </RelativeLayout>
             
