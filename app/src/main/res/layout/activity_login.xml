@@ -42,7 +42,7 @@
         <EditText
             android:layout_toLeftOf="@+id/view"
             android:layout_marginRight="20px"
-            android:hint="请输入职工号"
+            android:hint="请输入密码"
             android:background="@null"
             android:textSize="28px"
             android:layout_width="match_parent"

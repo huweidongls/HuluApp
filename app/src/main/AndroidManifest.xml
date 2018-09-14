@@ -80,7 +80,9 @@
         <activity android:name=".activity.CallPhoneActivity" />
         <activity android:name=".activity.VideoActivity" />
         <activity android:name=".activity.NewsActivity" />
-        <activity android:name=".activity.DetailsDangerActivity"></activity>
+        <activity android:name=".activity.DetailsDangerActivity" />
+        <activity android:name=".activity.Main2Activity" />
+        <activity android:name=".activity.EventLeaderActivity"></activity>
     </application>
 
 </manifest>

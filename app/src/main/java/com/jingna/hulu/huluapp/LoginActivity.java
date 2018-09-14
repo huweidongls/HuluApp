@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.activity.Main1Activity;
+import com.jingna.hulu.huluapp.activity.Main2Activity;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -63,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent();
         switch (view.getId()){
             case R.id.activity_login_btn:
-                intent.setClass(LoginActivity.this, Main1Activity.class);
+                intent.setClass(LoginActivity.this, Main2Activity.class);
                 startActivity(intent);
                 finish();
                 break;

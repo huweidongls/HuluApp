@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jingna.hulu.huluapp.activity.Main2Activity">
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="430px"/>
+
+    <LinearLayout
+        android:background="@drawable/main2_bg"
+        android:layout_below="@+id/banner"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0px">
+
+                <ImageView
+                    android:id="@+id/iv1"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/main2_shijian_selector"
+                    android:layout_width="180px"
+                    android:layout_height="180px" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_marginLeft="80px"
+                android:background="#66ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0px">
+
+                <ImageView
+                    android:id="@+id/iv2"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/main2_video_selector"
+                    android:layout_width="180px"
+                    android:layout_height="180px" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_marginLeft="80px"
+                android:background="#66ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0px">
+
+                <ImageView
+                    android:id="@+id/iv3"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/main2_news_selector"
+                    android:layout_width="180px"
+                    android:layout_height="180px" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        
+        <View
+            android:layout_marginBottom="65px"
+            android:layout_marginTop="65px"
+            android:background="#66ffffff"
+            android:layout_width="3px"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0px">
+
+                <ImageView
+                    android:id="@+id/iv4"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/main2_hulu_selector"
+                    android:layout_width="180px"
+                    android:layout_height="180px" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_marginRight="80px"
+                android:background="#66ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0px">
+
+                <ImageView
+                    android:id="@+id/iv5"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/main2_person_selector"
+                    android:layout_width="180px"
+                    android:layout_height="180px" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_marginRight="80px"
+                android:background="#66ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0px">
+
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
