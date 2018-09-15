@@ -3,12 +3,20 @@ package com.jingna.hulu.huluapp.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.ActivityNewsAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
+import com.jingna.hulu.huluapp.model.NewsModel;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +31,7 @@ public class NewsActivity extends BaseActivity {
     RecyclerView recyclerView;
 
     private ActivityNewsAdapter adapter;
-    private List<String> data;
+    private List<NewsModel.DataBean> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +48,40 @@ public class NewsActivity extends BaseActivity {
 
     private void initData() {
 
-        data = new ArrayList<>();
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        LinearLayoutManager manager = new LinearLayoutManager(NewsActivity.this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        adapter = new ActivityNewsAdapter(data);
-        recyclerView.setAdapter(adapter);
+        ViseHttp.POST("/platformNewsApi/queryList")
+                .setJson("{\n" +
+                        "  \"pageNum\": 0,\n" +
+                        "  \"pageSize\": 0,\n" +
+                        "  \"platformNewsExt\": {\n" +
+                        "   \n" +
+                        "  }\n" +
+                        "}")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("123123", data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.getString("status").equals("SUCCESS")){
+                                Gson gson = new Gson();
+                                NewsModel model = gson.fromJson(data, NewsModel.class);
+                                mList = model.getData();
+                                LinearLayoutManager manager = new LinearLayoutManager(NewsActivity.this);
+                                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(manager);
+                                adapter = new ActivityNewsAdapter(mList);
+                                recyclerView.setAdapter(adapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
 
     }
 

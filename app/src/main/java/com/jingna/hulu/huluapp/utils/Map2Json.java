@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Map2Json {
 
-    public static String map2json(Map<String, String> map){
+    public static String map2json(Map<String, Object> map){
         Gson gson = new Gson();
         String json = gson.toJson(map);
         return json;

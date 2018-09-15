@@ -1,12 +1,17 @@
 package com.jingna.hulu.huluapp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.jingna.hulu.huluapp.LoginActivity;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.base.BaseActivity;
+import com.jingna.hulu.huluapp.dialog.DialogCustom;
+import com.jingna.hulu.huluapp.sp.SpImp;
+import com.jingna.hulu.huluapp.utils.RestartAPPTool;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import butterknife.BindView;
@@ -18,6 +23,8 @@ public class PersonActivity extends BaseActivity {
     @BindView(R.id.activity_person_iv_avatar)
     ImageView ivAvatar;
 
+    private SpImp spImp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +33,7 @@ public class PersonActivity extends BaseActivity {
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
 
         ButterKnife.bind(PersonActivity.this);
+        spImp = new SpImp(PersonActivity.this);
 
         initData();
 
@@ -37,11 +45,24 @@ public class PersonActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.activity_person_rl_back})
+    @OnClick({R.id.activity_person_rl_back, R.id.activity_person_btn_out})
     public void onClick(View view){
+        final Intent intent = new Intent();
         switch (view.getId()){
             case R.id.activity_person_rl_back:
                 finish();
+                break;
+            case R.id.activity_person_btn_out:
+                DialogCustom dialogCustom = new DialogCustom(PersonActivity.this, "是否退出登录", new DialogCustom.OnYesListener() {
+                    @Override
+                    public void onYes() {
+                        spImp.setUID(0);
+                        spImp.setUIDTYPE("0");
+                        intent.setClass(PersonActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                dialogCustom.show();
                 break;
         }
     }

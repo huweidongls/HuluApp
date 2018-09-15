@@ -176,6 +176,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/activity_person_btn_out"
         android:textSize="36px"
         android:textColor="@color/white_ffffff"
         android:text="退出"

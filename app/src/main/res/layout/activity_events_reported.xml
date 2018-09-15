@@ -113,6 +113,7 @@
                     android:layout_height="wrap_content" />
 
                 <EditText
+                    android:id="@+id/activity_events_reported_et_title"
                     android:layout_centerVertical="true"
                     android:textColor="@color/black_333333"
                     android:textSize="28px"
@@ -146,6 +147,7 @@
                     android:layout_height="wrap_content" />
 
                 <EditText
+                    android:id="@+id/activity_events_reported_et_content"
                     android:layout_marginTop="40px"
                     android:gravity="start"
                     android:textColor="@color/black_333333"

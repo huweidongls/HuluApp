@@ -13,6 +13,7 @@ import com.jingna.hulu.huluapp.activity.Main1Activity;
 import com.jingna.hulu.huluapp.activity.Main2Activity;
 import com.jingna.hulu.huluapp.model.GetOneModel;
 import com.jingna.hulu.huluapp.model.LoginModel;
+import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Constant;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
@@ -38,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.activity_login_et_password)
     EditText etPassword;
 
+    private SpImp spImp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +49,25 @@ public class LoginActivity extends AppCompatActivity {
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
 
         ButterKnife.bind(LoginActivity.this);
+        spImp = new SpImp(LoginActivity.this);
 
         initData();
     }
 
     private void initData() {
 
+        Intent intent = new Intent();
+        if(spImp.getUID() != 0){
+            if(spImp.getUIDTYPE().equals("1")){
+                intent.setClass(LoginActivity.this, Main1Activity.class);
+                startActivity(intent);
+                finish();
+            }else if(spImp.getUIDTYPE().equals("2")){
+                intent.setClass(LoginActivity.this, Main2Activity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
 
     }
 
@@ -60,45 +76,46 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.activity_login_btn:
-                intent.setClass(LoginActivity.this, Main1Activity.class);
-                startActivity(intent);
-                finish();
-//                String username = etUsername.getText().toString();
-//                String password = etPassword.getText().toString();
-//
-//                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-//                    ToastUtil.showShort(LoginActivity.this, "账号或密码不能为空");
-//                } else {
-//                    Map<String, String> map = new LinkedHashMap<>();
-//                    map.put("userName", username);
-//                    map.put("password", password);
-//                    String json = Map2Json.map2json(map);
-//                    ViseHttp.POST("SystemUser/login")
-//                            .setJson(json)
-//                            .request(new ACallback<String>() {
-//                                @Override
-//                                public void onSuccess(String data) {
-//                                    Log.e("222", data);
-//                                    try {
-//                                        JSONObject jsonObject = new JSONObject(data);
-//                                        if (jsonObject.getString("status").equals("SUCCESS")) {
-//                                            Gson gson = new Gson();
-//                                            LoginModel model = gson.fromJson(data, LoginModel.class);
-//                                            getOne(model.getData().getUser().getRoleId());
-//                                        }else {
-//                                            ToastUtil.showShort(LoginActivity.this, "登录失败");
-//                                        }
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onFail(int errCode, String errMsg) {
-//                                    Log.e("222", errMsg);
-//                                }
-//                            });
-//                }
+//                intent.setClass(LoginActivity.this, Main1Activity.class);
+//                startActivity(intent);
+//                finish();
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+                    ToastUtil.showShort(LoginActivity.this, "账号或密码不能为空");
+                } else {
+                    Map<String, Object> map = new LinkedHashMap<>();
+                    map.put("userName", username);
+                    map.put("password", password);
+                    String json = Map2Json.map2json(map);
+                    ViseHttp.POST("SystemUser/login")
+                            .setJson(json)
+                            .request(new ACallback<String>() {
+                                @Override
+                                public void onSuccess(String data) {
+                                    Log.e("222", data);
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(data);
+                                        if (jsonObject.getString("status").equals("SUCCESS")) {
+                                            Gson gson = new Gson();
+                                            LoginModel model = gson.fromJson(data, LoginModel.class);
+                                            spImp.setUID(model.getData().getUser().getId());
+                                            getOne(model.getData().getUser().getRoleId());
+                                        }else {
+                                            ToastUtil.showShort(LoginActivity.this, "登录失败");
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFail(int errCode, String errMsg) {
+                                    Log.e("222", errMsg);
+                                }
+                            });
+                }
                 break;
         }
     }
@@ -124,10 +141,12 @@ public class LoginActivity extends AppCompatActivity {
                                 List<GetOneModel.DataBean> list = model.getData().get(0);
                                 for(int i = 0; i<list.size(); i++){
                                     if(list.get(i).getJurisdictionId() == 24){
+                                        spImp.setUIDTYPE("2");
                                         intent.setClass(LoginActivity.this, Main2Activity.class);
                                         startActivity(intent);
                                         finish();
                                     }else if(list.get(i).getJurisdictionId() == 25){
+                                        spImp.setUIDTYPE("1");
                                         intent.setClass(LoginActivity.this, Main1Activity.class);
                                         startActivity(intent);
                                         finish();

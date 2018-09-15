@@ -15,52 +15,22 @@ public class SpImp {
                 Context.MODE_PRIVATE);
         editor = sp.edit();
     }
-    public String getUID() {
-        return sp.getString(SpPublic.UID, "0");
+    public int getUID() {
+        return sp.getInt(SpPublic.UID, 0);
     }
 
-    public void setUID(String UID) {
-        editor.putString(SpPublic.UID, UID).toString();
+    public void setUID(int UID) {
+        editor.putInt(SpPublic.UID, UID);
         editor.commit();
     }
-
-    public String getYXID() {
-        return sp.getString(SpPublic.YXID, "0");
+    public String getUIDTYPE() {
+        return sp.getString(SpPublic.UIDTYPE, "0");
     }
 
-    public void setYXID(String YXID) {
-        editor.putString(SpPublic.YXID, YXID).toString();
+    public void setUIDTYPE(String UIDTYPE) {
+        editor.putString(SpPublic.UIDTYPE, UIDTYPE);
         editor.commit();
     }
-
-    public String getYXTOKEN() {
-        return sp.getString(SpPublic.YXtoken, "0");
-    }
-
-    public void setYXTOKEN(String YXTOKEN) {
-        editor.putString(SpPublic.YXtoken, YXTOKEN).toString();
-        editor.commit();
-    }
-
-    public String getSearch() {
-        return sp.getString(SpPublic.Search, "");
-    }
-
-    public void setSearch(String search) {
-        editor.putString(SpPublic.Search, search).toString();
-        editor.commit();
-    }
-
-    public String getYd() {
-        return sp.getString(SpPublic.Yd, "");
-    }
-
-    public void setYd(String yd) {
-        editor.putString(SpPublic.Yd, yd).toString();
-        editor.commit();
-    }
-
-
 
     //长整形
 

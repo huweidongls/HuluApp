@@ -5,8 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jingna.hulu.huluapp.R;
+import com.jingna.hulu.huluapp.model.TelModel;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.util.List;
@@ -18,9 +21,14 @@ import java.util.List;
 public class ActivityCallPhoneAdapter extends RecyclerView.Adapter<ActivityCallPhoneAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> data;
+    private List<TelModel.DataBean> data;
+    private OnCallListener listener;
 
-    public ActivityCallPhoneAdapter(List<String> data) {
+    public void setOnCallListener(OnCallListener listener){
+        this.listener = listener;
+    }
+
+    public ActivityCallPhoneAdapter(List<TelModel.DataBean> data) {
         this.data = data;
     }
 
@@ -34,8 +42,15 @@ public class ActivityCallPhoneAdapter extends RecyclerView.Adapter<ActivityCallP
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.tvName.setText(data.get(position).getTelName());
+        holder.tvTelNum.setText(data.get(position).getTelNumber());
+        holder.ivCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCall(position);
+            }
+        });
     }
 
     @Override
@@ -45,9 +60,20 @@ public class ActivityCallPhoneAdapter extends RecyclerView.Adapter<ActivityCallP
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        private TextView tvName;
+        private TextView tvTelNum;
+        private ImageView ivCall;
+
         public ViewHolder(View itemView) {
             super(itemView);
+            tvName = itemView.findViewById(R.id.tv_name);
+            tvTelNum = itemView.findViewById(R.id.tv_tel_num);
+            ivCall = itemView.findViewById(R.id.iv_call);
         }
+    }
+
+    public interface OnCallListener{
+        void onCall(int position);
     }
 
 }

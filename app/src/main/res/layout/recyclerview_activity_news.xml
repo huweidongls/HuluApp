@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
     
     <RelativeLayout
+        android:id="@+id/rl"
         android:layout_marginTop="10px"
         android:layout_marginBottom="10px"
         android:elevation="4px"
@@ -18,6 +19,7 @@
             android:layout_height="210px" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:ellipsize="end"
             android:lines="2"
             android:layout_marginRight="25px"
@@ -31,6 +33,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_time"
             android:layout_marginBottom="24px"
             android:layout_marginRight="24px"
             android:layout_alignParentRight="true"

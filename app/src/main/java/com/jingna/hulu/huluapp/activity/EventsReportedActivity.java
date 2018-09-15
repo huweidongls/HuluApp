@@ -11,10 +11,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -33,7 +35,10 @@ import com.jingna.hulu.huluapp.history.DBManager;
 import com.jingna.hulu.huluapp.manager.AudioRecordButton;
 import com.jingna.hulu.huluapp.manager.MediaManager;
 import com.jingna.hulu.huluapp.model.BaiduCityModel;
+import com.jingna.hulu.huluapp.model.FileUploadModel;
 import com.jingna.hulu.huluapp.model.QueryListModel;
+import com.jingna.hulu.huluapp.sp.SpImp;
+import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.utils.PermissionHelper;
 import com.jingna.hulu.huluapp.utils.Record;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
@@ -44,12 +49,25 @@ import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import top.zibin.luban.CompressionPredicate;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class EventsReportedActivity extends BaseActivity {
 
@@ -63,6 +81,10 @@ public class EventsReportedActivity extends BaseActivity {
     RecyclerView mEmLvRecodeList;
     @BindView(R.id.activity_events_reported_tv_location)
     TextView tvLocation;
+    @BindView(R.id.activity_events_reported_et_title)
+    EditText etTitle;
+    @BindView(R.id.activity_events_reported_et_content)
+    EditText etContent;
 
     private IntercalationAdapter adapter;
     private List<String> mList;
@@ -84,6 +106,15 @@ public class EventsReportedActivity extends BaseActivity {
      * 事件分类列表
      */
     private String[] spinnerItems;
+    private int[] num1;
+    private int numid;
+
+    /**
+     * 上传的图片url拼接
+     */
+    private String imgs = "";
+
+    private SpImp spImp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +124,7 @@ public class EventsReportedActivity extends BaseActivity {
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
 
         ButterKnife.bind(EventsReportedActivity.this);
+        spImp = new SpImp(EventsReportedActivity.this);
         mHelper = new PermissionHelper(this);
 
         initData();
@@ -115,9 +147,12 @@ public class EventsReportedActivity extends BaseActivity {
                                 Gson gson = new Gson();
                                 QueryListModel listModel = gson.fromJson(data, QueryListModel.class);
                                 spinnerItems = new String[listModel.getData().size()];
+                                num1 = new int[listModel.getData().size()];
                                 for (int i = 0; i<listModel.getData().size(); i++){
                                     spinnerItems[i] = listModel.getData().get(i).getTypeName();
+                                    num1[i] = listModel.getData().get(i).getId();
                                 }
+                                numid = num1[0];
                                 //简单的string数组适配器：样式res，数组
                                 ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(EventsReportedActivity.this,
                                         android.R.layout.simple_spinner_item, spinnerItems);
@@ -140,6 +175,7 @@ public class EventsReportedActivity extends BaseActivity {
 //                ToastUtil.showShort(instance,"选择了["+spinnerItems[pos]+"]");
                                         //设置spinner内的填充文字居中
                                         //((TextView)view).setGravity(Gravity.CENTER);
+                                        numid = num1[pos];
                                     }
                                     @Override
                                     public void onNothingSelected(AdapterView<?> parent) {
@@ -233,7 +269,135 @@ public class EventsReportedActivity extends BaseActivity {
      */
     private void toUpdata() {
 
+        Log.e("123123", "开始上传");
 
+        Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(final ObservableEmitter<String> e) throws Exception {
+                final List<String> list = new ArrayList<>();
+                Luban.with(EventsReportedActivity.this)
+                        .load(mList)
+                        .ignoreBy(100)
+                        .filter(new CompressionPredicate() {
+                            @Override
+                            public boolean apply(String path) {
+                                return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+                            }
+                        })
+                        .setCompressListener(new OnCompressListener() {
+                            @Override
+                            public void onStart() {
+                                // TODO 压缩开始前调用，可以在方法内启动 loading UI
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                // TODO 压缩成功后调用，返回压缩后的图片文件
+                                ViseHttp.UPLOAD("bannerApi/fileUpload")
+                                        .addHeader("Content-Type", "multipart/form-data")
+                                        .addFile("file", file)
+                                        .request(new ACallback<String>() {
+                                            @Override
+                                            public void onSuccess(String data) {
+                                                Log.e("123123", data);
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(data);
+                                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                                        Gson gson = new Gson();
+                                                        FileUploadModel uploadModel = gson.fromJson(data, FileUploadModel.class);
+                                                        list.add(uploadModel.getData());
+                                                        if(list.size() == mList.size()){
+                                                            for (int i = 0; i<list.size(); i++){
+                                                                if(i == list.size() - 1){
+                                                                    imgs = imgs + list.get(i);
+                                                                }else {
+                                                                    imgs = imgs + list.get(i) + ",";
+                                                                }
+                                                            }
+                                                            Log.e("123123", imgs);
+                                                            e.onNext(imgs);
+                                                        }
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFail(int errCode, String errMsg) {
+                                                Log.e("123123", errMsg);
+                                            }
+                                        });
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                // TODO 当压缩过程出现问题时调用
+                            }
+                        }).launch();
+            }
+        });
+        Observer<String> observer = new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(String value) {
+
+                List<List<String>> locaList = new ArrayList<>();
+                List<String> locaList1 = new ArrayList<>();
+                locaList1.add(longitude+","+latitude);
+                locaList.add(locaList1);
+
+                Map<String, Object> map = new LinkedHashMap<>();
+                map.put("createBy", spImp.getUID());
+                map.put("num1", numid);
+                map.put("eventTitle", etTitle.getText().toString());
+                map.put("eventContent", etContent.getText().toString());
+                map.put("num2", locaList+"");
+                map.put("eventPic", value);
+                String json = Map2Json.map2json(map);
+                Log.e("123123", json);
+
+                ViseHttp.POST("/eventApi/toUpdate")
+                        .setJson(json)
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                Log.e("123123", data);
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                        ToastUtil.showShort(EventsReportedActivity.this, "上报成功");
+                                        finish();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+        observable.observeOn(Schedulers.newThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
 
     }
 
