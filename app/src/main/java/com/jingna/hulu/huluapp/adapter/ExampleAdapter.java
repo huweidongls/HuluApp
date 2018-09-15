@@ -28,6 +28,12 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ViewHold
     List<AnimationDrawable> mAnimationDrawables;
     int pos = -1;//标记当前录音索引，默认没有播放任何一个
 
+    private OnDeleteListener listener;
+
+    public void setOnDeleteListener(OnDeleteListener listener){
+        this.listener = listener;
+    }
+
     public ExampleAdapter(Context context, List<Record> records) {
         this.mContext = context;
         this.mRecords = records;
@@ -122,6 +128,13 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ViewHold
                         });
             }
         });
+        holder.ieaIvVoiceLine.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                listener.onDelete(position);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -135,6 +148,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ViewHold
         LinearLayout ieaLlSinger;
         TextView ieaTvVoicetime1;
         ImageView ieaIvRed;
+        LinearLayout llContent;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -143,6 +157,12 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ViewHold
             ieaLlSinger = (LinearLayout) itemView.findViewById(R.id.iea_ll_singer);
             ieaTvVoicetime1 = (TextView) itemView.findViewById(R.id.iea_tv_voicetime1);
             ieaIvRed = (ImageView) itemView.findViewById(R.id.iea_iv_red);
+            llContent = itemView.findViewById(R.id.ll_content);
         }
     }
+
+    public interface OnDeleteListener{
+        void onDelete(int position);
+    }
+
 }

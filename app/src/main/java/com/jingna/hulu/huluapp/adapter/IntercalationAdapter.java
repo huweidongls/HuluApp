@@ -28,6 +28,11 @@ public class IntercalationAdapter extends RecyclerView.Adapter<IntercalationAdap
     private static final int MAX_SIZE = 9;
 
     private OnAddImgListener addListener;
+    private OnDeleteImgListener deleteListener;
+
+    public void setDeleteListener(OnDeleteImgListener deleteListener){
+        this.deleteListener = deleteListener;
+    }
 
     public void setListener(OnAddImgListener addListener) {
         this.addListener = addListener;
@@ -68,6 +73,13 @@ public class IntercalationAdapter extends RecyclerView.Adapter<IntercalationAdap
                 addListener.onAddImg();
             }
         });
+        holder.iv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                deleteListener.onDeleteImg(position);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -100,6 +112,10 @@ public class IntercalationAdapter extends RecyclerView.Adapter<IntercalationAdap
 
     public interface OnAddImgListener {
         void onAddImg();
+    }
+
+    public interface OnDeleteImgListener{
+        void onDeleteImg(int position);
     }
 
 }

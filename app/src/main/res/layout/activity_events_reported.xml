@@ -24,6 +24,7 @@
         </RelativeLayout>
         
         <RelativeLayout
+            android:id="@+id/activity_events_reported_rl_complete"
             android:layout_alignParentRight="true"
             android:layout_width="100px"
             android:layout_height="match_parent">
@@ -212,6 +213,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/activity_events_reported_tv_location"
                     android:layout_toLeftOf="@+id/iv_location_b"
                     android:layout_toRightOf="@+id/tv4"
                     android:layout_centerVertical="true"
