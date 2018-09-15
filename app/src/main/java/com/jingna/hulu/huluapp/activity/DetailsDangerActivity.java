@@ -11,6 +11,7 @@ import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.IntercalationAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
+import com.jingna.hulu.huluapp.dialog.DialogCustom;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.util.ArrayList;
@@ -69,6 +70,19 @@ public class DetailsDangerActivity extends BaseActivity {
                         .start(DetailsDangerActivity.this, REQUEST_CODE); // 打开相册
             }
         });
+        adapter.setDeleteListener(new IntercalationAdapter.OnDeleteImgListener() {
+            @Override
+            public void onDeleteImg(final int position) {
+                DialogCustom dialogCustom = new DialogCustom(DetailsDangerActivity.this, "是否删除该张图片", new DialogCustom.OnYesListener() {
+                    @Override
+                    public void onYes() {
+                        mList.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                dialogCustom.show();
+            }
+        });
 
         GridLayoutManager manager1 = new GridLayoutManager(DetailsDangerActivity.this, 3);
         recyclerView1.setLayoutManager(manager1);
@@ -86,6 +100,19 @@ public class DetailsDangerActivity extends BaseActivity {
 //                        .setSelected(selected) // 把已选的图片传入默认选中。
                         .setViewImage(true) //是否点击放大图片查看,，默认为true
                         .start(DetailsDangerActivity.this, REQUEST_CODE1); // 打开相册
+            }
+        });
+        adapter1.setDeleteListener(new IntercalationAdapter.OnDeleteImgListener() {
+            @Override
+            public void onDeleteImg(final int position) {
+                DialogCustom dialogCustom = new DialogCustom(DetailsDangerActivity.this, "是否删除该张图片", new DialogCustom.OnYesListener() {
+                    @Override
+                    public void onYes() {
+                        mList1.remove(position);
+                        adapter1.notifyDataSetChanged();
+                    }
+                });
+                dialogCustom.show();
             }
         });
 
