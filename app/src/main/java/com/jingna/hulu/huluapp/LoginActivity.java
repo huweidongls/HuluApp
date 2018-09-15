@@ -3,26 +3,40 @@ package com.jingna.hulu.huluapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.activity.Main1Activity;
 import com.jingna.hulu.huluapp.activity.Main2Activity;
+import com.jingna.hulu.huluapp.model.GetOneModel;
+import com.jingna.hulu.huluapp.model.LoginModel;
+import com.jingna.hulu.huluapp.utils.Constant;
 import com.jingna.hulu.huluapp.utils.Map2Json;
+import com.jingna.hulu.huluapp.utils.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
+
+    @BindView(R.id.activity_login_et_username)
+    EditText etUsername;
+    @BindView(R.id.activity_login_et_password)
+    EditText etPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,37 +52,99 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initData() {
 
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("userName", "aa");
-        map.put("password", "bb");
-        String a = Map2Json.map2json(map);
-
-//        ViseHttp.POST("SystemUser/login")
-//                .setJson(a)
-//                .request(new ACallback<String>() {
-//                    @Override
-//                    public void onSuccess(String data) {
-//                        Log.e("222", data);
-//                    }
-//
-//                    @Override
-//                    public void onFail(int errCode, String errMsg) {
-//                        Log.e("222", errMsg);
-//                    }
-//                });
 
     }
 
     @OnClick({R.id.activity_login_btn})
-    public void onClick(View view){
+    public void onClick(View view) {
         Intent intent = new Intent();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.activity_login_btn:
-                intent.setClass(LoginActivity.this, Main2Activity.class);
-                startActivity(intent);
-                finish();
+//                intent.setClass(LoginActivity.this, Main1Activity.class);
+//                startActivity(intent);
+//                finish();
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+                    ToastUtil.showShort(LoginActivity.this, "账号或密码不能为空");
+                } else {
+                    Map<String, String> map = new LinkedHashMap<>();
+                    map.put("userName", username);
+                    map.put("password", password);
+                    String json = Map2Json.map2json(map);
+                    ViseHttp.POST("SystemUser/login")
+                            .setJson(json)
+                            .request(new ACallback<String>() {
+                                @Override
+                                public void onSuccess(String data) {
+                                    Log.e("222", data);
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(data);
+                                        if (jsonObject.getString("status").equals("SUCCESS")) {
+                                            Gson gson = new Gson();
+                                            LoginModel model = gson.fromJson(data, LoginModel.class);
+                                            getOne(model.getData().getUser().getRoleId());
+                                        }else {
+                                            ToastUtil.showShort(LoginActivity.this, "登录失败");
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFail(int errCode, String errMsg) {
+                                    Log.e("222", errMsg);
+                                }
+                            });
+                }
                 break;
         }
+    }
+
+    /**
+     * 判断是领导还是员工
+     */
+    private void getOne(int roleId) {
+
+        final Intent intent = new Intent();
+
+        String url = Constant.BASE_URL + "SystemRole/getOne?userId=" + roleId;
+        ViseHttp.GET(url)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("222", data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.getString("status").equals("SUCCESS")){
+                                Gson gson = new Gson();
+                                GetOneModel model = gson.fromJson(data, GetOneModel.class);
+                                List<GetOneModel.DataBean> list = model.getData().get(0);
+                                for(int i = 0; i<list.size(); i++){
+                                    if(list.get(i).getJurisdictionId() == 24){
+                                        intent.setClass(LoginActivity.this, Main2Activity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }else if(list.get(i).getJurisdictionId() == 25){
+                                        intent.setClass(LoginActivity.this, Main1Activity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+
     }
 
 }

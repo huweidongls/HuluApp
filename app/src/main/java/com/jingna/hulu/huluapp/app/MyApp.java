@@ -33,7 +33,7 @@ public class MyApp extends Application {
         ViseHttp.init(this);
         ViseHttp.CONFIG()
                 //配置请求主机地址
-                .baseUrl("http://192.168.2.248:8080/");
+                .baseUrl("http://47.92.127.1:8088/");
     }
 
     // add Activity
