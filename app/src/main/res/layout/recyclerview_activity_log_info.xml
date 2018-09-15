@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginLeft="20px"
+    android:layout_marginRight="20px"
+    android:layout_marginTop="30px"
+    android:elevation="4px"
+    android:orientation="vertical"
+    android:background="@color/white_ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_marginRight="30px"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="24px"
+        android:textStyle="bold"
+        android:text="线路名称名称名称名称"
+        android:textSize="34px"
+        android:textColor="@color/black_333333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="24px"
+        android:layout_marginRight="30px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/black_333333"
+            android:textSize="30px"
+            android:text="护路员：张四"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginLeft="50px"
+            android:textColor="@color/black_333333"
+            android:textSize="30px"
+            android:text="联系电话：12345678901"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="24px"
+        android:layout_marginRight="30px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="#FF3636"
+            android:textSize="30px"
+            android:text="隐患事件：3件"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginLeft="34px"
+            android:textColor="#2ABB0A"
+            android:textSize="30px"
+            android:text="上报事件：3件"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginBottom="30px"
+        android:layout_gravity="right"
+        android:text="2018年08月31日"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="24px"
+        android:layout_marginRight="30px"
+        android:textSize="28px"
+        android:textColor="#6E6E6E"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

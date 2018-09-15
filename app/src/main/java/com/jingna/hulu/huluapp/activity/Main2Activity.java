@@ -81,7 +81,7 @@ public class Main2Activity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.iv4:
-                intent.setClass(Main2Activity.this, NewsActivity.class);
+                intent.setClass(Main2Activity.this, LogInfoActivity.class);
                 startActivity(intent);
                 break;
             case R.id.iv5:

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jingna.hulu.huluapp.activity.LogInfoActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_log_info_rl_top"
+        style="@style/rl_top_bar">
+
+        <RelativeLayout
+            android:id="@+id/activity_log_info_rl_back"
+            style="@style/rl_return">
+
+            <ImageView
+                style="@style/iv_return" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_toLeftOf="@+id/iv_calendar"
+            android:elevation="2px"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_search"
+            android:layout_marginRight="30px"
+            android:layout_toRightOf="@+id/activity_log_info_rl_back"
+            android:layout_width="match_parent"
+            android:layout_height="64px">
+
+            <EditText
+                android:hint="请输入搜索线路/护路员"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30px"
+                android:textColor="@color/black_333333"
+                android:textSize="28px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:src="@drawable/search"
+                android:layout_marginRight="40px"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="26px"
+                android:layout_height="31px" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_select"
+        android:background="#F1F5F6"
+        android:layout_below="@+id/activity_log_info_rl_top"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100px">
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="#32CC0D"
+                    android:textSize="28px"
+                    android:text="部门"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_marginLeft="8px"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/top_g"
+                        android:layout_width="20px"
+                        android:layout_height="10px" />
+
+                    <ImageView
+                        android:layout_marginTop="6px"
+                        android:src="@drawable/bottom_g"
+                        android:layout_width="20px"
+                        android:layout_height="10px" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="#333333"
+                    android:textSize="28px"
+                    android:text="日期"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_marginLeft="8px"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/top_b"
+                        android:layout_width="20px"
+                        android:layout_height="10px" />
+
+                    <ImageView
+                        android:layout_marginTop="6px"
+                        android:src="@drawable/bottom_b"
+                        android:layout_width="20px"
+                        android:layout_height="10px" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:background="#E1E1E1"
+        android:id="@+id/activity_log_info_rv"
+        android:layout_below="@+id/ll_select"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

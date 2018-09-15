@@ -82,7 +82,8 @@
         <activity android:name=".activity.NewsActivity" />
         <activity android:name=".activity.DetailsDangerActivity" />
         <activity android:name=".activity.Main2Activity" />
-        <activity android:name=".activity.EventLeaderActivity"></activity>
+        <activity android:name=".activity.EventLeaderActivity" />
+        <activity android:name=".activity.LogInfoActivity"></activity>
     </application>
 
 </manifest>
