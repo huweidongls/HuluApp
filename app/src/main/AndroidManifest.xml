@@ -54,7 +54,7 @@
         <activity android:name=".activity.LineDangerActivity" />
         <activity android:name=".activity.MyTaskActivity" />
         <activity android:name=".activity.EventsReportedActivity" />
-        //图片选择Activity
+        <!--//图片选择Activity-->
         <activity
             android:name="com.donkingliang.imageselector.ImageSelectorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

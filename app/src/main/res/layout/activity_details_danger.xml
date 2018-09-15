@@ -196,30 +196,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="2px"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="125px">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="125px">-->
 
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/tv5"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="30px"
-                    android:textSize="32px"
-                    android:textColor="@color/black_333333"
-                    android:text="隐患处理："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                
-                <ImageView
-                    android:scaleType="fitXY"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/off"
-                    android:layout_toRightOf="@+id/tv5"
-                    android:layout_width="102px"
-                    android:layout_height="62px" />
+                <!--<TextView-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:id="@+id/tv5"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:layout_marginLeft="30px"-->
+                    <!--android:textSize="32px"-->
+                    <!--android:textColor="@color/black_333333"-->
+                    <!--android:text="隐患处理："-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
+                <!---->
+                <!--<ImageView-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:src="@drawable/off"-->
+                    <!--android:layout_toRightOf="@+id/tv5"-->
+                    <!--android:layout_width="102px"-->
+                    <!--android:layout_height="62px" />-->
 
-            </RelativeLayout>
+            <!--</RelativeLayout>-->
 
             <RelativeLayout
                 android:background="#E1E1E1"
@@ -314,30 +314,30 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="125px">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="125px">-->
 
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/tv8"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="30px"
-                    android:textSize="32px"
-                    android:textColor="@color/black_333333"
-                    android:text="完成隐患："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <!--<TextView-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:id="@+id/tv8"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:layout_marginLeft="30px"-->
+                    <!--android:textSize="32px"-->
+                    <!--android:textColor="@color/black_333333"-->
+                    <!--android:text="完成隐患："-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
 
-                <ImageView
-                    android:scaleType="fitXY"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/off"
-                    android:layout_toRightOf="@+id/tv8"
-                    android:layout_width="102px"
-                    android:layout_height="62px" />
+                <!--<ImageView-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:src="@drawable/off"-->
+                    <!--android:layout_toRightOf="@+id/tv8"-->
+                    <!--android:layout_width="102px"-->
+                    <!--android:layout_height="62px" />-->
 
-            </RelativeLayout>
+            <!--</RelativeLayout>-->
 
             <RelativeLayout
                 android:background="#E1E1E1"
