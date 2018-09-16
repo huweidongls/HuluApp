@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jingna.hulu.huluapp.R;
+import com.jingna.hulu.huluapp.model.MyTaskDangerEventListModel;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.util.List;
@@ -18,9 +20,9 @@ import java.util.List;
 public class ActivityMyTaskAdapter extends RecyclerView.Adapter<ActivityMyTaskAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> data;
+    private List<MyTaskDangerEventListModel.DataBean> data;
 
-    public ActivityMyTaskAdapter(List<String> data) {
+    public ActivityMyTaskAdapter(List<MyTaskDangerEventListModel.DataBean> data) {
         this.data = data;
     }
 
@@ -35,7 +37,7 @@ public class ActivityMyTaskAdapter extends RecyclerView.Adapter<ActivityMyTaskAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.tvTitle.setText(data.get(position).getLpTitle());
     }
 
     @Override
@@ -45,8 +47,11 @@ public class ActivityMyTaskAdapter extends RecyclerView.Adapter<ActivityMyTaskAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        private TextView tvTitle;
+
         public ViewHolder(View itemView) {
             super(itemView);
+            tvTitle = itemView.findViewById(R.id.tv_title);
         }
     }
 

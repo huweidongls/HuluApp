@@ -1,6 +1,12 @@
 package com.jingna.hulu.huluapp.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +19,22 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Polyline;
+import com.baidu.mapapi.map.PolylineOptions;
+import com.baidu.mapapi.model.LatLng;
 import com.donkingliang.imageselector.utils.ImageSelector;
 import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.google.gson.Gson;
@@ -27,6 +47,7 @@ import com.jingna.hulu.huluapp.dialog.DialogCustom;
 import com.jingna.hulu.huluapp.model.FileUploadModel;
 import com.jingna.hulu.huluapp.model.LineDangerModel;
 import com.jingna.hulu.huluapp.utils.Map2Json;
+import com.jingna.hulu.huluapp.utils.PermissionHelper;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -113,6 +134,16 @@ public class DetailsDangerActivity extends BaseActivity {
     private ActivityDetailsDangerShowAdapter showAdapter1;
     private List<String> showList1;
 
+    private BaiduMap mBaiduMap;
+    private BitmapDescriptor mCurrentMarker;
+    private LocationManager lm;
+
+    private PermissionHelper mHelper;
+    private Polyline mPolyline;
+
+    public LocationClient mLocationClient = null;
+    public BDLocationListener myListener = new MyLocationListener();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,8 +152,31 @@ public class DetailsDangerActivity extends BaseActivity {
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
 
         ButterKnife.bind(DetailsDangerActivity.this);
+        mHelper = new PermissionHelper(this);
+        mBaiduMap = mapView.getMap();
 
+        initLocation();
         initData();
+
+    }
+
+    private void initLocation() {
+
+        mHelper.requestPermissions("请授予[定位]，否则无法定位", new PermissionHelper.PermissionListener() {
+            @Override
+            public void doAfterGrand(String... permission) {
+
+                // 开启定位图层
+                mBaiduMap.setMyLocationEnabled(true);
+                startLocate();
+
+            }
+
+            @Override
+            public void doAfterDenied(String... permission) {
+                ToastUtil.showShort(DetailsDangerActivity.this, "请授权,否则无法定位");
+            }
+        }, Manifest.permission.ACCESS_FINE_LOCATION);
 
     }
 
@@ -518,4 +572,54 @@ public class DetailsDangerActivity extends BaseActivity {
         super.onDestroy();
         mapView.onDestroy();
     }
+
+    /**
+     * 定位
+     */
+    private void startLocate() {
+        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+        mLocationClient.registerLocationListener(myListener);    //注册监听函数
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving
+        );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
+        int span = 1000;
+        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setOpenGps(true);//可选，默认false,设置是否使用gps
+        option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
+        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+        mLocationClient.setLocOption(option);
+        //开启定位
+        mLocationClient.start();
+    }
+
+    private class MyLocationListener implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // 构造定位数据
+            MyLocationData locData = new MyLocationData.Builder()
+//                        .accuracy(location.getRadius())
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+//                        .direction(100)
+                    .latitude(location.getLatitude())
+                    .longitude(location.getLongitude())
+                    .build();
+
+            // 设置定位数据
+            mBaiduMap.setMyLocationData(locData);
+
+            // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
+            mCurrentMarker = BitmapDescriptorFactory
+                    .fromResource(R.drawable.location);
+            MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker);
+            mBaiduMap.setMyLocationConfiguration(config);
+        }
+    }
+
 }

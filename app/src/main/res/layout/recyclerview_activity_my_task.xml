@@ -4,6 +4,7 @@
     android:layout_height="105px">
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_centerVertical="true"
         android:textColor="@color/black_333333"
         android:textSize="32px"
