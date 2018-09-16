@@ -81,6 +81,11 @@ public class MyTaskActivity extends BaseActivity {
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
 
+    private double latitude = 0.0;//纬度
+    private double longitude = 0.0;//经度
+
+    private String lmByid = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,6 +149,8 @@ public class MyTaskActivity extends BaseActivity {
                                 adapter = new ActivityMyTaskAdapter(mList);
                                 recyclerView.setAdapter(adapter);
 
+                                lmByid = model.getData().get(0).getLpLm();
+
                                 //构建Marker图标
                                 BitmapDescriptor bitmap = BitmapDescriptorFactory
                                         .fromResource(R.drawable.danger);
@@ -188,7 +195,7 @@ public class MyTaskActivity extends BaseActivity {
 
                                 //绘制折线
                                 OverlayOptions ooPolyline = new PolylineOptions().width(10)
-                                        .color(Color.parseColor("#F71F1F")).points(points);
+                                        .color(Color.parseColor("#0088FF")).points(points);
                                 mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
 
                             }
@@ -216,6 +223,36 @@ public class MyTaskActivity extends BaseActivity {
                     @Override
                     public void onYes() {
 
+                        Map<String, Object> map = new LinkedHashMap<>();
+                        List<String> locaList1 = new ArrayList<>();
+                        locaList1.add(longitude+","+latitude);
+                        map.put("coordinate", locaList1+"");
+                        map.put("num2", spImp.getUID());
+                        map.put("createBy", spImp.getNAME());
+                        map.put("lmBy", lmByid);
+                        String json = Map2Json.map2json(map);
+
+                        ViseHttp.POST("/RoadprotectionLoggerApi/statusHl")
+                                .setJson(json)
+                                .request(new ACallback<String>() {
+                                    @Override
+                                    public void onSuccess(String data) {
+                                        Log.e("121212", data);
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(data);
+                                            if(jsonObject.getString("status").equals("SUCCESS")){
+                                                ToastUtil.showShort(MyTaskActivity.this, "开始巡检");
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFail(int errCode, String errMsg) {
+
+                                    }
+                                });
                     }
                 });
                 dialogCustom.show();
@@ -224,7 +261,7 @@ public class MyTaskActivity extends BaseActivity {
                 DialogCustom dialogCustom1 = new DialogCustom(MyTaskActivity.this, "是否结束巡检", new DialogCustom.OnYesListener() {
                     @Override
                     public void onYes() {
-
+                        ToastUtil.showShort(MyTaskActivity.this, "结束巡检");
                     }
                 });
                 dialogCustom1.show();
@@ -285,6 +322,8 @@ public class MyTaskActivity extends BaseActivity {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
             // 构造定位数据
             MyLocationData locData = new MyLocationData.Builder()
 //                        .accuracy(location.getRadius())

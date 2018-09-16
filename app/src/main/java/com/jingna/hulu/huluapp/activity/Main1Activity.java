@@ -1,5 +1,6 @@
 package com.jingna.hulu.huluapp.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.view.View;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.custom.GlideImageLoader;
+import com.jingna.hulu.huluapp.utils.PermissionHelper;
+import com.jingna.hulu.huluapp.utils.ToastUtil;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -24,6 +27,8 @@ public class Main1Activity extends BaseActivity {
     @BindView(R.id.banner)
     Banner banner;
 
+    private PermissionHelper mHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,12 +37,26 @@ public class Main1Activity extends BaseActivity {
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
 
         ButterKnife.bind(Main1Activity.this);
+        mHelper = new PermissionHelper(this);
 
         initBanner();
 
     }
 
     private void initBanner() {
+
+        mHelper.requestPermissions("请授予权限", new PermissionHelper.PermissionListener() {
+            @Override
+            public void doAfterGrand(String... permission) {
+
+            }
+
+            @Override
+            public void doAfterDenied(String... permission) {
+                ToastUtil.showShort(Main1Activity.this, "请授权");
+            }
+        }, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA);
 
         List<String> images = new ArrayList<>();
         images.add("http://47.92.127.1:8088/upload/jn_1.jpg");

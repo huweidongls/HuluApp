@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                                             Gson gson = new Gson();
                                             LoginModel model = gson.fromJson(data, LoginModel.class);
                                             spImp.setUID(model.getData().getUser().getId());
+                                            spImp.setNAME(model.getData().getUser().getPeopleName());
                                             getOne(model.getData().getUser().getRoleId());
                                         }else {
                                             ToastUtil.showShort(LoginActivity.this, "登录失败");

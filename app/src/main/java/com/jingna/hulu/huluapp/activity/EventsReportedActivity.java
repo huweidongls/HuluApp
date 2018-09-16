@@ -367,6 +367,7 @@ public class EventsReportedActivity extends BaseActivity {
 
                 Map<String, Object> map = new LinkedHashMap<>();
                 map.put("createBy", spImp.getUID());
+                map.put("num3", spImp.getNAME());
                 map.put("num1", numid);
                 map.put("eventTitle", etTitle.getText().toString());
                 map.put("eventContent", etContent.getText().toString());

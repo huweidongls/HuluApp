@@ -15,6 +15,14 @@ public class SpImp {
                 Context.MODE_PRIVATE);
         editor = sp.edit();
     }
+    public String getNAME() {
+        return sp.getString(SpPublic.NAME, "0");
+    }
+
+    public void setNAME(String NAME) {
+        editor.putString(SpPublic.NAME, NAME);
+        editor.commit();
+    }
     public int getUID() {
         return sp.getInt(SpPublic.UID, 0);
     }
