@@ -3,23 +3,57 @@ package com.jingna.hulu.huluapp.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.baidu.mapapi.map.MapView;
 import com.donkingliang.imageselector.utils.ImageSelector;
 import com.donkingliang.imageselector.utils.ImageSelectorUtils;
+import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
+import com.jingna.hulu.huluapp.adapter.ActivityDetailsDangerShowAdapter;
+import com.jingna.hulu.huluapp.adapter.ActivityLineDangerAdapter;
 import com.jingna.hulu.huluapp.adapter.IntercalationAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
+import com.jingna.hulu.huluapp.model.FileUploadModel;
+import com.jingna.hulu.huluapp.model.LineDangerModel;
+import com.jingna.hulu.huluapp.utils.Map2Json;
+import com.jingna.hulu.huluapp.utils.ToastUtil;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import top.zibin.luban.CompressionPredicate;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class DetailsDangerActivity extends BaseActivity {
 
@@ -27,6 +61,30 @@ public class DetailsDangerActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.activity_details_danger_rv_pic1)
     RecyclerView recyclerView1;
+    @BindView(R.id.activity_details_danger_tv_title)
+    TextView tvTitle;
+    @BindView(R.id.activity_details_danger_tv_type)
+    TextView tvType;
+    @BindView(R.id.activity_details_danger_tv_content)
+    TextView tvContent;
+    @BindView(R.id.activity_details_danger_tv_location)
+    TextView tvLocation;
+    @BindView(R.id.activity_details_danger_mapview)
+    MapView mapView;
+    @BindView(R.id.et_upload)
+    EditText etUpload;
+    @BindView(R.id.tv_upload)
+    TextView tvUpload;
+    @BindView(R.id.activity_details_danger_rv_pic_show)
+    RecyclerView recyclerViewShow;
+    @BindView(R.id.activity_details_danger_rv_pic1_show)
+    RecyclerView recyclerView1Show;
+    @BindView(R.id.activity_details_danger_rl_complete)
+    RelativeLayout rlComplete;
+    @BindView(R.id.tv_max)
+    TextView tvMax;
+    @BindView(R.id.tv_max1)
+    TextView tvMax1;
 
     private IntercalationAdapter adapter;
     private List<String> mList;
@@ -36,6 +94,24 @@ public class DetailsDangerActivity extends BaseActivity {
 
     private static final int REQUEST_CODE = 0x00000011;
     private static final int REQUEST_CODE1 = 0x00000012;
+
+    private int id = 0;
+
+    /**
+     * 上传的图片url拼接
+     */
+    private String imgs = "";
+    private String imgs1 = "";
+
+    /**
+     * 上传的图片数组
+     */
+    private List<String> uploadImgs;
+
+    private ActivityDetailsDangerShowAdapter showAdapter;
+    private List<String> showList;
+    private ActivityDetailsDangerShowAdapter showAdapter1;
+    private List<String> showList1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +127,86 @@ public class DetailsDangerActivity extends BaseActivity {
     }
 
     private void initData() {
+
+        uploadImgs = new ArrayList<>();
+
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
+
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("pageNum", 0);
+        map.put("pageSize", 0);
+        Map<String, Integer> map1 = new LinkedHashMap<>();
+        map1.put("id", id);
+        map.put("platformSolveExt", map1);
+        String json = Map2Json.map2json(map);
+
+        ViseHttp.POST("/platformSolve/queryList")
+                .setJson(json)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("123123", data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getString("status").equals("SUCCESS")) {
+                                Gson gson = new Gson();
+                                LineDangerModel model = gson.fromJson(data, LineDangerModel.class);
+                                tvTitle.setText(model.getData().get(0).getLpTitle());
+                                tvContent.setText(model.getData().get(0).getLpContent());
+                                tvType.setText(model.getData().get(0).getTypeName());
+                                tvLocation.setText(model.getData().get(0).getNum4());
+                                if(model.getData().get(0).getIsSolve() == 0){
+                                    etUpload.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                    recyclerView1.setVisibility(View.VISIBLE);
+                                    rlComplete.setVisibility(View.VISIBLE);
+                                    tvMax.setVisibility(View.VISIBLE);
+                                    tvMax1.setVisibility(View.VISIBLE);
+                                    tvUpload.setVisibility(View.GONE);
+                                    recyclerViewShow.setVisibility(View.GONE);
+                                    recyclerView1Show.setVisibility(View.GONE);
+                                }else if(model.getData().get(0).getIsSolve() == 1){
+                                    etUpload.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.GONE);
+                                    recyclerView1.setVisibility(View.GONE);
+                                    rlComplete.setVisibility(View.GONE);
+                                    tvMax.setVisibility(View.GONE);
+                                    tvMax1.setVisibility(View.GONE);
+                                    tvUpload.setVisibility(View.VISIBLE);
+                                    recyclerViewShow.setVisibility(View.VISIBLE);
+                                    recyclerView1Show.setVisibility(View.VISIBLE);
+                                    tvUpload.setText(model.getData().get(0).getSolveContent());
+                                    showList = new ArrayList<>();
+                                    showList1 = new ArrayList<>();
+                                    String[] show = model.getData().get(0).getNum2().split(",");
+                                    for (int i = 0; i<show.length; i++){
+                                        showList.add(show[i]);
+                                    }
+                                    GridLayoutManager manager = new GridLayoutManager(DetailsDangerActivity.this, 3);
+                                    recyclerViewShow.setLayoutManager(manager);
+                                    showAdapter = new ActivityDetailsDangerShowAdapter(showList);
+                                    recyclerViewShow.setAdapter(showAdapter);
+                                    String[] show1 = model.getData().get(0).getNum3().split(",");
+                                    for (int i = 0; i<show1.length; i++){
+                                        showList1.add(show1[i]);
+                                    }
+                                    GridLayoutManager manager1 = new GridLayoutManager(DetailsDangerActivity.this, 3);
+                                    recyclerView1Show.setLayoutManager(manager1);
+                                    showAdapter1 = new ActivityDetailsDangerShowAdapter(showList1);
+                                    recyclerView1Show.setAdapter(showAdapter1);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
 
         GridLayoutManager manager = new GridLayoutManager(DetailsDangerActivity.this, 3);
         recyclerView.setLayoutManager(manager);
@@ -135,13 +291,231 @@ public class DetailsDangerActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.activity_details_rl_back})
-    public void onClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.activity_details_rl_back, R.id.activity_details_danger_rl_complete})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.activity_details_rl_back:
                 finish();
+                break;
+            case R.id.activity_details_danger_rl_complete:
+                if (TextUtils.isEmpty(etUpload.getText().toString()) || mList.size() <= 0 || mList1.size() <= 0) {
+                    ToastUtil.showShort(DetailsDangerActivity.this, "请完善信息后上报");
+                }else {
+                    onComplete();
+                }
                 break;
         }
     }
 
+    /**
+     * 隐患上报
+     */
+    private void onComplete() {
+
+        Log.e("123123", "开始上传");
+
+        Observable<List<String>> observable = Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(final ObservableEmitter<List<String>> e) throws Exception {
+                final List<String> list = new ArrayList<>();
+                final List<String> list1 = new ArrayList<>();
+                Luban.with(DetailsDangerActivity.this)
+                        .load(mList)
+                        .ignoreBy(100)
+                        .filter(new CompressionPredicate() {
+                            @Override
+                            public boolean apply(String path) {
+                                return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+                            }
+                        })
+                        .setCompressListener(new OnCompressListener() {
+                            @Override
+                            public void onStart() {
+                                // TODO 压缩开始前调用，可以在方法内启动 loading UI
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                // TODO 压缩成功后调用，返回压缩后的图片文件
+                                ViseHttp.UPLOAD("bannerApi/fileUpload")
+                                        .addHeader("Content-Type", "multipart/form-data")
+                                        .addFile("file", file)
+                                        .request(new ACallback<String>() {
+                                            @Override
+                                            public void onSuccess(String data) {
+                                                Log.e("123123", data);
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(data);
+                                                    if (jsonObject.getString("status").equals("SUCCESS")) {
+                                                        Gson gson = new Gson();
+                                                        FileUploadModel uploadModel = gson.fromJson(data, FileUploadModel.class);
+                                                        list.add(uploadModel.getData());
+                                                        if (list.size() == mList.size()) {
+                                                            for (int i = 0; i < list.size(); i++) {
+                                                                if (i == list.size() - 1) {
+                                                                    imgs = imgs + list.get(i);
+                                                                } else {
+                                                                    imgs = imgs + list.get(i) + ",";
+                                                                }
+                                                            }
+                                                            Log.e("123123", "处理前" + imgs);
+                                                            uploadImgs.add(imgs);
+                                                            Luban.with(DetailsDangerActivity.this)
+                                                                    .load(mList1)
+                                                                    .ignoreBy(100)
+                                                                    .filter(new CompressionPredicate() {
+                                                                        @Override
+                                                                        public boolean apply(String path) {
+                                                                            return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+                                                                        }
+                                                                    })
+                                                                    .setCompressListener(new OnCompressListener() {
+                                                                        @Override
+                                                                        public void onStart() {
+
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onSuccess(File file) {
+                                                                            ViseHttp.UPLOAD("bannerApi/fileUpload")
+                                                                                    .addHeader("Content-Type", "multipart/form-data")
+                                                                                    .addFile("file", file)
+                                                                                    .request(new ACallback<String>() {
+                                                                                        @Override
+                                                                                        public void onSuccess(String data1) {
+                                                                                            try {
+                                                                                                JSONObject jsonObject1 = new JSONObject(data1);
+                                                                                                if (jsonObject1.getString("status").equals("SUCCESS")) {
+                                                                                                    Gson gson1 = new Gson();
+                                                                                                    FileUploadModel uploadModel1 = gson1.fromJson(data1, FileUploadModel.class);
+                                                                                                    list1.add(uploadModel1.getData());
+                                                                                                    if (list1.size() == mList1.size()) {
+                                                                                                        for (int i = 0; i < list1.size(); i++) {
+                                                                                                            if (i == list1.size() - 1) {
+                                                                                                                imgs1 = imgs1 + list1.get(i);
+                                                                                                            } else {
+                                                                                                                imgs1 = imgs1 + list1.get(i) + ",";
+                                                                                                            }
+                                                                                                        }
+                                                                                                        Log.e("123123", "处理后" + imgs1);
+                                                                                                        uploadImgs.add(imgs1);
+                                                                                                        e.onNext(uploadImgs);
+                                                                                                    }
+                                                                                                }
+                                                                                            } catch (JSONException e1) {
+                                                                                                e1.printStackTrace();
+                                                                                            }
+                                                                                        }
+
+                                                                                        @Override
+                                                                                        public void onFail(int errCode, String errMsg) {
+
+                                                                                        }
+                                                                                    });
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onError(Throwable e) {
+
+                                                                        }
+                                                                    }).launch();
+                                                        }
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFail(int errCode, String errMsg) {
+                                                Log.e("123123", errMsg);
+                                            }
+                                        });
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                // TODO 当压缩过程出现问题时调用
+                            }
+                        }).launch();
+            }
+        });
+        Observer<List<String>> observer = new Observer<List<String>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(List<String> value) {
+
+                String imgs = value.get(0);
+                String imgs1 = value.get(1);
+                Map<String, Object> map = new LinkedHashMap<>();
+                map.put("id", id);
+                map.put("isSolve", 2);
+                map.put("solveContent", etUpload.getText().toString());
+                map.put("num2", imgs);
+                map.put("num3", imgs1);
+                String json = Map2Json.map2json(map);
+
+                ViseHttp.POST("/platformSolve/toUpdate")
+                        .setJson(json)
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if (jsonObject.getString("status").equals("SUCCESS")) {
+                                        ToastUtil.showShort(DetailsDangerActivity.this, "上报成功");
+                                        finish();
+                                    } else {
+                                        ToastUtil.showShort(DetailsDangerActivity.this, jsonObject.optString("errorMsg"));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+        observable.observeOn(Schedulers.newThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
 }

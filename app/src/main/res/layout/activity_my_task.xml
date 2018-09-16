@@ -56,45 +56,62 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/ll_start"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/start"
-                android:layout_width="40px"
-                android:layout_height="40px" />
-
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="14px"
-                android:textColor="@color/black_333333"
-                android:textSize="26px"
-                android:text="开始"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
 
-            <ImageView
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/start"
+                    android:layout_width="40px"
+                    android:layout_height="40px" />
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="14px"
+                    android:textColor="@color/black_333333"
+                    android:textSize="26px"
+                    android:text="开始"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_end"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="44px"
-                android:src="@drawable/end"
-                android:layout_width="40px"
-                android:layout_height="40px" />
-
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="14px"
-                android:textColor="@color/black_333333"
-                android:textSize="26px"
-                android:text="结束"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/end"
+                    android:layout_width="40px"
+                    android:layout_height="40px" />
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="14px"
+                    android:textColor="@color/black_333333"
+                    android:textSize="26px"
+                    android:text="结束"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </RelativeLayout>
 
-    <ImageView
-        android:src="@drawable/map"
-        android:scaleType="centerCrop"
-        android:id="@+id/tv_map"
+    <com.baidu.mapapi.map.MapView
+        android:clickable="true"
+        android:id="@+id/mapview"
         android:layout_marginTop="30px"
         android:layout_marginRight="40px"
         android:layout_marginLeft="40px"
@@ -107,7 +124,7 @@
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
         android:layout_marginTop="40px"
-        android:layout_below="@+id/tv_map"
+        android:layout_below="@+id/mapview"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

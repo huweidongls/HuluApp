@@ -21,6 +21,9 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
     <application
         android:name=".app.MyApp"
         android:allowBackup="true"
@@ -89,9 +92,9 @@
         <activity android:name=".activity.LogInfoActivity" />
         <activity android:name=".activity.NewsContentActivity"></activity>
 
-        <service
-            android:name=".utils.killSelfService"
-            />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="ovbH9tDk74DcpRTv59n1zEOkRrmdSPf2" />
 
     </application>
 

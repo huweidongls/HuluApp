@@ -10,6 +10,7 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_marginTop="30px"
         android:textStyle="bold"
         android:ellipsize="end"
@@ -39,8 +40,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:ellipsize="end"
-            android:lines="2"
+            android:id="@+id/tv_danger_location"
             android:layout_marginLeft="10px"
             android:layout_toRightOf="@+id/tv1"
             android:text="线路隐患位置位置位置位置位置位置 位置"
@@ -68,8 +68,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:ellipsize="end"
-            android:lines="2"
+            android:id="@+id/tv_danger_content"
             android:layout_marginLeft="10px"
             android:layout_toRightOf="@+id/tv2"
             android:text="该线路存在的隐患内容内容内容，内 容内容内容内容内容内容内容内容"
@@ -92,11 +91,12 @@
             android:textSize="30px"
             android:textColor="@color/black_333333"
             android:textStyle="bold"
-            android:text="隐患内容："
+            android:text="隐患状态："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_danger_type"
             android:layout_marginLeft="10px"
             android:layout_toRightOf="@+id/tv3"
             android:text="未处理"
@@ -108,6 +108,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_danger_time"
         android:layout_marginBottom="30px"
         android:layout_marginRight="30px"
         android:layout_gravity="end"

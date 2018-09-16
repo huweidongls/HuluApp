@@ -24,6 +24,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/activity_details_danger_rl_complete"
             android:layout_alignParentRight="true"
             android:layout_width="100px"
             android:layout_height="match_parent">
@@ -41,6 +42,7 @@
     </RelativeLayout>
     
     <ScrollView
+        android:id="@+id/activity_details_danger_sl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -66,6 +68,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/activity_details_danger_tv_title"
                     android:textColor="@color/black_333333"
                     android:textSize="30px"
                     android:layout_marginRight="30px"
@@ -99,6 +102,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/activity_details_danger_tv_type"
                     android:textColor="@color/black_333333"
                     android:textSize="30px"
                     android:layout_marginRight="30px"
@@ -132,6 +136,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/activity_details_danger_tv_content"
                     android:textColor="@color/black_333333"
                     android:textSize="30px"
                     android:layout_marginRight="30px"
@@ -165,6 +170,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/activity_details_danger_tv_location"
                     android:textColor="@color/black_333333"
                     android:textSize="30px"
                     android:layout_marginRight="30px"
@@ -181,14 +187,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="2px"/>
 
-            <ImageView
+            <com.jingna.hulu.huluapp.widget.MyMapView
                 android:layout_marginTop="40px"
                 android:layout_marginLeft="40px"
                 android:layout_marginRight="40px"
-                android:scaleType="centerCrop"
-                android:src="@drawable/map"
                 android:layout_width="match_parent"
-                android:layout_height="400px" />
+                android:layout_height="wrap_content">
+
+                <com.baidu.mapapi.map.MapView
+                    android:id="@+id/activity_details_danger_mapview"
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="400px" />
+
+            </com.jingna.hulu.huluapp.widget.MyMapView>
 
             <View
                 android:layout_marginTop="8px"
@@ -263,18 +275,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <EditText
+                    android:gravity="start"
+                    android:id="@+id/et_upload"
+                    android:background="@null"
+                    android:hint="请输入事件内容"
                     android:textColor="@color/black_333333"
                     android:textSize="30px"
                     android:layout_marginRight="30px"
                     android:layout_toRightOf="@+id/tv6"
                     android:layout_marginTop="40px"
-                    android:text="事件内容内容内容内容内容内容内容 内容内容内容内容内容内容内容内容 内容内容内容内容内容内容内容内容 内容内容内容内容内容内容内容内容 内容内容内容内容内容内容内容内容 内容内容内容"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="200px" />
+
+                <TextView
+                    android:text="123123123"
+                    android:gravity="start"
+                    android:id="@+id/tv_upload"
+                    android:textColor="@color/black_333333"
+                    android:textSize="30px"
+                    android:layout_marginRight="30px"
+                    android:layout_toRightOf="@+id/tv6"
+                    android:layout_marginTop="40px"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </RelativeLayout>
-            
+
             <View
                 android:background="@color/line"
                 android:layout_width="match_parent"
@@ -297,6 +324,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/tv_max"
                     android:layout_marginTop="40px"
                     android:layout_toRightOf="@+id/tv7"
                     android:textSize="32px"
@@ -309,6 +337,13 @@
                     android:layout_marginTop="20px"
                     android:layout_below="@+id/tv7"
                     android:id="@+id/activity_details_danger_rv_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="20px"
+                    android:layout_below="@+id/tv7"
+                    android:id="@+id/activity_details_danger_rv_pic_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -383,6 +418,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/tv_max1"
                     android:layout_marginTop="40px"
                     android:layout_toRightOf="@+id/tv9"
                     android:textSize="32px"
@@ -395,6 +431,13 @@
                     android:layout_marginTop="20px"
                     android:layout_below="@+id/tv9"
                     android:id="@+id/activity_details_danger_rv_pic1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="20px"
+                    android:layout_below="@+id/tv9"
+                    android:id="@+id/activity_details_danger_rv_pic1_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

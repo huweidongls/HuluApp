@@ -5,10 +5,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.ActivityLineDangerAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
+import com.jingna.hulu.huluapp.model.LineDangerModel;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +30,7 @@ public class LineDangerActivity extends BaseActivity {
     RecyclerView recyclerView;
 
     private ActivityLineDangerAdapter adapter;
-    private List<String> data;
+    private List<LineDangerModel.DataBean> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +41,49 @@ public class LineDangerActivity extends BaseActivity {
 
         ButterKnife.bind(LineDangerActivity.this);
 
-        initData();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
     }
 
     private void initData() {
 
-        data = new ArrayList<>();
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        adapter = new ActivityLineDangerAdapter(data);
-        LinearLayoutManager manager = new LinearLayoutManager(LineDangerActivity.this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
+        ViseHttp.POST("/platformSolve/queryList")
+                .setJson("{\n" +
+                        "  \"pageNum\": 0,\n" +
+                        "  \"pageSize\": 0,\n" +
+                        "  \"platformSolveExt\": {\n" +
+                        "    \n" +
+                        "  }\n" +
+                        "}")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.getString("status").equals("SUCCESS")){
+                                Gson gson = new Gson();
+                                LineDangerModel model = gson.fromJson(data, LineDangerModel.class);
+                                mList = model.getData();
+                                adapter = new ActivityLineDangerAdapter(mList);
+                                LinearLayoutManager manager = new LinearLayoutManager(LineDangerActivity.this);
+                                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(manager);
+                                recyclerView.setAdapter(adapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
 
     }
 

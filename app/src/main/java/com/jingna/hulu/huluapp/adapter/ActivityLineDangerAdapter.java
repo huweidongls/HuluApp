@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.activity.DetailsDangerActivity;
+import com.jingna.hulu.huluapp.model.LineDangerModel;
+import com.jingna.hulu.huluapp.utils.DateUtils;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.util.List;
@@ -21,9 +24,9 @@ import java.util.List;
 public class ActivityLineDangerAdapter extends RecyclerView.Adapter<ActivityLineDangerAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> data;
+    private List<LineDangerModel.DataBean> data;
 
-    public ActivityLineDangerAdapter(List<String> data) {
+    public ActivityLineDangerAdapter(List<LineDangerModel.DataBean> data) {
         this.data = data;
     }
 
@@ -37,11 +40,19 @@ public class ActivityLineDangerAdapter extends RecyclerView.Adapter<ActivityLine
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+
+        holder.tvTitle.setText(data.get(position).getLpTitle());
+        holder.tvDangerLocation.setText(data.get(position).getNum4());
+        holder.tvDangerContent.setText(data.get(position).getLpContent());
+        holder.tvDangerType.setText(data.get(position).getIsSolve() == 0 ? "未处理" : "已处理");
+        holder.tvDangerTime.setText(DateUtils.stampToDateSecond(data.get(position).getCreateDate()+""));
+
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra("id", data.get(position).getId());
                 intent.setClass(context, DetailsDangerActivity.class);
                 context.startActivity(intent);
             }
@@ -56,10 +67,20 @@ public class ActivityLineDangerAdapter extends RecyclerView.Adapter<ActivityLine
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private LinearLayout ll;
+        private TextView tvTitle;
+        private TextView tvDangerLocation;
+        private TextView tvDangerContent;
+        private TextView tvDangerType;
+        private TextView tvDangerTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ll = itemView.findViewById(R.id.ll);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvDangerLocation = itemView.findViewById(R.id.tv_danger_location);
+            tvDangerContent = itemView.findViewById(R.id.tv_danger_content);
+            tvDangerType = itemView.findViewById(R.id.tv_danger_type);
+            tvDangerTime = itemView.findViewById(R.id.tv_danger_time);
         }
     }
 

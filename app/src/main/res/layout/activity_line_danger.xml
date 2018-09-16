@@ -26,6 +26,7 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:paddingBottom="30px"
         android:background="#E1E1E1"
         android:id="@+id/activity_line_danger_rv"
         android:layout_width="match_parent"

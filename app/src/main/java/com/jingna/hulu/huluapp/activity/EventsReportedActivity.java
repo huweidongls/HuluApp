@@ -259,7 +259,11 @@ public class EventsReportedActivity extends BaseActivity {
                 getLocation();
                 break;
             case R.id.activity_events_reported_rl_complete:
-                toUpdata();
+                if(TextUtils.isEmpty(etTitle.getText().toString())||TextUtils.isEmpty(etContent.getText().toString())||mList.size()<=0){
+                    ToastUtil.showShort(EventsReportedActivity.this, "请完善信息后上报");
+                }else {
+                    toUpdata();
+                }
                 break;
         }
     }

@@ -11,7 +11,6 @@ import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
 import com.jingna.hulu.huluapp.sp.SpImp;
-import com.jingna.hulu.huluapp.utils.RestartAPPTool;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import butterknife.BindView;
