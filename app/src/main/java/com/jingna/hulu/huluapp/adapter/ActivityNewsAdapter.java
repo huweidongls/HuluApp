@@ -45,7 +45,7 @@ public class ActivityNewsAdapter extends RecyclerView.Adapter<ActivityNewsAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvTitle.setText(data.get(position).getNewsTitle());
         Glide.with(context).load(data.get(position).getNewsPic()).into(holder.ivTitle);
-        holder.tvTime.setText(DateUtils.stampToDate(data.get(position).getCreateBy()));
+        holder.tvTime.setText(DateUtils.stampToDate(data.get(position).getCreateDate()+""));
         holder.rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

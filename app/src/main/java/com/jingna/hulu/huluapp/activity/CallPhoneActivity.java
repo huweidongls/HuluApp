@@ -74,6 +74,7 @@ public class CallPhoneActivity extends BaseActivity {
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
+                        Log.e("123123", data);
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if(jsonObject.getString("status").equals("SUCCESS")){
