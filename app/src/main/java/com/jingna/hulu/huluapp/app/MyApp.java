@@ -5,9 +5,11 @@ import android.app.Application;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.model.LatLng;
 import com.vise.xsnow.http.ViseHttp;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +20,20 @@ import java.util.List;
 public class MyApp extends Application {
     private List<Activity> mList = new LinkedList<Activity>();
     private static MyApp instance;
+
+    List<LatLng> points = new ArrayList<LatLng>();
+
+    public List<LatLng> getPoints() {
+        return points;
+    }
+
+    public void setPoints(LatLng latLng) {
+        points.add(latLng);
+    }
+
+    public void setClear() {
+        points.clear();
+    }
 
     public MyApp() {
     }

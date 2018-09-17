@@ -10,6 +10,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.model.LatLng;
+import com.jingna.hulu.huluapp.app.MyApp;
 import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.vise.xsnow.http.ViseHttp;
@@ -23,7 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Administrator on 2018/9/17.
@@ -49,20 +50,24 @@ public class UploadLocationService extends Service {
 
     private void uploadLocation() {
 
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                startLocate();
-            }
-        }, 300000, 300000);
+//        timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                startLocate();
+//            }
+//        }, 300000, 300000);
+
+        startLocate();
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        timer.cancel();
+//        timer.cancel();
+        mLocationClient.stop();
+        MyApp.getInstance().setClear();
     }
 
     @Nullable
@@ -81,7 +86,7 @@ public class UploadLocationService extends Service {
         option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        int span = 2000;
+        int span = 100000;
         option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
@@ -102,12 +107,14 @@ public class UploadLocationService extends Service {
         public void onReceiveLocation(BDLocation location) {
             location.getLatitude();
             location.getLongitude();
-            Log.e("123123", "lat"+location.getLatitude()+"long"+location.getLongitude());
+            Log.e("123123", "lat" + location.getLatitude() + "long" + location.getLongitude());
+
+            MyApp.getInstance().setPoints(new LatLng(location.getLatitude(), location.getLongitude()));
 
             Map<String, Object> map = new LinkedHashMap<>();
             List<String> locaList1 = new ArrayList<>();
-            locaList1.add(location.getLongitude()+","+location.getLatitude());
-            map.put("coordinate", locaList1+"");
+            locaList1.add(location.getLongitude() + "," + location.getLatitude());
+            map.put("coordinate", locaList1 + "");
             map.put("rploggerId", spImp.getDATAID());
             String json = Map2Json.map2json(map);
 
@@ -118,7 +125,7 @@ public class UploadLocationService extends Service {
                         public void onSuccess(String data) {
                             try {
                                 JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.getString("status").equals("SUCCESS")){
+                                if (jsonObject.getString("status").equals("SUCCESS")) {
                                     Log.e("123123", "上报成功");
                                 }
                             } catch (JSONException e) {

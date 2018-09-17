@@ -34,6 +34,7 @@ import com.baidu.mapapi.utils.CoordinateConverter;
 import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.ActivityMyTaskAdapter;
+import com.jingna.hulu.huluapp.app.MyApp;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
 import com.jingna.hulu.huluapp.model.BaiduCityModel;
@@ -114,6 +115,13 @@ public class MyTaskActivity extends BaseActivity {
             public void doAfterGrand(String... permission) {
                 // 开启定位图层
                 mBaiduMap.setMyLocationEnabled(true);
+                List<LatLng> list = MyApp.getInstance().getPoints();
+                if(list.size()>0){
+                    //绘制折线
+                    OverlayOptions ooPolyline1 = new PolylineOptions().width(10)
+                            .color(Color.parseColor("#38DA11")).points(list);
+                    mPolyline1 = (Polyline) mBaiduMap.addOverlay(ooPolyline1);
+                }
                 startLocate();
             }
 
@@ -353,6 +361,7 @@ public class MyTaskActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+        mLocationClient.stop();
     }
 
     @Override
@@ -371,7 +380,7 @@ public class MyTaskActivity extends BaseActivity {
         option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        int span = 1000;
+        int span = 5000;
         option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
@@ -409,6 +418,9 @@ public class MyTaskActivity extends BaseActivity {
                     .fromResource(R.drawable.location);
             MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker);
             mBaiduMap.setMyLocationConfiguration(config);
+
+            Log.e("121212", "lat"+latitude+"long"+longitude);
+
         }
     }
 
