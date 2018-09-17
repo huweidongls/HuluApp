@@ -96,6 +96,8 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="ovbH9tDk74DcpRTv59n1zEOkRrmdSPf2" />
 
+        <service android:name=".service.UploadLocationService"></service>
+
     </application>
 
 </manifest>

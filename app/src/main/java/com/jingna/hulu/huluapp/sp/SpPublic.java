@@ -14,4 +14,5 @@ public class SpPublic {
     public static String UID = "user_id";//用户唯一id
     public static String UIDTYPE = "user_type";//用户唯一id
     public static String NAME = "user_name";//用户唯一id
+    public static String DATAID = "user_dataid";//用户巡检id
 }

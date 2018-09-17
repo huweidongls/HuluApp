@@ -31,6 +31,14 @@ public class SpImp {
         editor.putInt(SpPublic.UID, UID);
         editor.commit();
     }
+    public int getDATAID() {
+        return sp.getInt(SpPublic.DATAID, 0);
+    }
+
+    public void setDATAID(int DATAID) {
+        editor.putInt(SpPublic.DATAID, DATAID);
+        editor.commit();
+    }
     public String getUIDTYPE() {
         return sp.getString(SpPublic.UIDTYPE, "0");
     }

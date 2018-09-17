@@ -3,6 +3,7 @@ package com.jingna.hulu.huluapp.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
@@ -36,8 +37,10 @@ import com.jingna.hulu.huluapp.adapter.ActivityMyTaskAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
 import com.jingna.hulu.huluapp.model.BaiduCityModel;
+import com.jingna.hulu.huluapp.model.LocationListModel;
 import com.jingna.hulu.huluapp.model.LocationModel;
 import com.jingna.hulu.huluapp.model.MyTaskDangerEventListModel;
+import com.jingna.hulu.huluapp.service.UploadLocationService;
 import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.utils.PermissionHelper;
@@ -75,6 +78,7 @@ public class MyTaskActivity extends BaseActivity {
 
     private PermissionHelper mHelper;
     private Polyline mPolyline;
+    private Polyline mPolyline1;
 
     private SpImp spImp;
 
@@ -241,6 +245,10 @@ public class MyTaskActivity extends BaseActivity {
                                         try {
                                             JSONObject jsonObject = new JSONObject(data);
                                             if(jsonObject.getString("status").equals("SUCCESS")){
+                                                int dataid = jsonObject.optInt("data");
+                                                spImp.setDATAID(dataid);
+                                                Intent intent = new Intent(MyTaskActivity.this, UploadLocationService.class);
+                                                startService(intent);
                                                 ToastUtil.showShort(MyTaskActivity.this, "开始巡检");
                                             }
                                         } catch (JSONException e) {
@@ -253,6 +261,7 @@ public class MyTaskActivity extends BaseActivity {
 
                                     }
                                 });
+
                     }
                 });
                 dialogCustom.show();
@@ -261,7 +270,66 @@ public class MyTaskActivity extends BaseActivity {
                 DialogCustom dialogCustom1 = new DialogCustom(MyTaskActivity.this, "是否结束巡检", new DialogCustom.OnYesListener() {
                     @Override
                     public void onYes() {
-                        ToastUtil.showShort(MyTaskActivity.this, "结束巡检");
+
+                        ViseHttp.POST("/RoadprotectionLoggerApi/endHl")
+                                .addParam("infoId", spImp.getDATAID()+"")
+                                .addParam("coordinate", "["+longitude+","+latitude+"]")
+                                .request(new ACallback<String>() {
+                                    @Override
+                                    public void onSuccess(String data) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(data);
+                                            if(jsonObject.getString("status").equals("SUCCESS")){
+                                                Intent intent = new Intent(MyTaskActivity.this, UploadLocationService.class);
+                                                stopService(intent);
+                                                ToastUtil.showShort(MyTaskActivity.this, "结束巡检");
+
+                                                ViseHttp.POST("/RoadprotectionLoggerApi/getone")
+                                                        .addParam("lmBy", spImp.getDATAID()+"")
+                                                        .request(new ACallback<String>() {
+                                                            @Override
+                                                            public void onSuccess(String data) {
+                                                                Log.e("123123", data);
+                                                                try {
+                                                                    JSONObject jsonObject1 = new JSONObject(data);
+                                                                    if(jsonObject1.getString("status").equals("SUCCESS")){
+                                                                        Gson gson = new Gson();
+                                                                        LocationListModel model = gson.fromJson(data, LocationListModel.class);
+                                                                        List<LatLng> points = new ArrayList<LatLng>();
+                                                                        for (int i = 0; i<model.getData().getInfo().size(); i++){
+                                                                            String s = model.getData().getInfo().get(i).getCoordinate();
+                                                                            String ss = s.substring(1, s.length()-1);
+                                                                            String[] sss = ss.split(",");
+                                                                            points.add(new LatLng(Double.valueOf(sss[1]), Double.valueOf(sss[0])));
+                                                                        }
+                                                                        //绘制折线
+                                                                        OverlayOptions ooPolyline1 = new PolylineOptions().width(10)
+                                                                                .color(Color.parseColor("#38DA11")).points(points);
+                                                                        mPolyline1 = (Polyline) mBaiduMap.addOverlay(ooPolyline1);
+                                                                    }
+                                                                } catch (JSONException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFail(int errCode, String errMsg) {
+
+                                                            }
+                                                        });
+
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFail(int errCode, String errMsg) {
+
+                                    }
+                                });
+
                     }
                 });
                 dialogCustom1.show();

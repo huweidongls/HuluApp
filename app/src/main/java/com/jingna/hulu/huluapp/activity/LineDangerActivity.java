@@ -3,6 +3,7 @@ package com.jingna.hulu.huluapp.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -62,6 +63,7 @@ public class LineDangerActivity extends BaseActivity {
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
+                        Log.e("121212", data);
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if(jsonObject.getString("status").equals("SUCCESS")){
@@ -81,7 +83,7 @@ public class LineDangerActivity extends BaseActivity {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-
+                        Log.e("121212", errMsg);
                     }
                 });
 
