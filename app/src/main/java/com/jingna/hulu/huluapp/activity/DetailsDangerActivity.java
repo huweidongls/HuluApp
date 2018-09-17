@@ -571,7 +571,7 @@ public class DetailsDangerActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        mLocationClient.stop();
+//        mLocationClient.stop();
     }
 
     /**

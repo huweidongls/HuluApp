@@ -56,7 +56,7 @@ public class Main1Activity extends BaseActivity {
                 ToastUtil.showShort(Main1Activity.this, "请授权");
             }
         }, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA);
+                Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE);
 
         List<String> images = new ArrayList<>();
         images.add("http://47.92.127.1:8088/upload/jn_1.jpg");

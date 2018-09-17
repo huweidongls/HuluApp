@@ -515,7 +515,7 @@ public class EventsReportedActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mLocationClient.stop();
+//        mLocationClient.stop();
     }
 
     public DBManager getMgr() {

@@ -108,6 +108,18 @@ public class MyTaskActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        List<LatLng> list = MyApp.getInstance().getPoints();
+        if(list.size()>1){
+            //绘制折线
+            OverlayOptions ooPolyline1 = new PolylineOptions().width(10)
+                    .color(Color.parseColor("#38DA11")).points(list);
+            mPolyline1 = (Polyline) mBaiduMap.addOverlay(ooPolyline1);
+        }
+    }
+
     private void initLocation() {
 
         mHelper.requestPermissions("请授予[定位]，否则无法定位", new PermissionHelper.PermissionListener() {
@@ -115,13 +127,7 @@ public class MyTaskActivity extends BaseActivity {
             public void doAfterGrand(String... permission) {
                 // 开启定位图层
                 mBaiduMap.setMyLocationEnabled(true);
-                List<LatLng> list = MyApp.getInstance().getPoints();
-                if(list.size()>0){
-                    //绘制折线
-                    OverlayOptions ooPolyline1 = new PolylineOptions().width(10)
-                            .color(Color.parseColor("#38DA11")).points(list);
-                    mPolyline1 = (Polyline) mBaiduMap.addOverlay(ooPolyline1);
-                }
+
                 startLocate();
             }
 
@@ -244,6 +250,9 @@ public class MyTaskActivity extends BaseActivity {
                         map.put("lmBy", lmByid);
                         String json = Map2Json.map2json(map);
 
+                        MyApp.getInstance().setClear();
+                        MyApp.getInstance().setPoints(new LatLng(latitude, longitude));
+
                         ViseHttp.POST("/RoadprotectionLoggerApi/statusHl")
                                 .setJson(json)
                                 .request(new ACallback<String>() {
@@ -361,7 +370,7 @@ public class MyTaskActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        mLocationClient.stop();
+//        mLocationClient.stop();
     }
 
     @Override

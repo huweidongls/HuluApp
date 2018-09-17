@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Administrator on 2018/9/17.
@@ -39,24 +40,57 @@ public class UploadLocationService extends Service {
 
     private SpImp spImp;
 
+    private double latitude = 0.0;//纬度
+    private double longitude = 0.0;//经度
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         spImp = new SpImp(this);
+        startLocate();
         uploadLocation();
 
     }
 
     private void uploadLocation() {
 
-//        timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                startLocate();
-//            }
-//        }, 300000, 300000);
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                MyApp.getInstance().setPoints(new LatLng(latitude, longitude));
+
+                Map<String, Object> map = new LinkedHashMap<>();
+                List<String> locaList1 = new ArrayList<>();
+                locaList1.add(longitude + "," + latitude);
+                map.put("coordinate", locaList1 + "");
+                map.put("rploggerId", spImp.getDATAID());
+                String json = Map2Json.map2json(map);
+
+                ViseHttp.POST("/RoadprotectionLoggerApi/realTime")
+                        .setJson(json)
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if (jsonObject.getString("status").equals("SUCCESS")) {
+                                        Log.e("123123", "上报成功");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
+            }
+        }, 20000, 20000);
 
         startLocate();
 
@@ -66,7 +100,7 @@ public class UploadLocationService extends Service {
     public void onDestroy() {
         super.onDestroy();
 //        timer.cancel();
-        mLocationClient.stop();
+//        mLocationClient.stop();
         MyApp.getInstance().setClear();
     }
 
@@ -86,7 +120,7 @@ public class UploadLocationService extends Service {
         option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        int span = 100000;
+        int span = 10000;
         option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
@@ -105,39 +139,9 @@ public class UploadLocationService extends Service {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            location.getLatitude();
-            location.getLongitude();
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
             Log.e("123123", "lat" + location.getLatitude() + "long" + location.getLongitude());
-
-            MyApp.getInstance().setPoints(new LatLng(location.getLatitude(), location.getLongitude()));
-
-            Map<String, Object> map = new LinkedHashMap<>();
-            List<String> locaList1 = new ArrayList<>();
-            locaList1.add(location.getLongitude() + "," + location.getLatitude());
-            map.put("coordinate", locaList1 + "");
-            map.put("rploggerId", spImp.getDATAID());
-            String json = Map2Json.map2json(map);
-
-            ViseHttp.POST("/RoadprotectionLoggerApi/realTime")
-                    .setJson(json)
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if (jsonObject.getString("status").equals("SUCCESS")) {
-                                    Log.e("123123", "上报成功");
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
 
         }
     }
