@@ -55,7 +55,7 @@ public class UploadLocationService extends Service {
             public void run() {
                 startLocate();
             }
-        }, 8000, 8000);
+        }, 300000, 300000);
 
     }
 
