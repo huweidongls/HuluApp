@@ -58,6 +58,7 @@ public class PersonActivity extends BaseActivity {
                         spImp.setUID(0);
                         spImp.setUIDTYPE("0");
                         spImp.setNAME("0");
+                        spImp.setDATAID(0);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.setClass(PersonActivity.this, LoginActivity.class);
