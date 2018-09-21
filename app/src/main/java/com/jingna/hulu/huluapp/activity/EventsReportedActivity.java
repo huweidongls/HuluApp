@@ -49,6 +49,7 @@ import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.utils.PermissionHelper;
 import com.jingna.hulu.huluapp.utils.Record;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
+import com.vise.xsnow.cache.SpCache;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
@@ -153,12 +154,12 @@ public class EventsReportedActivity extends BaseActivity {
                     public void onSuccess(String data) {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.getString("status").equals("SUCCESS")){
+                            if (jsonObject.getString("status").equals("SUCCESS")) {
                                 Gson gson = new Gson();
                                 QueryListModel listModel = gson.fromJson(data, QueryListModel.class);
                                 spinnerItems = new String[listModel.getData().size()];
                                 num1 = new int[listModel.getData().size()];
-                                for (int i = 0; i<listModel.getData().size(); i++){
+                                for (int i = 0; i < listModel.getData().size(); i++) {
                                     spinnerItems[i] = listModel.getData().get(i).getTypeName();
                                     num1[i] = listModel.getData().get(i).getId();
                                 }
@@ -187,6 +188,7 @@ public class EventsReportedActivity extends BaseActivity {
                                         //((TextView)view).setGravity(Gravity.CENTER);
                                         numid = num1[pos];
                                     }
+
                                     @Override
                                     public void onNothingSelected(AdapterView<?> parent) {
                                         // Another interface callback
@@ -269,10 +271,32 @@ public class EventsReportedActivity extends BaseActivity {
                 getLocation();
                 break;
             case R.id.activity_events_reported_rl_complete:
-                if(TextUtils.isEmpty(etTitle.getText().toString())||TextUtils.isEmpty(etContent.getText().toString())||mList.size()<=0){
+                if (TextUtils.isEmpty(etTitle.getText().toString()) || TextUtils.isEmpty(etContent.getText().toString()) || mList.size() <= 0) {
                     ToastUtil.showShort(EventsReportedActivity.this, "请完善信息后上报");
-                }else {
-                    toUpdata();
+                } else {
+//                    toUpdata();
+                    File file = new File(mRecords.get(0).getPath());
+                    ViseHttp.UPLOAD("/bannerApi/fileUploadSound")
+                            .addHeader("Content-Type", "multipart/form-data")
+                            .addFile("Sound", file)
+                            .request(new ACallback<String>() {
+                                @Override
+                                public void onSuccess(String data) {
+                                    Log.e("123123", data);
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(data);
+                                        if (jsonObject.getString("status").equals("SUCCESS")) {
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFail(int errCode, String errMsg) {
+                                    Log.e("123123", errMsg);
+                                }
+                            });
                 }
                 break;
         }
@@ -289,6 +313,7 @@ public class EventsReportedActivity extends BaseActivity {
             @Override
             public void subscribe(final ObservableEmitter<String> e) throws Exception {
                 final List<String> list = new ArrayList<>();
+                final List<File> listFile = new ArrayList<>();
                 Luban.with(EventsReportedActivity.this)
                         .load(mList)
                         .ignoreBy(100)
@@ -307,41 +332,75 @@ public class EventsReportedActivity extends BaseActivity {
                             @Override
                             public void onSuccess(File file) {
                                 // TODO 压缩成功后调用，返回压缩后的图片文件
-                                ViseHttp.UPLOAD("bannerApi/fileUpload")
-                                        .addHeader("Content-Type", "multipart/form-data")
-                                        .addFile("file", file)
-                                        .request(new ACallback<String>() {
-                                            @Override
-                                            public void onSuccess(String data) {
-                                                Log.e("123123", data);
-                                                try {
-                                                    JSONObject jsonObject = new JSONObject(data);
-                                                    if(jsonObject.getString("status").equals("SUCCESS")){
-                                                        Gson gson = new Gson();
-                                                        FileUploadModel uploadModel = gson.fromJson(data, FileUploadModel.class);
-                                                        list.add(uploadModel.getData());
-                                                        if(list.size() == mList.size()){
-                                                            for (int i = 0; i<list.size(); i++){
-                                                                if(i == list.size() - 1){
-                                                                    imgs = imgs + list.get(i);
-                                                                }else {
-                                                                    imgs = imgs + list.get(i) + ",";
-                                                                }
-                                                            }
-                                                            Log.e("123123", imgs);
-                                                            e.onNext(imgs);
-                                                        }
-                                                    }
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
 
-                                            @Override
-                                            public void onFail(int errCode, String errMsg) {
-                                                Log.e("123123", errMsg);
-                                            }
-                                        });
+                                listFile.add(file);
+
+                                Log.e("123123", file.getName());
+
+                                if (listFile.size() == mList.size()) {
+                                    Map<String, File> fileMap = new LinkedHashMap<>();
+                                    for (int i = 0; i < listFile.size(); i++) {
+                                        fileMap.put("file"+i, listFile.get(i));
+                                    }
+
+                                    ViseHttp.UPLOAD("/bannerApi/fileUploadForList")
+                                            .addHeader("Content-Type", "multipart/form-data")
+                                            .addFiles(fileMap)
+                                            .request(new ACallback<String>() {
+                                                @Override
+                                                public void onSuccess(String data) {
+                                                    Log.e("123123", data);
+                                                    try {
+                                                        JSONObject jsonObject = new JSONObject(data);
+                                                        if (jsonObject.getString("status").equals("SUCCESS")) {
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFail(int errCode, String errMsg) {
+                                                    Log.e("123123", errMsg);
+                                                }
+                                            });
+                                }
+
+//                                ViseHttp.UPLOAD("bannerApi/fileUpload")
+//                                        .addHeader("Content-Type", "multipart/form-data")
+//                                        .addFile("file", file)
+//                                        .request(new ACallback<String>() {
+//                                            @Override
+//                                            public void onSuccess(String data) {
+//                                                Log.e("123123", data);
+//                                                try {
+//                                                    JSONObject jsonObject = new JSONObject(data);
+//                                                    if(jsonObject.getString("status").equals("SUCCESS")){
+//                                                        Gson gson = new Gson();
+//                                                        FileUploadModel uploadModel = gson.fromJson(data, FileUploadModel.class);
+//                                                        list.add(uploadModel.getData());
+//                                                        if(list.size() == mList.size()){
+//                                                            for (int i = 0; i<list.size(); i++){
+//                                                                if(i == list.size() - 1){
+//                                                                    imgs = imgs + list.get(i);
+//                                                                }else {
+//                                                                    imgs = imgs + list.get(i) + ",";
+//                                                                }
+//                                                            }
+//                                                            Log.e("123123", imgs);
+//                                                            e.onNext(imgs);
+//                                                        }
+//                                                    }
+//                                                } catch (JSONException e) {
+//                                                    e.printStackTrace();
+//                                                }
+//                                            }
+//
+//                                            @Override
+//                                            public void onFail(int errCode, String errMsg) {
+//                                                Log.e("123123", errMsg);
+//                                            }
+//                                        });
                             }
 
                             @Override
@@ -362,7 +421,7 @@ public class EventsReportedActivity extends BaseActivity {
 
                 List<List<String>> locaList = new ArrayList<>();
                 List<String> locaList1 = new ArrayList<>();
-                locaList1.add(longitude+","+latitude);
+                locaList1.add(longitude + "," + latitude);
                 locaList.add(locaList1);
 
                 Map<String, Object> map = new LinkedHashMap<>();
@@ -371,7 +430,7 @@ public class EventsReportedActivity extends BaseActivity {
                 map.put("num1", numid);
                 map.put("eventTitle", etTitle.getText().toString());
                 map.put("eventContent", etContent.getText().toString());
-                map.put("num2", locaList+"");
+                map.put("num2", locaList + "");
                 map.put("eventPic", value);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -384,7 +443,7 @@ public class EventsReportedActivity extends BaseActivity {
                                 Log.e("123123", data);
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                    if (jsonObject.getString("status").equals("SUCCESS")) {
                                         ToastUtil.showShort(EventsReportedActivity.this, "上报成功");
                                         finish();
                                     }
@@ -529,7 +588,7 @@ public class EventsReportedActivity extends BaseActivity {
     /**
      * 获取定位
      */
-    private void getLocation(){
+    private void getLocation() {
         mHelper.requestPermissions("请授予[定位]，否则无法定位", new PermissionHelper.PermissionListener() {
             @Override
             public void doAfterGrand(String... permission) {
@@ -615,7 +674,7 @@ public class EventsReportedActivity extends BaseActivity {
             longitude = location.getLongitude();
             String url = "http://api.map.baidu.com/geocoder?output=json&location=" + latitude + "," + longitude + "&key=ovbH9tDk74DcpRTv59n1zEOkRrmdSPf2";
 
-            Log.e("123123", location.getAddrStr());
+//            Log.e("123123", location.getAddrStr());
 
             ViseHttp.GET(url)
                     .request(new ACallback<String>() {
@@ -627,7 +686,7 @@ public class EventsReportedActivity extends BaseActivity {
                                     Gson gson = new Gson();
                                     BaiduCityModel model = gson.fromJson(data, BaiduCityModel.class);
                                     latLongString = model.getResult().getFormatted_address();
-                                    Log.e("123123", latLongString);
+//                                    Log.e("123123", latLongString);
                                     tvLocation.setText(latLongString);
                                 }
                             } catch (JSONException e) {

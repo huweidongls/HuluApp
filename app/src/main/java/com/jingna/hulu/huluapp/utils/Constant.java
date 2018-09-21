@@ -8,8 +8,8 @@ package com.jingna.hulu.huluapp.utils;
 //常量管理类
 public class Constant {
 
-    public static final String BASE_URL = "http://47.92.127.1:8088/";
-//    public static final String BASE_URL = "http://192.168.2.248:8088/";
+//    public static final String BASE_URL = "http://47.92.127.1:8088/";
+    public static final String BASE_URL = "http://192.168.2.248:8088/";
 
     //文件路径管理类
     public static class FilePath {

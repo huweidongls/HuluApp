@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -13,7 +15,13 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
@@ -41,11 +49,15 @@ public class CallPhoneActivity extends BaseActivity {
 
     @BindView(R.id.activity_call_phone_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.rl_search)
+    RelativeLayout rlSearch;
 
     private ActivityCallPhoneAdapter adapter;
     private List<TelModel.DataBean> mList;
 
     private PermissionHelper mHelper;
+
+    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,11 +119,14 @@ public class CallPhoneActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.activity_call_phone_rl_back})
+    @OnClick({R.id.activity_call_phone_rl_back, R.id.ll_phone_type})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.activity_call_phone_rl_back:
                 finish();
+                break;
+            case R.id.ll_phone_type:
+                showCallType();
                 break;
         }
     }
@@ -138,6 +153,45 @@ public class CallPhoneActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         mHelper.handleRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void showCallType(){
+
+        View view = LayoutInflater.from(CallPhoneActivity.this).inflate(R.layout.popupwindow_call_type, null);
+        ScreenAdapterTools.getInstance().loadView(view);
+
+        popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+        // 设置点击窗口外边窗口消失
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.setOutsideTouchable(true);
+//        popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+        popupWindow.showAsDropDown(rlSearch);
+        // 设置popWindow的显示和消失动画
+//        popupWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+//        WindowManager.LayoutParams params = getWindow().getAttributes();
+//        params.alpha = 0.5f;
+//        getWindow().setAttributes(params);
+        popupWindow.update();
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            // 在dismiss中恢复透明度
+            public void onDismiss() {
+//                WindowManager.LayoutParams params = getWindow().getAttributes();
+//                params.alpha = 1f;
+//                getWindow().setAttributes(params);
+            }
+        });
+
+//        tvCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                popupWindow.dismiss();
+//            }
+//        });
+
     }
 
 }
