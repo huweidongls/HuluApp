@@ -274,29 +274,29 @@ public class EventsReportedActivity extends BaseActivity {
                 if (TextUtils.isEmpty(etTitle.getText().toString()) || TextUtils.isEmpty(etContent.getText().toString()) || mList.size() <= 0) {
                     ToastUtil.showShort(EventsReportedActivity.this, "请完善信息后上报");
                 } else {
-//                    toUpdata();
-                    File file = new File(mRecords.get(0).getPath());
-                    ViseHttp.UPLOAD("/bannerApi/fileUploadSound")
-                            .addHeader("Content-Type", "multipart/form-data")
-                            .addFile("Sound", file)
-                            .request(new ACallback<String>() {
-                                @Override
-                                public void onSuccess(String data) {
-                                    Log.e("123123", data);
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(data);
-                                        if (jsonObject.getString("status").equals("SUCCESS")) {
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onFail(int errCode, String errMsg) {
-                                    Log.e("123123", errMsg);
-                                }
-                            });
+                    toUpdata();
+//                    File file = new File(mRecords.get(0).getPath());
+//                    ViseHttp.UPLOAD("/bannerApi/fileUploadSound")
+//                            .addHeader("Content-Type", "multipart/form-data")
+//                            .addFile("Sound", file)
+//                            .request(new ACallback<String>() {
+//                                @Override
+//                                public void onSuccess(String data) {
+//                                    Log.e("123123", data);
+//                                    try {
+//                                        JSONObject jsonObject = new JSONObject(data);
+//                                        if (jsonObject.getString("status").equals("SUCCESS")) {
+//                                        }
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onFail(int errCode, String errMsg) {
+//                                    Log.e("123123", errMsg);
+//                                }
+//                            });
                 }
                 break;
         }
@@ -343,7 +343,7 @@ public class EventsReportedActivity extends BaseActivity {
                                         fileMap.put("file"+i, listFile.get(i));
                                     }
 
-                                    ViseHttp.UPLOAD("/bannerApi/fileUploadForList")
+                                    ViseHttp.UPLOAD("/bannerApi/fileUploadByAPP")
                                             .addHeader("Content-Type", "multipart/form-data")
                                             .addFiles(fileMap)
                                             .request(new ACallback<String>() {
@@ -353,6 +353,7 @@ public class EventsReportedActivity extends BaseActivity {
                                                     try {
                                                         JSONObject jsonObject = new JSONObject(data);
                                                         if (jsonObject.getString("status").equals("SUCCESS")) {
+
                                                         }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();

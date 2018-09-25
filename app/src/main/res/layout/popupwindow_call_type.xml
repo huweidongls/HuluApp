@@ -10,11 +10,13 @@
         android:layout_height="270px">
 
         <RelativeLayout
+            android:id="@+id/rl1"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0px">
 
             <TextView
+                android:id="@+id/tv1"
                 android:layout_marginLeft="40px"
                 android:layout_centerVertical="true"
                 android:textColor="#32CC0D"
@@ -33,11 +35,13 @@
             android:layout_height="2px"/>
 
         <RelativeLayout
+            android:id="@+id/rl2"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0px">
 
             <TextView
+                android:id="@+id/tv2"
                 android:layout_marginLeft="40px"
                 android:layout_centerVertical="true"
                 android:textColor="#404040"
@@ -56,11 +60,13 @@
             android:layout_height="2px"/>
 
         <RelativeLayout
+            android:id="@+id/rl3"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0px">
 
             <TextView
+                android:id="@+id/tv3"
                 android:layout_marginLeft="40px"
                 android:layout_centerVertical="true"
                 android:textColor="#404040"

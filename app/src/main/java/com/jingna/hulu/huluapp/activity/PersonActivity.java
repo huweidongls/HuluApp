@@ -44,7 +44,7 @@ public class PersonActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.activity_person_rl_back, R.id.activity_person_btn_out})
+    @OnClick({R.id.activity_person_rl_back, R.id.activity_person_btn_out, R.id.activity_person_rl_feedback, R.id.activity_person_rl_about})
     public void onClick(View view){
         final Intent intent = new Intent();
         switch (view.getId()){
@@ -67,6 +67,15 @@ public class PersonActivity extends BaseActivity {
                     }
                 });
                 dialogCustom.show();
+                break;
+            case R.id.activity_person_rl_feedback:
+                //意见反馈
+                intent.setClass(PersonActivity.this, FeedbackActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.activity_person_rl_about:
+                intent.setClass(PersonActivity.this, AboutActivity.class);
+                startActivity(intent);
                 break;
         }
     }

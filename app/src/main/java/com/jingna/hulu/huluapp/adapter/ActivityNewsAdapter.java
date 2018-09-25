@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.activity.NewsContentActivity;
+import com.jingna.hulu.huluapp.activity.NewsWebActivity;
 import com.jingna.hulu.huluapp.model.NewsModel;
 import com.jingna.hulu.huluapp.utils.DateUtils;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
@@ -49,7 +50,7 @@ public class ActivityNewsAdapter extends RecyclerView.Adapter<ActivityNewsAdapte
         holder.rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, NewsContentActivity.class);
+                Intent intent = new Intent(context, NewsWebActivity.class);
                 context.startActivity(intent);
             }
         });
