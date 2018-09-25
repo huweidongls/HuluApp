@@ -105,7 +105,8 @@
 
         <activity android:name=".activity.FeedbackActivity" />
         <activity android:name=".activity.NewsWebActivity" />
-        <activity android:name=".activity.AboutActivity"></activity>
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.ChangePasswordActivity"></activity>
     </application>
 
 </manifest>
