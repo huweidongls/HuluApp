@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 //                startActivity(intent);
 //                finish();
                 String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
+                final String password = etPassword.getText().toString();
 
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                     ToastUtil.showShort(LoginActivity.this, "账号或密码不能为空");
@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                                             LoginModel model = gson.fromJson(data, LoginModel.class);
                                             spImp.setUID(model.getData().getUser().getId());
                                             spImp.setNAME(model.getData().getUser().getPeopleName());
+                                            spImp.setPASSWORD(password);
                                             getOne(model.getData().getUser().getRoleId());
                                         }else {
                                             ToastUtil.showShort(LoginActivity.this, "登录失败");

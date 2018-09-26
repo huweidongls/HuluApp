@@ -45,6 +45,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/activity_feedback_et_content"
             android:maxLength="200"
             android:textColor="@color/black_333333"
             android:layout_marginRight="20px"
@@ -59,6 +60,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/activity_feedback_btn_complete"
         android:background="@drawable/bg_out"
         android:textSize="36px"
         android:textColor="@color/white_ffffff"
