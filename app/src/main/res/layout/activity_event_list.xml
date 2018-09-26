@@ -7,28 +7,33 @@
     android:orientation="vertical"
     tools:context="com.jingna.hulu.huluapp.activity.EventListActivity">
 
-    <RelativeLayout
-        style="@style/rl_top_bar">
+    <RelativeLayout style="@style/rl_top_bar">
 
         <TextView
-            android:text="事件列表"
-            style="@style/tv_top_title" />
+            style="@style/tv_top_title"
+            android:text="事件列表" />
 
         <RelativeLayout
             android:id="@+id/activity_event_list_rl_back"
             style="@style/rl_return">
 
-            <ImageView
-                style="@style/iv_return" />
+            <ImageView style="@style/iv_return" />
 
         </RelativeLayout>
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:background="#E1E1E1"
-        android:id="@+id/activity_event_list_rv"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/activity_event_list_refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_event_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E1E1E1" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

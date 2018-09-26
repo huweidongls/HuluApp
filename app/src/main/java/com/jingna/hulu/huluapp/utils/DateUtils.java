@@ -30,4 +30,13 @@ public class DateUtils {
         return res;
     }
 
+    public static String stampToDateSecond1(String s){
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy年MM月dd日 HH:mm:ss");
+        long lt = new Long(s);
+        Date date = new Date(lt);
+        res = simpleDateFormat.format(date);
+        return res;
+    }
+
 }

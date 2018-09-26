@@ -42,7 +42,9 @@ import com.jingna.hulu.huluapp.history.DBManager;
 import com.jingna.hulu.huluapp.manager.AudioRecordButton;
 import com.jingna.hulu.huluapp.manager.MediaManager;
 import com.jingna.hulu.huluapp.model.BaiduCityModel;
+import com.jingna.hulu.huluapp.model.FileUploadByAPPModel;
 import com.jingna.hulu.huluapp.model.FileUploadModel;
+import com.jingna.hulu.huluapp.model.FileUploadSoundModel;
 import com.jingna.hulu.huluapp.model.QueryListModel;
 import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Map2Json;
@@ -121,6 +123,7 @@ public class EventsReportedActivity extends BaseActivity {
      * 上传的图片url拼接
      */
     private String imgs = "";
+    private String records = "";
 
     private SpImp spImp;
 
@@ -274,29 +277,51 @@ public class EventsReportedActivity extends BaseActivity {
                 if (TextUtils.isEmpty(etTitle.getText().toString()) || TextUtils.isEmpty(etContent.getText().toString()) || mList.size() <= 0) {
                     ToastUtil.showShort(EventsReportedActivity.this, "请完善信息后上报");
                 } else {
-                    toUpdata();
-//                    File file = new File(mRecords.get(0).getPath());
-//                    ViseHttp.UPLOAD("/bannerApi/fileUploadSound")
-//                            .addHeader("Content-Type", "multipart/form-data")
-//                            .addFile("Sound", file)
-//                            .request(new ACallback<String>() {
-//                                @Override
-//                                public void onSuccess(String data) {
-//                                    Log.e("123123", data);
-//                                    try {
-//                                        JSONObject jsonObject = new JSONObject(data);
-//                                        if (jsonObject.getString("status").equals("SUCCESS")) {
-//                                        }
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onFail(int errCode, String errMsg) {
-//                                    Log.e("123123", errMsg);
-//                                }
-//                            });
+
+                    if (mRecords.size() > 0) {
+                        Map<String, File> fileMap = new LinkedHashMap<>();
+                        for (int i = 0; i < mRecords.size(); i++) {
+                            fileMap.put("file" + i, new File(mRecords.get(i).getPath()));
+                        }
+
+                        final List<String> sounds = new ArrayList<>();
+
+                        ViseHttp.UPLOAD("/bannerApi/fileUploadSound")
+                                .addHeader("Content-Type", "multipart/form-data")
+                                .addFiles(fileMap)
+                                .request(new ACallback<String>() {
+                                    @Override
+                                    public void onSuccess(String data) {
+                                        Log.e("123123", data);
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(data);
+                                            if (jsonObject.getString("status").equals("SUCCESS")) {
+                                                Gson gson = new Gson();
+                                                FileUploadSoundModel model = gson.fromJson(data, FileUploadSoundModel.class);
+                                                sounds.addAll(model.getData());
+                                                for (int i = 0; i < sounds.size(); i++) {
+                                                    if (i == sounds.size() - 1) {
+                                                        records = records + sounds.get(i);
+                                                    } else {
+                                                        records = records + sounds.get(i) + ",";
+                                                    }
+                                                }
+                                                toUpdata();
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFail(int errCode, String errMsg) {
+                                        Log.e("123123", errMsg);
+                                    }
+                                });
+                    } else {
+                        toUpdata();
+                    }
+
                 }
                 break;
         }
@@ -340,7 +365,7 @@ public class EventsReportedActivity extends BaseActivity {
                                 if (listFile.size() == mList.size()) {
                                     Map<String, File> fileMap = new LinkedHashMap<>();
                                     for (int i = 0; i < listFile.size(); i++) {
-                                        fileMap.put("file"+i, listFile.get(i));
+                                        fileMap.put("file" + i, listFile.get(i));
                                     }
 
                                     ViseHttp.UPLOAD("/bannerApi/fileUploadByAPP")
@@ -353,7 +378,18 @@ public class EventsReportedActivity extends BaseActivity {
                                                     try {
                                                         JSONObject jsonObject = new JSONObject(data);
                                                         if (jsonObject.getString("status").equals("SUCCESS")) {
-
+                                                            Gson gson = new Gson();
+                                                            FileUploadByAPPModel model = gson.fromJson(data, FileUploadByAPPModel.class);
+                                                            list.addAll(model.getData());
+                                                            for (int i = 0; i < list.size(); i++) {
+                                                                if (i == list.size() - 1) {
+                                                                    imgs = imgs + list.get(i);
+                                                                } else {
+                                                                    imgs = imgs + list.get(i) + ",";
+                                                                }
+                                                            }
+                                                            Log.e("123123", imgs);
+                                                            e.onNext(imgs);
                                                         }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
@@ -433,6 +469,7 @@ public class EventsReportedActivity extends BaseActivity {
                 map.put("eventContent", etContent.getText().toString());
                 map.put("num2", locaList + "");
                 map.put("eventPic", value);
+                map.put("eventRecordings", records);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
 

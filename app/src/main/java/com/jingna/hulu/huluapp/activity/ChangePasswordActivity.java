@@ -72,7 +72,7 @@ public class ChangePasswordActivity extends BaseActivity {
                     map.put("id", spImp.getUID());
                     map.put("password", newPwd);
                     String json = Map2Json.map2json(map);
-                    ViseHttp.POST("/SystemUser/toUpdate")
+                    ViseHttp.POST("/SystemUser/updateUser")
                             .setJson(json)
                             .request(new ACallback<String>() {
                                 @Override

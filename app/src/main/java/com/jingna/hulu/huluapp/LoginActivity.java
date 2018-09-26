@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
+import com.jingna.hulu.huluapp.activity.ForgotPwdActivity;
 import com.jingna.hulu.huluapp.activity.Main1Activity;
 import com.jingna.hulu.huluapp.activity.Main2Activity;
 import com.jingna.hulu.huluapp.model.GetOneModel;
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.activity_login_btn})
+    @OnClick({R.id.activity_login_btn, R.id.tv_forget_password})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -119,6 +120,10 @@ public class LoginActivity extends AppCompatActivity {
                             });
                 }
                 break;
+            case R.id.tv_forget_password:
+                intent.setClass(LoginActivity.this, ForgotPwdActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -142,12 +147,12 @@ public class LoginActivity extends AppCompatActivity {
                                 GetOneModel model = gson.fromJson(data, GetOneModel.class);
                                 List<GetOneModel.DataBean> list = model.getData().get(0);
                                 for(int i = 0; i<list.size(); i++){
-                                    if(list.get(i).getJurisdictionId() == 24){
+                                    if(list.get(i).getJurisdictionId() == 25){
                                         spImp.setUIDTYPE("2");
                                         intent.setClass(LoginActivity.this, Main2Activity.class);
                                         startActivity(intent);
                                         finish();
-                                    }else if(list.get(i).getJurisdictionId() == 25){
+                                    }else if(list.get(i).getJurisdictionId() == 26){
                                         spImp.setUIDTYPE("1");
                                         intent.setClass(LoginActivity.this, Main1Activity.class);
                                         startActivity(intent);
