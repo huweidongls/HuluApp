@@ -106,6 +106,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/activity_person_rl_event_list"
             android:background="@drawable/selector_person_bg"
             android:layout_width="match_parent"
             android:layout_height="110px">
