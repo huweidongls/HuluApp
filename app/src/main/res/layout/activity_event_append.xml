@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.jingna.hulu.huluapp.activity.EventAppendActivity">
 
     <RelativeLayout
+        android:id="@+id/activity_event_append_rl_top"
         style="@style/rl_top_bar">
 
         <TextView
@@ -40,4 +40,141 @@
 
     </RelativeLayout>
 
-</LinearLayout>
+    <ScrollView
+        android:layout_above="@+id/rl_bottom"
+        android:layout_below="@+id/activity_event_append_rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="278px">
+
+                <TextView
+                    android:layout_marginLeft="30px"
+                    android:layout_marginTop="40px"
+                    android:textSize="32px"
+                    android:textColor="@color/black_333333"
+                    android:text="事件内容："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:gravity="start"
+                    android:hint="请输入内容（最多200字）"
+                    android:textColor="@color/black_333333"
+                    android:maxLength="200"
+                    android:textSize="32px"
+                    android:layout_marginBottom="30px"
+                    android:layout_marginRight="20px"
+                    android:layout_marginTop="40px"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <View
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_marginBottom="40px"
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="40px"
+                    android:id="@+id/tv3"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_333333"
+                    android:textSize="32px"
+                    android:text="录音："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="40px"
+                    android:layout_toRightOf="@+id/tv3"
+                    android:id="@+id/em_lv_recodeList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:listSelector="#0000"/>
+
+            </RelativeLayout>
+
+            <View
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+
+            <RelativeLayout
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="40px"
+                    android:id="@+id/tv5"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_333333"
+                    android:textSize="32px"
+                    android:text="照片："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="40px"
+                    android:textSize="28px"
+                    android:textColor="#646464"
+                    android:layout_toRightOf="@+id/tv5"
+                    android:text="（最多可添加9张照片）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="20px"
+                    android:layout_below="@+id/tv5"
+                    android:id="@+id/activity_events_reported_rv_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/rl_bottom"
+        android:background="#F8F8F8"
+        android:layout_width="match_parent"
+        android:layout_height="114px">
+
+        <com.jingna.hulu.huluapp.manager.AudioRecordButton
+            android:layout_centerInParent="true"
+            android:id="@+id/em_tv_btn"
+            android:layout_width="650px"
+            android:layout_height="78px"
+            android:background="@drawable/bg_audio_button"
+            android:gravity="center"
+            android:text="@string/long_click_record"
+            android:textColor="#646464"
+            android:textSize="32px"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
