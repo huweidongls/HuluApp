@@ -47,7 +47,7 @@ public class ActivityEventListAdapter extends RecyclerView.Adapter<ActivityEvent
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.tvTitle.setText(data.get(position).getEventTitle());
         String a = data.get(position).getNum2();
         String s = a.substring(2, a.length()-2);
@@ -80,6 +80,7 @@ public class ActivityEventListAdapter extends RecyclerView.Adapter<ActivityEvent
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra("id", data.get(position).getId());
                 intent.setClass(context, EventContentActivity.class);
                 context.startActivity(intent);
             }

@@ -174,7 +174,7 @@ public class EventListActivity extends BaseActivity {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-
+                        Log.e("123123", errMsg);
                     }
                 });
 

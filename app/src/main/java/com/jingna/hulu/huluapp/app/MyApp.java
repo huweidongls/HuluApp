@@ -6,6 +6,7 @@ import android.app.Application;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
+import com.jingna.hulu.huluapp.utils.Constant;
 import com.vise.xsnow.http.ViseHttp;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
@@ -54,12 +55,9 @@ public class MyApp extends Application {
         SDKInitializer.setCoordType(CoordType.BD09LL);
         ScreenAdapterTools.init(this);
         ViseHttp.init(this);
-//        ViseHttp.CONFIG()
-//                //配置请求主机地址
-//                .baseUrl("http://47.92.127.1:8088/");
         ViseHttp.CONFIG()
                 //配置请求主机地址
-                .baseUrl("http://192.168.2.248:8088/");
+                .baseUrl(Constant.BASE_URL);
     }
 
     // add Activity
