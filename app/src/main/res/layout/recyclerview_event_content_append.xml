@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/bg_change_pwd"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_marginBottom="30px"
+        android:layout_marginTop="30px"
+        android:layout_marginLeft="20px"
+        android:layout_marginRight="20px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/black_333333"
+            android:textSize="32px"
+            android:text="事件内容："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="30px"
+            android:textColor="@color/black_333333"
+            android:text="事件内容，内容不超过200字，事件详情不可修改，只能补充，查看处理情况。"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_marginLeft="20px"
+        android:layout_marginRight="20px"
+        android:background="@color/line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"/>
+
+    <RelativeLayout
+        android:layout_marginBottom="40px"
+        android:layout_marginLeft="20px"
+        android:layout_marginRight="20px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginTop="40px"
+            android:id="@+id/tv3"
+            android:textColor="@color/black_333333"
+            android:textSize="32px"
+            android:text="录音："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="40px"
+            android:layout_toRightOf="@+id/tv3"
+            android:id="@+id/em_lv_recodeList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="#0000"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_marginLeft="20px"
+        android:layout_marginRight="20px"
+        android:background="@color/line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"/>
+
+    <LinearLayout
+        android:layout_marginRight="20px"
+        android:layout_marginLeft="20px"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginTop="34px"
+            android:layout_marginBottom="24px"
+            android:textColor="@color/black_333333"
+            android:textSize="32px"
+            android:text="照片："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

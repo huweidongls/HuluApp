@@ -70,6 +70,7 @@ public class EventListActivity extends BaseActivity {
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
+                map1.put("eventType", 1);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
                 ViseHttp.POST("/eventApi/queryList")
@@ -109,6 +110,7 @@ public class EventListActivity extends BaseActivity {
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
+                map1.put("eventType", 1);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
                 ViseHttp.POST("/eventApi/queryList")
@@ -145,6 +147,7 @@ public class EventListActivity extends BaseActivity {
         map.put("pageSize", 5);
         Map<String, Object> map1 = new LinkedHashMap<>();
         map1.put("orderBy", "create_date desc");
+        map1.put("eventType", 1);
         map.put("eventExt", map1);
         String json = Map2Json.map2json(map);
         Log.e("123123", json);
