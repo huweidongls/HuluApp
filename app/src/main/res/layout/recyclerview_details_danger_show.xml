@@ -14,8 +14,8 @@
         <ImageView
             android:id="@+id/activity_create_intercalation_rv_iv_img"
             android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="210px"
+            android:layout_height="140px" />
 
     </RelativeLayout>
 

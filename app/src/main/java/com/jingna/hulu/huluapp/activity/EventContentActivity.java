@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.ActivityDetailsDangerShowAdapter;
 import com.jingna.hulu.huluapp.adapter.ActivityEventContentAppendAdapter;
+import com.jingna.hulu.huluapp.adapter.ExampleShowAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.model.BaiduCityModel;
 import com.jingna.hulu.huluapp.model.EventContentModel;
@@ -47,6 +48,8 @@ public class EventContentActivity extends BaseActivity {
     RecyclerView recyclerViewPic;
     @BindView(R.id.activity_event_content_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.em_lv_recodeList)
+    RecyclerView rvRecord;
 
     private int id;
 
@@ -56,6 +59,8 @@ public class EventContentActivity extends BaseActivity {
 
     private ActivityDetailsDangerShowAdapter showAdapter;
     private List<String> picList;
+
+    private ExampleShowAdapter recordAdapter;
 
     /**
      * 事件补充
@@ -153,6 +158,22 @@ public class EventContentActivity extends BaseActivity {
                                 recyclerViewPic.setLayoutManager(manager);
                                 showAdapter = new ActivityDetailsDangerShowAdapter(picList);
                                 recyclerViewPic.setAdapter(showAdapter);
+                                //加载事件主体语音
+                                LinearLayoutManager managerRecord = new LinearLayoutManager(EventContentActivity.this){
+                                    @Override
+                                    public boolean canScrollVertically() {
+                                        return false;
+                                    }
+                                };
+                                managerRecord.setOrientation(LinearLayoutManager.VERTICAL);
+                                rvRecord.setLayoutManager(managerRecord);
+                                String[] path = eventType1.get(0).getEventRecordings().split(",");
+                                List<String> recordList = new ArrayList<>();
+                                for (int i = 0; i<path.length; i++){
+                                    recordList.add(path[i]);
+                                }
+                                recordAdapter = new ExampleShowAdapter(EventContentActivity.this, recordList);
+                                rvRecord.setAdapter(recordAdapter);
 
                                 //加载补充内容
                                 LinearLayoutManager manager1 = new LinearLayoutManager(EventContentActivity.this){

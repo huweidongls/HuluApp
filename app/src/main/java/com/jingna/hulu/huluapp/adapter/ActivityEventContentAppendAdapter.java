@@ -61,6 +61,24 @@ public class ActivityEventContentAppendAdapter extends RecyclerView.Adapter<Acti
             ActivityDetailsDangerShowAdapter showAdapter = new ActivityDetailsDangerShowAdapter(picList);
             holder.rv.setAdapter(showAdapter);
         }
+
+        List<String> records = new ArrayList<>();
+        if(!TextUtils.isEmpty(data.get(position).getEventRecordings())){
+            String[] record = data.get(position).getEventRecordings().split(",");
+            for (int i = 0; i<record.length; i++){
+                records.add(record[i]);
+            }
+            LinearLayoutManager managerRecord = new LinearLayoutManager(context){
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            };
+            holder.rvRecord.setLayoutManager(managerRecord);
+            ExampleShowAdapter exampleShowAdapter = new ExampleShowAdapter(context, records);
+            holder.rvRecord.setAdapter(exampleShowAdapter);
+        }
+
     }
 
     @Override
@@ -72,11 +90,13 @@ public class ActivityEventContentAppendAdapter extends RecyclerView.Adapter<Acti
 
         private TextView tvContent;
         private RecyclerView rv;
+        private RecyclerView rvRecord;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvContent = itemView.findViewById(R.id.tv_content);
             rv = itemView.findViewById(R.id.rv_pic);
+            rvRecord = itemView.findViewById(R.id.em_lv_recodeList);
         }
     }
 

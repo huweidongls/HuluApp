@@ -97,6 +97,37 @@ public class MediaManager {
         }
     }
 
+    public static int getSecond(String path){
+        if (mPlayer == null) {
+            mPlayer = new MediaPlayer();
+            //保险起见，设置报错监听
+            mPlayer.setOnErrorListener(new OnErrorListener() {
+
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    mPlayer.reset();
+                    return false;
+                }
+            });
+        } else {
+            mPlayer.reset();//就重置
+        }
+
+        try {
+            mPlayer.setDataSource(path);
+            mPlayer.prepare();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mPlayer.getDuration()/1000;
+    }
+
     private static void initSensorListener(Context context) {
         mContext = context;
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
