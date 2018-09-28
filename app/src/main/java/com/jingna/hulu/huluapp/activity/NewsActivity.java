@@ -3,8 +3,11 @@ package com.jingna.hulu.huluapp.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
@@ -29,6 +32,8 @@ public class NewsActivity extends BaseActivity {
 
     @BindView(R.id.activity_news_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.activity_news_et_search)
+    EditText etSearch;
 
     private ActivityNewsAdapter adapter;
     private List<NewsModel.DataBean> mList;
@@ -71,6 +76,22 @@ public class NewsActivity extends BaseActivity {
                                 recyclerView.setLayoutManager(manager);
                                 adapter = new ActivityNewsAdapter(mList);
                                 recyclerView.setAdapter(adapter);
+                                etSearch.addTextChangedListener(new TextWatcher() {
+                                    @Override
+                                    public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
+
+                                    }
+
+                                    @Override
+                                    public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+                                        adapter.getFilter().filter(sequence.toString());
+                                    }
+
+                                    @Override
+                                    public void afterTextChanged(Editable editable) {
+
+                                    }
+                                });
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

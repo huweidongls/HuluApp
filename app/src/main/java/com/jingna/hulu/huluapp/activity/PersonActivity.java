@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +27,8 @@ public class PersonActivity extends BaseActivity {
     ImageView ivAvatar;
     @BindView(R.id.activity_person_tv_username)
     TextView tvUsername;
+    @BindView(R.id.activity_person_rl_event_list)
+    RelativeLayout rlEventList;
 
     private SpImp spImp;
     private SpCache spCache;
@@ -46,6 +49,14 @@ public class PersonActivity extends BaseActivity {
     }
 
     private void initData() {
+
+        if(spImp.getUID() != 0){
+            if(spImp.getUIDTYPE().equals("1")){
+                rlEventList.setVisibility(View.VISIBLE);
+            }else if(spImp.getUIDTYPE().equals("2")){
+                rlEventList.setVisibility(View.GONE);
+            }
+        }
 
         String userPic = Constant.BASE_URL+spCache.get("avatar", "0");
         Glide.with(PersonActivity.this).load(userPic).into(ivAvatar);
