@@ -13,17 +13,17 @@ public class EventListModel {
      * errorCode : null
      * errorTitle : null
      * errorMsg : null
-     * data : [{"id":1,"createBy":"22","createDate":1537247704000,"updateTime":null,"eventTitle":"测试事件1","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"5","num2":"[[126.631228,45.742087]]","num3":"于忠","num4":null,"num5":null,"eventContent":"测试事件内容1","eventRecordings":null,"eventType":1,"eventPic":"/upload/fa18ed77c7b44e59807bd9fa9d061081.jpeg","assortmentType":1,"typeName":"事件分类1","phonenum":"13936129596","eventId":"1","peopleName":"于忠"},{"id":2,"createBy":"38","createDate":1537268619000,"updateTime":null,"eventTitle":"测试918","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"5","num2":"[[126.633103,45.746534]]","num3":"dvd","num4":null,"num5":null,"eventContent":"918测试","eventRecordings":null,"eventType":1,"eventPic":"/upload/9e3affa597dc47789f7f5f3d7d17baf9.jpeg","assortmentType":1,"typeName":"事件分类1","phonenum":"","eventId":"2","peopleName":"dvd"},{"id":3,"createBy":"37","createDate":1537268828000,"updateTime":null,"eventTitle":"事件1907","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"5","num2":"[[126.632241,45.742321]]","num3":"齐留柱","num4":null,"num5":null,"eventContent":"哈哈唉","eventRecordings":null,"eventType":1,"eventPic":"/upload/935e23875e81461ba8df8b4496d195e7.jpeg,/upload/7e5f9fa9e695484fb2d72d8438d584eb.jpeg","assortmentType":1,"typeName":"事件分类1","phonenum":"17164565456","eventId":"3","peopleName":"齐留柱"}]
-     * totalPage : null
-     * totalCount : null
+     * data : [{"id":13,"createBy":"43","createDate":1538122084000,"updateTime":null,"eventTitle":"订","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"6","num2":"[[126.63221,45.742475]]","num3":"测试护路员01","num4":null,"num5":null,"eventContent":"特勒","eventRecordings":"/upload/c8ce9956490d4c9d95e0e64f7fe248da.mp3","eventType":1,"eventPic":"/upload/c57f022de05644a1b756964da82670bf.jpeg","assortmentType":1,"typeName":"事件分类2","phonenum":"18545554088","eventId":"13","peopleName":"测试护路员01","lmTitle":"911"},{"id":12,"createBy":"43","createDate":1538121463000,"updateTime":null,"eventTitle":"明早","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"6","num2":"[[126.632238,45.742474]]","num3":"测试护路员01","num4":null,"num5":null,"eventContent":"你OK许诺","eventRecordings":"/upload/ca8b94b935e9467384162d11ad2699ab.mp3,/upload/30368ea8895243c29e7ead14535b73e4.mp3","eventType":1,"eventPic":"/upload/0b9e0a4dbc4f4d6e961ff443308e817b.jpeg","assortmentType":1,"typeName":"事件分类2","phonenum":"18545554088","eventId":"12","peopleName":"测试护路员01","lmTitle":"911"},{"id":11,"createBy":"43","createDate":1538121440000,"updateTime":null,"eventTitle":"沐浴露","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"6","num2":"[[126.632238,45.742474]]","num3":"测试护路员01","num4":null,"num5":null,"eventContent":"人工作了","eventRecordings":"/upload/cdd088b3426b48d5a2f63875103bc0a5.mp3","eventType":1,"eventPic":"/upload/a0fad5c646df4eb0801550b38ec23b11.jpeg","assortmentType":1,"typeName":"事件分类2","phonenum":"18545554088","eventId":"11","peopleName":"测试护路员01","lmTitle":"911"},{"id":10,"createBy":"43","createDate":1538121424000,"updateTime":null,"eventTitle":"第","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"6","num2":"[[126.632238,45.742474]]","num3":"测试护路员01","num4":null,"num5":null,"eventContent":"透漏","eventRecordings":"/upload/147ab486a9ff45efb533a30339d8e44a.mp3","eventType":1,"eventPic":"/upload/6fb79f642a8b407792dcf6c43010eaa8.jpeg","assortmentType":1,"typeName":"事件分类2","phonenum":"18545554088","eventId":"10","peopleName":"测试护路员01","lmTitle":"911"}]
+     * totalPage : 1
+     * totalCount : 4
      */
 
     private String status;
     private Object errorCode;
     private Object errorTitle;
     private Object errorMsg;
-    private Object totalPage;
-    private Object totalCount;
+    private int totalPage;
+    private int totalCount;
     private List<DataBean> data;
 
     public String getStatus() {
@@ -58,19 +58,19 @@ public class EventListModel {
         this.errorMsg = errorMsg;
     }
 
-    public Object getTotalPage() {
+    public int getTotalPage() {
         return totalPage;
     }
 
-    public void setTotalPage(Object totalPage) {
+    public void setTotalPage(int totalPage) {
         this.totalPage = totalPage;
     }
 
-    public Object getTotalCount() {
+    public int getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(Object totalCount) {
+    public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
     }
 
@@ -84,29 +84,30 @@ public class EventListModel {
 
     public static class DataBean {
         /**
-         * id : 1
-         * createBy : 22
-         * createDate : 1537247704000
+         * id : 13
+         * createBy : 43
+         * createDate : 1538122084000
          * updateTime : null
-         * eventTitle : 测试事件1
+         * eventTitle : 订
          * solveBy : null
          * isSolve : 0
          * solveContent : null
          * solveTime : null
-         * num1 : 5
-         * num2 : [[126.631228,45.742087]]
-         * num3 : 于忠
+         * num1 : 6
+         * num2 : [[126.63221,45.742475]]
+         * num3 : 测试护路员01
          * num4 : null
          * num5 : null
-         * eventContent : 测试事件内容1
-         * eventRecordings : null
+         * eventContent : 特勒
+         * eventRecordings : /upload/c8ce9956490d4c9d95e0e64f7fe248da.mp3
          * eventType : 1
-         * eventPic : /upload/fa18ed77c7b44e59807bd9fa9d061081.jpeg
+         * eventPic : /upload/c57f022de05644a1b756964da82670bf.jpeg
          * assortmentType : 1
-         * typeName : 事件分类1
-         * phonenum : 13936129596
-         * eventId : 1
-         * peopleName : 于忠
+         * typeName : 事件分类2
+         * phonenum : 18545554088
+         * eventId : 13
+         * peopleName : 测试护路员01
+         * lmTitle : 911
          */
 
         private int id;
@@ -124,7 +125,7 @@ public class EventListModel {
         private Object num4;
         private Object num5;
         private String eventContent;
-        private Object eventRecordings;
+        private String eventRecordings;
         private int eventType;
         private String eventPic;
         private int assortmentType;
@@ -132,6 +133,7 @@ public class EventListModel {
         private String phonenum;
         private String eventId;
         private String peopleName;
+        private String lmTitle;
 
         public int getId() {
             return id;
@@ -253,11 +255,11 @@ public class EventListModel {
             this.eventContent = eventContent;
         }
 
-        public Object getEventRecordings() {
+        public String getEventRecordings() {
             return eventRecordings;
         }
 
-        public void setEventRecordings(Object eventRecordings) {
+        public void setEventRecordings(String eventRecordings) {
             this.eventRecordings = eventRecordings;
         }
 
@@ -315,6 +317,14 @@ public class EventListModel {
 
         public void setPeopleName(String peopleName) {
             this.peopleName = peopleName;
+        }
+
+        public String getLmTitle() {
+            return lmTitle;
+        }
+
+        public void setLmTitle(String lmTitle) {
+            this.lmTitle = lmTitle;
         }
     }
 }

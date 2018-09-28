@@ -10,6 +10,7 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_marginLeft="24px"
         android:layout_marginRight="24px"
         android:layout_marginTop="34px"
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/tv_lmtitle"
         android:layout_marginTop="24px"
         android:layout_marginRight="24px"
         android:layout_marginLeft="24px"
@@ -39,6 +41,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_name"
             android:textSize="30px"
             android:textColor="@color/black_333333"
             android:text="护路员：张四"
@@ -46,6 +49,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_phone_num"
             android:layout_marginLeft="50px"
             android:textSize="30px"
             android:textColor="@color/black_333333"
@@ -69,6 +73,7 @@
             android:layout_height="30px" />
 
         <TextView
+            android:id="@+id/tv_location"
             android:layout_gravity="center_vertical"
             android:textSize="28px"
             android:textColor="@color/black_333333"
@@ -79,6 +84,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_time"
         android:textColor="#6E6E6E"
         android:textSize="26px"
         android:layout_marginBottom="34px"

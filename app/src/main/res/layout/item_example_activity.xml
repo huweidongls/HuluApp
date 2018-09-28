@@ -74,7 +74,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8px"
                 android:src="@drawable/yuyin_tixing_red"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

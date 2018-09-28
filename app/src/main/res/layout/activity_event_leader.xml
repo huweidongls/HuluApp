@@ -14,97 +14,98 @@
             android:id="@+id/activity_event_leader_rl_back"
             style="@style/rl_return">
 
-            <ImageView
-                style="@style/iv_return" />
+            <ImageView style="@style/iv_return" />
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_toLeftOf="@+id/iv_calendar"
-            android:elevation="2px"
-            android:layout_centerVertical="true"
-            android:background="@drawable/bg_search"
-            android:layout_marginRight="30px"
-            android:layout_toRightOf="@+id/activity_event_leader_rl_back"
             android:layout_width="match_parent"
-            android:layout_height="64px">
+            android:layout_height="64px"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30px"
+            android:layout_toLeftOf="@+id/iv_calendar"
+            android:layout_toRightOf="@+id/activity_event_leader_rl_back"
+            android:background="@drawable/bg_search"
+            android:elevation="2px"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <EditText
-                android:hint="请输入搜索线路/护路员"
-                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="30px"
+                android:background="@null"
+                android:hint="请输入搜索线路/护路员"
                 android:textColor="@color/black_333333"
-                android:textSize="28px"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="28px" />
 
             <ImageView
-                android:src="@drawable/search"
-                android:layout_marginRight="40px"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
                 android:layout_width="26px"
-                android:layout_height="31px" />
+                android:layout_height="31px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="40px"
+                android:src="@drawable/search" />
 
         </RelativeLayout>
-        
+
         <ImageView
-            android:layout_marginRight="20px"
             android:id="@+id/iv_calendar"
+            android:layout_width="50px"
+            android:layout_height="50px"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/calendar"
-            android:layout_width="50px"
-            android:layout_height="50px" />
+            android:layout_marginRight="20px"
+            android:src="@drawable/calendar" />
 
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_select"
-        android:background="#F1F5F6"
-        android:layout_below="@+id/activity_event_leader_rl_top"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100px">
+        android:layout_height="100px"
+        android:layout_below="@+id/activity_event_leader_rl_top"
+        android:background="#F1F5F6"
+        android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_weight="1"
+            android:id="@+id/activity_event_leader_rl_left"
             android:layout_width="0px"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <LinearLayout
-                android:layout_centerInParent="true"
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:textColor="#32CC0D"
-                    android:textSize="28px"
-                    android:text="全部"
+                    android:id="@+id/activity_event_leader_event_type"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="全部"
+                    android:textColor="#32CC0D"
+                    android:textSize="28px" />
 
                 <LinearLayout
-                    android:layout_marginLeft="8px"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8px"
+                    android:orientation="vertical">
 
                     <ImageView
-                        android:src="@drawable/top_g"
                         android:layout_width="20px"
-                        android:layout_height="10px" />
+                        android:layout_height="10px"
+                        android:src="@drawable/top_g" />
 
                     <ImageView
+                        android:layout_width="20px"
+                        android:layout_height="10px"
                         android:layout_marginTop="6px"
-                        android:src="@drawable/bottom_g"
-                        android:layout_width="20px"
-                        android:layout_height="10px" />
+                        android:src="@drawable/bottom_g" />
 
                 </LinearLayout>
 
@@ -113,40 +114,40 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_weight="1"
             android:layout_width="0px"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <LinearLayout
-                android:layout_centerInParent="true"
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:textColor="#333333"
-                    android:textSize="28px"
-                    android:text="部门"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="部门"
+                    android:textColor="#333333"
+                    android:textSize="28px" />
 
                 <LinearLayout
-                    android:layout_marginLeft="8px"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8px"
+                    android:orientation="vertical">
 
                     <ImageView
-                        android:src="@drawable/top_b"
                         android:layout_width="20px"
-                        android:layout_height="10px" />
+                        android:layout_height="10px"
+                        android:src="@drawable/top_b" />
 
                     <ImageView
+                        android:layout_width="20px"
+                        android:layout_height="10px"
                         android:layout_marginTop="6px"
-                        android:src="@drawable/bottom_b"
-                        android:layout_width="20px"
-                        android:layout_height="10px" />
+                        android:src="@drawable/bottom_b" />
 
                 </LinearLayout>
 
@@ -156,11 +157,18 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:background="#E1E1E1"
-        android:id="@+id/activity_event_leader_rv"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_below="@+id/ll_select"
+        android:id="@+id/activity_event_leader_refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_event_leader_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E1E1E1" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </RelativeLayout>

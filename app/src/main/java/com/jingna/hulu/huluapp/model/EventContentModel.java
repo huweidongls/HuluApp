@@ -13,7 +13,7 @@ public class EventContentModel {
      * errorCode : null
      * errorTitle : null
      * errorMsg : null
-     * data : [{"id":8,"createBy":"43","createDate":1538034888000,"updateTime":null,"eventTitle":"恶魔","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"6","num2":"[[126.632234,45.742481]]","num3":"测试护路员01","num4":null,"num5":null,"eventContent":"吃了","eventRecordings":"/upload/e9cf0910f1274e7cb21a0a4423e1cf00.mp3","eventType":1,"eventPic":"/upload/4e64a28a3ba94a45beafda99ef017e5e.jpeg","assortmentType":1,"typeName":"事件分类2","phonenum":"18545554088","eventId":"8","peopleName":"测试护路员01"},{"id":8,"createBy":"43","createDate":1538034888000,"updateTime":null,"eventTitle":"恶魔","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"6","num2":"[[126.632234,45.742481]]","num3":"测试护路员01","num4":null,"num5":null,"eventContent":"你好","eventRecordings":"/upload/41d3c67f33a34cfb81d71a129fb595bb.mp3","eventType":2,"eventPic":"/upload/cc091c47ade64630ab97a9db4b3e1253.jpg","assortmentType":1,"typeName":"事件分类2","phonenum":"18545554088","eventId":"8","peopleName":"测试护路员01"},{"id":8,"createBy":"43","createDate":1538034888000,"updateTime":null,"eventTitle":"恶魔","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"6","num2":"[[126.632234,45.742481]]","num3":"测试护路员01","num4":null,"num5":null,"eventContent":"你好2","eventRecordings":"/upload/83219dae704a42939ee9f2fac91a566a.mp3","eventType":2,"eventPic":"/upload/4eaae43a6c6f40cbabf38df043e3488d.jpg","assortmentType":1,"typeName":"事件分类2","phonenum":"18545554088","eventId":"8","peopleName":"测试护路员01"}]
+     * data : [{"id":13,"createBy":"43","createDate":1538122084000,"updateTime":null,"eventTitle":"订","solveBy":null,"isSolve":0,"solveContent":null,"solveTime":null,"num1":"6","num2":"[[126.63221,45.742475]]","num3":"测试护路员01","num4":null,"num5":null,"eventContent":"特勒","eventRecordings":"/upload/c8ce9956490d4c9d95e0e64f7fe248da.mp3","eventType":1,"eventPic":"/upload/c57f022de05644a1b756964da82670bf.jpeg","assortmentType":1,"typeName":"事件分类2","phonenum":"18545554088","eventId":"13","peopleName":"测试护路员01","lmTitle":"911"}]
      * totalPage : null
      * totalCount : null
      */
@@ -84,29 +84,30 @@ public class EventContentModel {
 
     public static class DataBean {
         /**
-         * id : 8
+         * id : 13
          * createBy : 43
-         * createDate : 1538034888000
+         * createDate : 1538122084000
          * updateTime : null
-         * eventTitle : 恶魔
+         * eventTitle : 订
          * solveBy : null
          * isSolve : 0
          * solveContent : null
          * solveTime : null
          * num1 : 6
-         * num2 : [[126.632234,45.742481]]
+         * num2 : [[126.63221,45.742475]]
          * num3 : 测试护路员01
          * num4 : null
          * num5 : null
-         * eventContent : 吃了
-         * eventRecordings : /upload/e9cf0910f1274e7cb21a0a4423e1cf00.mp3
+         * eventContent : 特勒
+         * eventRecordings : /upload/c8ce9956490d4c9d95e0e64f7fe248da.mp3
          * eventType : 1
-         * eventPic : /upload/4e64a28a3ba94a45beafda99ef017e5e.jpeg
+         * eventPic : /upload/c57f022de05644a1b756964da82670bf.jpeg
          * assortmentType : 1
          * typeName : 事件分类2
          * phonenum : 18545554088
-         * eventId : 8
+         * eventId : 13
          * peopleName : 测试护路员01
+         * lmTitle : 911
          */
 
         private int id;
@@ -132,6 +133,7 @@ public class EventContentModel {
         private String phonenum;
         private String eventId;
         private String peopleName;
+        private String lmTitle;
 
         public int getId() {
             return id;
@@ -315,6 +317,14 @@ public class EventContentModel {
 
         public void setPeopleName(String peopleName) {
             this.peopleName = peopleName;
+        }
+
+        public String getLmTitle() {
+            return lmTitle;
+        }
+
+        public void setLmTitle(String lmTitle) {
+            this.lmTitle = lmTitle;
         }
     }
 }

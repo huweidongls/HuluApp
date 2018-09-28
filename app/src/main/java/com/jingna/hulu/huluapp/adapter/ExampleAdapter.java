@@ -69,11 +69,11 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ViewHold
         final Record record = mRecords.get(position);
         //设置显示时长
         holder.ieaTvVoicetime1.setText(record.getSecond() <= 0 ? 1 + "''" : record.getSecond() + "''");
-        if (!record.isPlayed()) {
-            holder.ieaIvRed.setVisibility(View.VISIBLE);
-        } else {
-            holder.ieaIvRed.setVisibility(View.GONE);
-        }
+//        if (!record.isPlayed()) {
+//            holder.ieaIvRed.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.ieaIvRed.setVisibility(View.GONE);
+//        }
         //更改并显示录音条长度
         RelativeLayout.LayoutParams ps = (RelativeLayout.LayoutParams) holder.ieaIvVoiceLine.getLayoutParams();
         ps.width = CommonsUtils.getVoiceLineWight(mContext, record.getSecond());
