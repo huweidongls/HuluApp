@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jingna.hulu.huluapp.LoginActivity;
@@ -11,6 +12,8 @@ import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
 import com.jingna.hulu.huluapp.sp.SpImp;
+import com.jingna.hulu.huluapp.utils.Constant;
+import com.vise.xsnow.cache.SpCache;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import butterknife.BindView;
@@ -21,8 +24,11 @@ public class PersonActivity extends BaseActivity {
 
     @BindView(R.id.activity_person_iv_avatar)
     ImageView ivAvatar;
+    @BindView(R.id.activity_person_tv_username)
+    TextView tvUsername;
 
     private SpImp spImp;
+    private SpCache spCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,7 @@ public class PersonActivity extends BaseActivity {
 
         ButterKnife.bind(PersonActivity.this);
         spImp = new SpImp(PersonActivity.this);
+        spCache = new SpCache(PersonActivity.this);
 
         initData();
 
@@ -40,7 +47,9 @@ public class PersonActivity extends BaseActivity {
 
     private void initData() {
 
-        Glide.with(PersonActivity.this).load("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=418259163,3789341045&fm=26&gp=0.jpg").into(ivAvatar);
+        String userPic = Constant.BASE_URL+spCache.get("avatar", "0");
+        Glide.with(PersonActivity.this).load(userPic).into(ivAvatar);
+        tvUsername.setText(spCache.get("username", ""));
 
     }
 

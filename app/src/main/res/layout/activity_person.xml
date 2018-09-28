@@ -35,6 +35,7 @@
             android:layout_height="100px" />
 
         <TextView
+            android:id="@+id/activity_person_tv_username"
             android:layout_marginLeft="10px"
             android:layout_marginBottom="69px"
             android:layout_alignParentBottom="true"

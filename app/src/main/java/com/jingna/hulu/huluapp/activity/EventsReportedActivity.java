@@ -2,6 +2,7 @@ package com.jingna.hulu.huluapp.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -51,6 +52,7 @@ import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.utils.PermissionHelper;
 import com.jingna.hulu.huluapp.utils.Record;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
+import com.jingna.hulu.huluapp.utils.WeiboDialogUtils;
 import com.vise.xsnow.cache.SpCache;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -129,6 +131,8 @@ public class EventsReportedActivity extends BaseActivity {
 
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
+
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -277,7 +281,7 @@ public class EventsReportedActivity extends BaseActivity {
                 if (TextUtils.isEmpty(etTitle.getText().toString()) || TextUtils.isEmpty(etContent.getText().toString()) || mList.size() <= 0) {
                     ToastUtil.showShort(EventsReportedActivity.this, "请完善信息后上报");
                 } else {
-
+                    dialog = WeiboDialogUtils.createLoadingDialog(EventsReportedActivity.this, "请等待...");
                     if (mRecords.size() > 0) {
                         Map<String, File> fileMap = new LinkedHashMap<>();
                         for (int i = 0; i < mRecords.size(); i++) {
@@ -488,11 +492,12 @@ public class EventsReportedActivity extends BaseActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+                                WeiboDialogUtils.closeDialog(dialog);
                             }
 
                             @Override
                             public void onFail(int errCode, String errMsg) {
-
+                                WeiboDialogUtils.closeDialog(dialog);
                             }
                         });
             }

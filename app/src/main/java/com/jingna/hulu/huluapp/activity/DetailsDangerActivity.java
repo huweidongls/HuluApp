@@ -2,6 +2,7 @@ package com.jingna.hulu.huluapp.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -44,11 +45,13 @@ import com.jingna.hulu.huluapp.adapter.ActivityLineDangerAdapter;
 import com.jingna.hulu.huluapp.adapter.IntercalationAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
+import com.jingna.hulu.huluapp.model.FileUploadByAPPModel;
 import com.jingna.hulu.huluapp.model.FileUploadModel;
 import com.jingna.hulu.huluapp.model.LineDangerModel;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.utils.PermissionHelper;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
+import com.jingna.hulu.huluapp.utils.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
@@ -144,6 +147,8 @@ public class DetailsDangerActivity extends BaseActivity {
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
 
+    private Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,7 +215,7 @@ public class DetailsDangerActivity extends BaseActivity {
                                 tvContent.setText(model.getData().get(0).getLpContent());
                                 tvType.setText(model.getData().get(0).getTypeName());
                                 tvLocation.setText(model.getData().get(0).getNum4());
-                                if(model.getData().get(0).getIsSolve() == 0){
+                                if (model.getData().get(0).getIsSolve() == 0) {
                                     etUpload.setVisibility(View.VISIBLE);
                                     recyclerView.setVisibility(View.VISIBLE);
                                     recyclerView1.setVisibility(View.VISIBLE);
@@ -220,7 +225,7 @@ public class DetailsDangerActivity extends BaseActivity {
                                     tvUpload.setVisibility(View.GONE);
                                     recyclerViewShow.setVisibility(View.GONE);
                                     recyclerView1Show.setVisibility(View.GONE);
-                                }else if(model.getData().get(0).getIsSolve() == 1){
+                                } else if (model.getData().get(0).getIsSolve() == 1) {
                                     etUpload.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.GONE);
                                     recyclerView1.setVisibility(View.GONE);
@@ -234,7 +239,7 @@ public class DetailsDangerActivity extends BaseActivity {
                                     showList = new ArrayList<>();
                                     showList1 = new ArrayList<>();
                                     String[] show = model.getData().get(0).getNum2().split(",");
-                                    for (int i = 0; i<show.length; i++){
+                                    for (int i = 0; i < show.length; i++) {
                                         showList.add(show[i]);
                                     }
                                     GridLayoutManager manager = new GridLayoutManager(DetailsDangerActivity.this, 3);
@@ -242,7 +247,7 @@ public class DetailsDangerActivity extends BaseActivity {
                                     showAdapter = new ActivityDetailsDangerShowAdapter(showList);
                                     recyclerViewShow.setAdapter(showAdapter);
                                     String[] show1 = model.getData().get(0).getNum3().split(",");
-                                    for (int i = 0; i<show1.length; i++){
+                                    for (int i = 0; i < show1.length; i++) {
                                         showList1.add(show1[i]);
                                     }
                                     GridLayoutManager manager1 = new GridLayoutManager(DetailsDangerActivity.this, 3);
@@ -354,7 +359,8 @@ public class DetailsDangerActivity extends BaseActivity {
             case R.id.activity_details_danger_rl_complete:
                 if (TextUtils.isEmpty(etUpload.getText().toString()) || mList.size() <= 0 || mList1.size() <= 0) {
                     ToastUtil.showShort(DetailsDangerActivity.this, "请完善信息后上报");
-                }else {
+                } else {
+                    dialog = WeiboDialogUtils.createLoadingDialog(DetailsDangerActivity.this, "请等待...");
                     onComplete();
                 }
                 break;
@@ -373,6 +379,8 @@ public class DetailsDangerActivity extends BaseActivity {
             public void subscribe(final ObservableEmitter<List<String>> e) throws Exception {
                 final List<String> list = new ArrayList<>();
                 final List<String> list1 = new ArrayList<>();
+                final List<File> listFiles = new ArrayList<>();
+                final List<File> listFiles1 = new ArrayList<>();
                 Luban.with(DetailsDangerActivity.this)
                         .load(mList)
                         .ignoreBy(100)
@@ -391,20 +399,26 @@ public class DetailsDangerActivity extends BaseActivity {
                             @Override
                             public void onSuccess(File file) {
                                 // TODO 压缩成功后调用，返回压缩后的图片文件
-                                ViseHttp.UPLOAD("bannerApi/fileUpload")
-                                        .addHeader("Content-Type", "multipart/form-data")
-                                        .addFile("file", file)
-                                        .request(new ACallback<String>() {
-                                            @Override
-                                            public void onSuccess(String data) {
-                                                Log.e("123123", data);
-                                                try {
-                                                    JSONObject jsonObject = new JSONObject(data);
-                                                    if (jsonObject.getString("status").equals("SUCCESS")) {
-                                                        Gson gson = new Gson();
-                                                        FileUploadModel uploadModel = gson.fromJson(data, FileUploadModel.class);
-                                                        list.add(uploadModel.getData());
-                                                        if (list.size() == mList.size()) {
+                                listFiles.add(file);
+                                if (listFiles.size() == mList.size()) {
+                                    Map<String, File> fileMap = new LinkedHashMap<>();
+                                    for (int i = 0; i < listFiles.size(); i++) {
+                                        fileMap.put("file" + i, listFiles.get(i));
+                                    }
+
+                                    ViseHttp.UPLOAD("/bannerApi/fileUploadByAPP")
+                                            .addHeader("Content-Type", "multipart/form-data")
+                                            .addFiles(fileMap)
+                                            .request(new ACallback<String>() {
+                                                @Override
+                                                public void onSuccess(String data) {
+                                                    Log.e("123123", data);
+                                                    try {
+                                                        JSONObject jsonObject = new JSONObject(data);
+                                                        if (jsonObject.getString("status").equals("SUCCESS")) {
+                                                            Gson gson = new Gson();
+                                                            FileUploadByAPPModel model = gson.fromJson(data, FileUploadByAPPModel.class);
+                                                            list.addAll(model.getData());
                                                             for (int i = 0; i < list.size(); i++) {
                                                                 if (i == list.size() - 1) {
                                                                     imgs = imgs + list.get(i);
@@ -412,7 +426,7 @@ public class DetailsDangerActivity extends BaseActivity {
                                                                     imgs = imgs + list.get(i) + ",";
                                                                 }
                                                             }
-                                                            Log.e("123123", "处理前" + imgs);
+                                                            Log.e("123123", imgs);
                                                             uploadImgs.add(imgs);
                                                             Luban.with(DetailsDangerActivity.this)
                                                                     .load(mList1)
@@ -431,19 +445,26 @@ public class DetailsDangerActivity extends BaseActivity {
 
                                                                         @Override
                                                                         public void onSuccess(File file) {
-                                                                            ViseHttp.UPLOAD("bannerApi/fileUpload")
-                                                                                    .addHeader("Content-Type", "multipart/form-data")
-                                                                                    .addFile("file", file)
-                                                                                    .request(new ACallback<String>() {
-                                                                                        @Override
-                                                                                        public void onSuccess(String data1) {
-                                                                                            try {
-                                                                                                JSONObject jsonObject1 = new JSONObject(data1);
-                                                                                                if (jsonObject1.getString("status").equals("SUCCESS")) {
-                                                                                                    Gson gson1 = new Gson();
-                                                                                                    FileUploadModel uploadModel1 = gson1.fromJson(data1, FileUploadModel.class);
-                                                                                                    list1.add(uploadModel1.getData());
-                                                                                                    if (list1.size() == mList1.size()) {
+                                                                            listFiles1.add(file);
+                                                                            if (listFiles1.size() == mList1.size()) {
+                                                                                Map<String, File> fileMap = new LinkedHashMap<>();
+                                                                                for (int i = 0; i < listFiles1.size(); i++) {
+                                                                                    fileMap.put("file" + i, listFiles1.get(i));
+                                                                                }
+
+                                                                                ViseHttp.UPLOAD("/bannerApi/fileUploadByAPP")
+                                                                                        .addHeader("Content-Type", "multipart/form-data")
+                                                                                        .addFiles(fileMap)
+                                                                                        .request(new ACallback<String>() {
+                                                                                            @Override
+                                                                                            public void onSuccess(String data) {
+                                                                                                Log.e("123123", data);
+                                                                                                try {
+                                                                                                    JSONObject jsonObject = new JSONObject(data);
+                                                                                                    if (jsonObject.getString("status").equals("SUCCESS")) {
+                                                                                                        Gson gson = new Gson();
+                                                                                                        FileUploadByAPPModel model = gson.fromJson(data, FileUploadByAPPModel.class);
+                                                                                                        list1.addAll(model.getData());
                                                                                                         for (int i = 0; i < list1.size(); i++) {
                                                                                                             if (i == list1.size() - 1) {
                                                                                                                 imgs1 = imgs1 + list1.get(i);
@@ -451,21 +472,22 @@ public class DetailsDangerActivity extends BaseActivity {
                                                                                                                 imgs1 = imgs1 + list1.get(i) + ",";
                                                                                                             }
                                                                                                         }
-                                                                                                        Log.e("123123", "处理后" + imgs1);
+                                                                                                        Log.e("123123", imgs1);
                                                                                                         uploadImgs.add(imgs1);
                                                                                                         e.onNext(uploadImgs);
                                                                                                     }
+                                                                                                } catch (JSONException e) {
+                                                                                                    e.printStackTrace();
                                                                                                 }
-                                                                                            } catch (JSONException e1) {
-                                                                                                e1.printStackTrace();
                                                                                             }
-                                                                                        }
 
-                                                                                        @Override
-                                                                                        public void onFail(int errCode, String errMsg) {
-
-                                                                                        }
-                                                                                    });
+                                                                                            @Override
+                                                                                            public void onFail(int errCode, String errMsg) {
+                                                                                                Log.e("123123", errMsg);
+                                                                                                WeiboDialogUtils.closeDialog(dialog);
+                                                                                            }
+                                                                                        });
+                                                                            }
                                                                         }
 
                                                                         @Override
@@ -474,17 +496,18 @@ public class DetailsDangerActivity extends BaseActivity {
                                                                         }
                                                                     }).launch();
                                                         }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
                                                     }
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
                                                 }
-                                            }
 
-                                            @Override
-                                            public void onFail(int errCode, String errMsg) {
-                                                Log.e("123123", errMsg);
-                                            }
-                                        });
+                                                @Override
+                                                public void onFail(int errCode, String errMsg) {
+                                                    Log.e("123123", errMsg);
+                                                    WeiboDialogUtils.closeDialog(dialog);
+                                                }
+                                            });
+                                }
                             }
 
                             @Override
@@ -529,11 +552,12 @@ public class DetailsDangerActivity extends BaseActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+                                WeiboDialogUtils.closeDialog(dialog);
                             }
 
                             @Override
                             public void onFail(int errCode, String errMsg) {
-
+                                WeiboDialogUtils.closeDialog(dialog);
                             }
                         });
 

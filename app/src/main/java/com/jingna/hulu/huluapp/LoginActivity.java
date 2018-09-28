@@ -18,6 +18,7 @@ import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Constant;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
+import com.vise.xsnow.cache.SpCache;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etPassword;
 
     private SpImp spImp;
+    private SpCache spCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(LoginActivity.this);
         spImp = new SpImp(LoginActivity.this);
+        spCache = new SpCache(LoginActivity.this);
 
         initData();
     }
@@ -104,6 +107,8 @@ public class LoginActivity extends AppCompatActivity {
                                             spImp.setUID(model.getData().getUser().getId());
                                             spImp.setNAME(model.getData().getUser().getPeopleName());
                                             spImp.setPASSWORD(password);
+                                            spCache.put("avatar", model.getData().getUser().getUserPic());
+                                            spCache.put("username", model.getData().getUser().getUserName());
                                             getOne(model.getData().getUser().getRoleId());
                                         }else {
                                             ToastUtil.showShort(LoginActivity.this, "登录失败");
