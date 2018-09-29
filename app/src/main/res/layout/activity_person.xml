@@ -26,25 +26,31 @@
 
         </RelativeLayout>
         
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/activity_person_iv_avatar"
+        <RelativeLayout
+            android:id="@+id/activity_person_rl_content"
             android:layout_marginBottom="60px"
             android:layout_marginLeft="40px"
             android:layout_alignParentBottom="true"
-            android:layout_width="100px"
-            android:layout_height="100px" />
-
-        <TextView
-            android:id="@+id/activity_person_tv_username"
-            android:layout_marginLeft="10px"
-            android:layout_marginBottom="69px"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/activity_person_iv_avatar"
-            android:textColor="@color/black_333333"
-            android:textSize="58px"
-            android:text="用户账号"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/activity_person_iv_avatar"
+                android:layout_width="100px"
+                android:layout_height="100px" />
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/activity_person_tv_username"
+                android:layout_marginLeft="10px"
+                android:layout_toRightOf="@+id/activity_person_iv_avatar"
+                android:textColor="@color/black_333333"
+                android:textSize="58px"
+                android:text="用户账号"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

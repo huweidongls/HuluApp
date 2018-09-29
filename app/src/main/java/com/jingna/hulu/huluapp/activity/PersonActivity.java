@@ -65,7 +65,7 @@ public class PersonActivity extends BaseActivity {
     }
 
     @OnClick({R.id.activity_person_rl_back, R.id.activity_person_btn_out, R.id.activity_person_rl_feedback, R.id.activity_person_rl_about,
-    R.id.activity_person_rl_change_pwd, R.id.activity_person_rl_event_list})
+    R.id.activity_person_rl_change_pwd, R.id.activity_person_rl_event_list, R.id.activity_person_rl_content})
     public void onClick(View view){
         final Intent intent = new Intent();
         switch (view.getId()){
@@ -81,6 +81,7 @@ public class PersonActivity extends BaseActivity {
                         spImp.setNAME("0");
                         spImp.setDATAID(0);
                         spImp.setPASSWORD("");
+                        spCache.clear();
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.setClass(PersonActivity.this, LoginActivity.class);
@@ -105,6 +106,10 @@ public class PersonActivity extends BaseActivity {
                 break;
             case R.id.activity_person_rl_event_list:
                 intent.setClass(PersonActivity.this, EventListActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.activity_person_rl_content:
+                intent.setClass(PersonActivity.this, PersonContentActivity.class);
                 startActivity(intent);
                 break;
         }

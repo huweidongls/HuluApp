@@ -110,7 +110,8 @@
         <activity android:name=".activity.EventListActivity" />
         <activity android:name=".activity.ForgotPwdActivity" />
         <activity android:name=".activity.EventContentActivity" />
-        <activity android:name=".activity.EventAppendActivity"></activity>
+        <activity android:name=".activity.EventAppendActivity" />
+        <activity android:name=".activity.PersonContentActivity"></activity>
     </application>
 
 </manifest>

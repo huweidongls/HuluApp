@@ -2,6 +2,7 @@ package com.jingna.hulu.huluapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,15 @@ public class ActivityLineDangerAdapter extends RecyclerView.Adapter<ActivityLine
         holder.tvTitle.setText(data.get(position).getLpTitle());
         holder.tvDangerLocation.setText(data.get(position).getNum4());
         holder.tvDangerContent.setText(data.get(position).getLpContent());
+        holder.tvDangerTypename.setText(data.get(position).getTypeName());
         holder.tvDangerType.setText(data.get(position).getIsSolve() == 0 ? "未处理" : "已处理");
+        if(data.get(position).getIsSolve() == 0){
+            holder.tvDangerType.setTextColor(Color.parseColor("#FF0000"));
+            holder.tvDangerType.setText("未处理");
+        }else if(data.get(position).getIsSolve() == 1){
+            holder.tvDangerType.setTextColor(Color.parseColor("#32CC0D"));
+            holder.tvDangerType.setText("已处理");
+        }
         holder.tvDangerTime.setText(DateUtils.stampToDateSecond(data.get(position).getCreateDate()+""));
 
         holder.ll.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +79,9 @@ public class ActivityLineDangerAdapter extends RecyclerView.Adapter<ActivityLine
         private TextView tvTitle;
         private TextView tvDangerLocation;
         private TextView tvDangerContent;
-        private TextView tvDangerType;
+        private TextView tvDangerTypename;
         private TextView tvDangerTime;
+        private TextView tvDangerType;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -79,8 +89,9 @@ public class ActivityLineDangerAdapter extends RecyclerView.Adapter<ActivityLine
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvDangerLocation = itemView.findViewById(R.id.tv_danger_location);
             tvDangerContent = itemView.findViewById(R.id.tv_danger_content);
-            tvDangerType = itemView.findViewById(R.id.tv_danger_type);
+            tvDangerTypename = itemView.findViewById(R.id.tv_danger_typename);
             tvDangerTime = itemView.findViewById(R.id.tv_danger_time);
+            tvDangerType = itemView.findViewById(R.id.tv_danger_type);
         }
     }
 
