@@ -43,6 +43,7 @@ import com.jingna.hulu.huluapp.model.BaiduCityModel;
 import com.jingna.hulu.huluapp.model.LocationListModel;
 import com.jingna.hulu.huluapp.model.LocationModel;
 import com.jingna.hulu.huluapp.model.MyTaskDangerEventListModel;
+import com.jingna.hulu.huluapp.model.MyTaskModel;
 import com.jingna.hulu.huluapp.service.UploadLocationService;
 import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Map2Json;
@@ -73,7 +74,7 @@ public class MyTaskActivity extends BaseActivity {
     MapView mapView;
 
     private ActivityMyTaskAdapter adapter;
-    private List<MyTaskDangerEventListModel.DataBean> mList;
+    private List<MyTaskModel.DataBean.PlatformSolvesBean> mList;
 
     private BaiduMap mBaiduMap;
     private BitmapDescriptor mCurrentMarker;
@@ -91,7 +92,7 @@ public class MyTaskActivity extends BaseActivity {
     private double latitude = 0.0;//纬度
     private double longitude = 0.0;//经度
 
-    private String lmByid = "";
+    private int lmByid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,15 +145,10 @@ public class MyTaskActivity extends BaseActivity {
     private void initData() {
 
         Map<String, Object> map = new LinkedHashMap<>();
-        map.put("pageNum", 0);
-        map.put("pageSize", 0);
-        Map<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("lpUser", spImp.getUID());
-        map1.put("isSolve", 0);
-        map.put("platformSolveExt", map1);
+        map.put("num2", spImp.getUID());
         String json = Map2Json.map2json(map);
 
-        ViseHttp.POST("/platformSolve/queryList")
+        ViseHttp.POST("/RoadprotectionLoggerApi/myTask")
                 .setJson(json)
                 .request(new ACallback<String>() {
                     @Override
@@ -161,15 +157,15 @@ public class MyTaskActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(data);
                             if(jsonObject.getString("status").equals("SUCCESS")){
                                 Gson gson = new Gson();
-                                MyTaskDangerEventListModel model = gson.fromJson(data, MyTaskDangerEventListModel.class);
-                                mList = model.getData();
+                                MyTaskModel model = gson.fromJson(data, MyTaskModel.class);
+                                mList = model.getData().getPlatformSolves();
                                 LinearLayoutManager manager = new LinearLayoutManager(MyTaskActivity.this);
                                 manager.setOrientation(LinearLayoutManager.VERTICAL);
                                 recyclerView.setLayoutManager(manager);
                                 adapter = new ActivityMyTaskAdapter(mList);
                                 recyclerView.setAdapter(adapter);
 
-                                lmByid = model.getData().get(0).getLpLm();
+                                lmByid = model.getData().getPlatformLineManages().get(0).getId();
 
                                 //构建Marker图标
                                 BitmapDescriptor bitmap = BitmapDescriptorFactory
@@ -197,7 +193,7 @@ public class MyTaskActivity extends BaseActivity {
 //                                mBaiduMap.addOverlay(option);
                                 mBaiduMap.addOverlays(options);
 
-                                JSONArray jsonArray = new JSONArray(model.getData().get(0).getLmContent());
+                                JSONArray jsonArray = new JSONArray(model.getData().getPlatformLineManages().get(0).getLmContent());
                                 List<LatLng> points = new ArrayList<LatLng>();
                                 for(int a = 0; a<jsonArray.length(); a++){
                                     String s = jsonArray.get(a)+"";
@@ -428,7 +424,7 @@ public class MyTaskActivity extends BaseActivity {
             mCurrentMarker = BitmapDescriptorFactory
                     .fromResource(R.drawable.location);
             MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker);
-            mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(19));
+            mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(18));
             mBaiduMap.setMyLocationConfiguration(config);
 
             Log.e("121212", "lat"+latitude+"long"+longitude);
