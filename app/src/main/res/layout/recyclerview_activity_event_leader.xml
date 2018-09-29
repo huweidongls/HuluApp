@@ -3,6 +3,7 @@
     android:layout_marginTop="30px"
     android:layout_marginRight="20px"
     android:layout_marginLeft="20px"
+    android:id="@+id/ll"
     android:orientation="vertical"
     android:elevation="4px"
     android:background="#FFFFFF"

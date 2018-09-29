@@ -6,11 +6,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -55,6 +58,8 @@ public class EventLeaderActivity extends BaseActivity {
     LinearLayout llSelect;
     @BindView(R.id.activity_event_leader_event_type)
     TextView tvEventType;
+    @BindView(R.id.activity_event_leader_et_search)
+    EditText etSearch;
 
     private ActivityEventLeaderAdapter adapter;
     private List<EventListModel.DataBean> mList;
@@ -223,6 +228,22 @@ public class EventLeaderActivity extends BaseActivity {
                                 recyclerView.setLayoutManager(manager);
                                 recyclerView.setAdapter(adapter);
                                 page = 2;
+                                etSearch.addTextChangedListener(new TextWatcher() {
+                                    @Override
+                                    public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
+
+                                    }
+
+                                    @Override
+                                    public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+                                        adapter.getFilter().filter(sequence.toString());
+                                    }
+
+                                    @Override
+                                    public void afterTextChanged(Editable editable) {
+
+                                    }
+                                });
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

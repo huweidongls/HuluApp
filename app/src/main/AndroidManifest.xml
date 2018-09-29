@@ -111,7 +111,8 @@
         <activity android:name=".activity.ForgotPwdActivity" />
         <activity android:name=".activity.EventContentActivity" />
         <activity android:name=".activity.EventAppendActivity" />
-        <activity android:name=".activity.PersonContentActivity"></activity>
+        <activity android:name=".activity.PersonContentActivity" />
+        <activity android:name=".activity.VersionActivity"></activity>
     </application>
 
 </manifest>

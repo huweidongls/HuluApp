@@ -65,7 +65,7 @@ public class PersonActivity extends BaseActivity {
     }
 
     @OnClick({R.id.activity_person_rl_back, R.id.activity_person_btn_out, R.id.activity_person_rl_feedback, R.id.activity_person_rl_about,
-    R.id.activity_person_rl_change_pwd, R.id.activity_person_rl_event_list, R.id.activity_person_rl_content})
+    R.id.activity_person_rl_change_pwd, R.id.activity_person_rl_event_list, R.id.activity_person_rl_content, R.id.activity_person_rl_version})
     public void onClick(View view){
         final Intent intent = new Intent();
         switch (view.getId()){
@@ -110,6 +110,10 @@ public class PersonActivity extends BaseActivity {
                 break;
             case R.id.activity_person_rl_content:
                 intent.setClass(PersonActivity.this, PersonContentActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.activity_person_rl_version:
+                intent.setClass(PersonActivity.this, VersionActivity.class);
                 startActivity(intent);
                 break;
         }
