@@ -308,6 +308,7 @@ public class MyTaskActivity extends BaseActivity {
                                                                 try {
                                                                     JSONObject jsonObject1 = new JSONObject(data);
                                                                     if(jsonObject1.getString("status").equals("SUCCESS")){
+                                                                        spImp.setDATAID(0);
                                                                         Gson gson = new Gson();
                                                                         LocationListModel model = gson.fromJson(data, LocationListModel.class);
                                                                         List<LatLng> points = new ArrayList<LatLng>();

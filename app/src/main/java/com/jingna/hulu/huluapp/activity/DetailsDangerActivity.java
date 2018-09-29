@@ -48,6 +48,7 @@ import com.jingna.hulu.huluapp.dialog.DialogCustom;
 import com.jingna.hulu.huluapp.model.FileUploadByAPPModel;
 import com.jingna.hulu.huluapp.model.FileUploadModel;
 import com.jingna.hulu.huluapp.model.LineDangerModel;
+import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.utils.PermissionHelper;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
@@ -149,13 +150,15 @@ public class DetailsDangerActivity extends BaseActivity {
 
     private Dialog dialog;
 
+    private SpImp spImp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_danger);
 
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
-
+        spImp = new SpImp(DetailsDangerActivity.this);
         ButterKnife.bind(DetailsDangerActivity.this);
         mHelper = new PermissionHelper(this);
         mBaiduMap = mapView.getMap();
@@ -359,6 +362,8 @@ public class DetailsDangerActivity extends BaseActivity {
             case R.id.activity_details_danger_rl_complete:
                 if (TextUtils.isEmpty(etUpload.getText().toString()) || mList.size() <= 0 || mList1.size() <= 0) {
                     ToastUtil.showShort(DetailsDangerActivity.this, "请完善信息后上报");
+                }else if(spImp.getDATAID() == 0){
+                    ToastUtil.showShort(DetailsDangerActivity.this, "当前未开始护路,无法上报");
                 } else {
                     dialog = WeiboDialogUtils.createLoadingDialog(DetailsDangerActivity.this, "请等待...");
                     onComplete();
@@ -534,6 +539,7 @@ public class DetailsDangerActivity extends BaseActivity {
                 map.put("solveContent", etUpload.getText().toString());
                 map.put("num2", imgs);
                 map.put("num3", imgs1);
+                map.put("num5", spImp.getDATAID());
                 String json = Map2Json.map2json(map);
 
                 ViseHttp.POST("/platformSolve/toUpdate")

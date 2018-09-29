@@ -12,6 +12,7 @@ import com.jingna.hulu.huluapp.adapter.ActivityLineDangerAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.model.EventListModel;
 import com.jingna.hulu.huluapp.model.LineDangerModel;
+import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -46,13 +47,15 @@ public class LineDangerActivity extends BaseActivity {
 
     private int page = 1;
 
+    private SpImp spImp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_danger);
 
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
-
+        spImp = new SpImp(LineDangerActivity.this);
         ButterKnife.bind(LineDangerActivity.this);
 
     }
@@ -150,6 +153,7 @@ public class LineDangerActivity extends BaseActivity {
         map.put("pageSize", 10);
         Map<String, Object> map1 = new LinkedHashMap<>();
         map1.put("orderBy", "create_date desc");
+        map1.put("lpUser", spImp.getUID());
         map.put("platformSolveExt", map1);
         String json = Map2Json.map2json(map);
 

@@ -280,6 +280,8 @@ public class EventsReportedActivity extends BaseActivity {
             case R.id.activity_events_reported_rl_complete:
                 if (TextUtils.isEmpty(etTitle.getText().toString()) || TextUtils.isEmpty(etContent.getText().toString()) || mList.size() <= 0) {
                     ToastUtil.showShort(EventsReportedActivity.this, "请完善信息后上报");
+                }else if(spImp.getDATAID() == 0){
+                    ToastUtil.showShort(EventsReportedActivity.this, "当前未开始护路,无法上报");
                 } else {
                     dialog = WeiboDialogUtils.createLoadingDialog(EventsReportedActivity.this, "请等待...");
                     if (mRecords.size() > 0) {
@@ -472,6 +474,7 @@ public class EventsReportedActivity extends BaseActivity {
                 map.put("eventTitle", etTitle.getText().toString());
                 map.put("eventContent", etContent.getText().toString());
                 map.put("num2", locaList + "");
+                map.put("num5", spImp.getDATAID());
                 map.put("eventPic", value);
                 map.put("eventRecordings", records);
                 String json = Map2Json.map2json(map);
