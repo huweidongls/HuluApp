@@ -71,7 +71,7 @@ public class PersonContentActivity extends BaseActivity {
                                     tvSex.setText("女");
                                 }
                                 tvAge.setText(model.getData().getUserAge()+"岁");
-                                tvJoinTime.setText(DateUtils.stampToDateSecond1(model.getData().getJoinTime()+""));
+                                tvJoinTime.setText(DateUtils.stampToDate(model.getData().getJoinTime()+""));
                                 tvPhoneNum.setText(model.getData().getNum5());
                                 tvAddress.setText(model.getData().getAddress());
                             }

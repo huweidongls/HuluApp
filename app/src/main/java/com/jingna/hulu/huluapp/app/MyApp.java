@@ -7,6 +7,7 @@ import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
 import com.jingna.hulu.huluapp.utils.Constant;
+import com.jingna.hulu.huluapp.utils.FTPTimeCount;
 import com.vise.xsnow.http.ViseHttp;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
@@ -21,6 +22,9 @@ import java.util.List;
 public class MyApp extends Application {
     private List<Activity> mList = new LinkedList<Activity>();
     private static MyApp instance;
+
+    // 修改密码获取验证码倒计时
+    public static FTPTimeCount ftptimecount;
 
     List<LatLng> points = new ArrayList<LatLng>();
 
@@ -58,6 +62,9 @@ public class MyApp extends Application {
         ViseHttp.CONFIG()
                 //配置请求主机地址
                 .baseUrl(Constant.BASE_URL);
+
+        ftptimecount = new FTPTimeCount(60000, 1000);
+
     }
 
     // add Activity
