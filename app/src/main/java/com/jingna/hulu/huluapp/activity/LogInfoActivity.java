@@ -99,6 +99,7 @@ public class LogInfoActivity extends BaseActivity {
                 tvBumen.setTextColor(Color.parseColor("#333333"));
                 ivBumen1.setImageResource(R.drawable.top_b);
                 ivBumen2.setImageResource(R.drawable.bottom_b);
+                showCustomTimePicker();
                 break;
         }
     }
