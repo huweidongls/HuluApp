@@ -1,11 +1,14 @@
 package com.jingna.hulu.huluapp.activity;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.ActivityLogInfoAdapter;
@@ -24,6 +27,18 @@ public class LogInfoActivity extends BaseActivity {
 
     @BindView(R.id.activity_log_info_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.activity_log_info_bumen)
+    TextView tvBumen;
+    @BindView(R.id.activity_log_info_bumen1)
+    ImageView ivBumen1;
+    @BindView(R.id.activity_log_info_bumen2)
+    ImageView ivBumen2;
+    @BindView(R.id.activity_log_info_time)
+    TextView tvTime;
+    @BindView(R.id.activity_log_info_time1)
+    ImageView ivTime1;
+    @BindView(R.id.activity_log_info_time2)
+    ImageView ivTime2;
 
     private ActivityLogInfoAdapter adapter;
     private List<String> data;
@@ -63,11 +78,27 @@ public class LogInfoActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.activity_log_info_rl_back})
+    @OnClick({R.id.activity_log_info_rl_back, R.id.activity_log_info_rl_left, R.id.activity_log_info_rl_right})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.activity_log_info_rl_back:
                 finish();
+                break;
+            case R.id.activity_log_info_rl_left:
+                tvBumen.setTextColor(Color.parseColor("#32CC0D"));
+                ivBumen1.setImageResource(R.drawable.top_g);
+                ivBumen2.setImageResource(R.drawable.bottom_g);
+                tvTime.setTextColor(Color.parseColor("#333333"));
+                ivTime1.setImageResource(R.drawable.top_b);
+                ivTime2.setImageResource(R.drawable.bottom_b);
+                break;
+            case R.id.activity_log_info_rl_right:
+                tvTime.setTextColor(Color.parseColor("#32CC0D"));
+                ivTime1.setImageResource(R.drawable.top_g);
+                ivTime2.setImageResource(R.drawable.bottom_g);
+                tvBumen.setTextColor(Color.parseColor("#333333"));
+                ivBumen1.setImageResource(R.drawable.top_b);
+                ivBumen2.setImageResource(R.drawable.bottom_b);
                 break;
         }
     }

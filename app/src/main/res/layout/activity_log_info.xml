@@ -62,6 +62,7 @@
         android:layout_height="100px">
 
         <RelativeLayout
+            android:id="@+id/activity_log_info_rl_left"
             android:layout_weight="1"
             android:layout_width="0px"
             android:layout_height="match_parent">
@@ -73,6 +74,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/activity_log_info_bumen"
                     android:textColor="#32CC0D"
                     android:textSize="28px"
                     android:text="部门"
@@ -87,11 +89,13 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/activity_log_info_bumen1"
                         android:src="@drawable/top_g"
                         android:layout_width="20px"
                         android:layout_height="10px" />
 
                     <ImageView
+                        android:id="@+id/activity_log_info_bumen2"
                         android:layout_marginTop="6px"
                         android:src="@drawable/bottom_g"
                         android:layout_width="20px"
@@ -104,6 +108,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/activity_log_info_rl_right"
             android:layout_weight="1"
             android:layout_width="0px"
             android:layout_height="match_parent">
@@ -115,6 +120,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/activity_log_info_time"
                     android:textColor="#333333"
                     android:textSize="28px"
                     android:text="日期"
@@ -129,11 +135,13 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/activity_log_info_time1"
                         android:src="@drawable/top_b"
                         android:layout_width="20px"
                         android:layout_height="10px" />
 
                     <ImageView
+                        android:id="@+id/activity_log_info_time2"
                         android:layout_marginTop="6px"
                         android:src="@drawable/bottom_b"
                         android:layout_width="20px"

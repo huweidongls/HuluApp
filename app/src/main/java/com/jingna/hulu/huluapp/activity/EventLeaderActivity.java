@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -60,8 +61,18 @@ public class EventLeaderActivity extends BaseActivity {
     LinearLayout llSelect;
     @BindView(R.id.activity_event_leader_event_type)
     TextView tvEventType;
+    @BindView(R.id.activity_event_leader_event_type1)
+    ImageView ivEventType1;
+    @BindView(R.id.activity_event_leader_event_type2)
+    ImageView ivEventType2;
     @BindView(R.id.activity_event_leader_et_search)
     EditText etSearch;
+    @BindView(R.id.activity_event_leader_bumen)
+    TextView tvBumen;
+    @BindView(R.id.activity_event_leader_bumen1)
+    ImageView ivBumen1;
+    @BindView(R.id.activity_event_leader_bumen2)
+    ImageView ivBumen2;
 
     private ActivityEventLeaderAdapter adapter;
     private List<EventListModel.DataBean> mList;
@@ -262,7 +273,7 @@ public class EventLeaderActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.activity_event_leader_rl_back, R.id.iv_calendar, R.id.activity_event_leader_rl_left})
+    @OnClick({R.id.activity_event_leader_rl_back, R.id.iv_calendar, R.id.activity_event_leader_rl_left, R.id.activity_event_leader_rl_right})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.activity_event_leader_rl_back:
@@ -273,7 +284,21 @@ public class EventLeaderActivity extends BaseActivity {
                 showCustomTimePicker();
                 break;
             case R.id.activity_event_leader_rl_left:
+                tvEventType.setTextColor(Color.parseColor("#32CC0D"));
+                ivEventType1.setImageResource(R.drawable.top_g);
+                ivEventType2.setImageResource(R.drawable.bottom_g);
+                tvBumen.setTextColor(Color.parseColor("#333333"));
+                ivBumen1.setImageResource(R.drawable.top_b);
+                ivBumen2.setImageResource(R.drawable.bottom_b);
                 showCallType(CALL_TYPE);
+                break;
+            case R.id.activity_event_leader_rl_right:
+                tvEventType.setTextColor(Color.parseColor("#333333"));
+                ivEventType1.setImageResource(R.drawable.top_b);
+                ivEventType2.setImageResource(R.drawable.bottom_b);
+                tvBumen.setTextColor(Color.parseColor("#32CC0D"));
+                ivBumen1.setImageResource(R.drawable.top_g);
+                ivBumen2.setImageResource(R.drawable.bottom_g);
                 break;
         }
     }

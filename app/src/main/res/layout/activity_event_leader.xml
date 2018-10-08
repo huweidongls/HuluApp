@@ -98,11 +98,13 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/activity_event_leader_event_type1"
                         android:layout_width="20px"
                         android:layout_height="10px"
                         android:src="@drawable/top_g" />
 
                     <ImageView
+                        android:id="@+id/activity_event_leader_event_type2"
                         android:layout_width="20px"
                         android:layout_height="10px"
                         android:layout_marginTop="6px"
@@ -115,6 +117,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/activity_event_leader_rl_right"
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -126,6 +129,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/activity_event_leader_bumen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="部门"
@@ -140,11 +144,13 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/activity_event_leader_bumen1"
                         android:layout_width="20px"
                         android:layout_height="10px"
                         android:src="@drawable/top_b" />
 
                     <ImageView
+                        android:id="@+id/activity_event_leader_bumen2"
                         android:layout_width="20px"
                         android:layout_height="10px"
                         android:layout_marginTop="6px"
