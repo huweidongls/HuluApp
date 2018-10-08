@@ -1,6 +1,7 @@
 package com.jingna.hulu.huluapp.activity;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.jingna.hulu.huluapp.adapter.ActivityEventListAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.model.EventListModel;
 import com.jingna.hulu.huluapp.utils.Map2Json;
+import com.jingna.hulu.huluapp.widget.DoubleTimeSelectDialog;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
@@ -76,6 +78,8 @@ public class EventLeaderActivity extends BaseActivity {
     private PopupWindow popupWindow;
 
     private int CALL_TYPE = 1;
+
+    private DoubleTimeSelectDialog mDoubleTimeSelectDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,11 +269,45 @@ public class EventLeaderActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_calendar:
-                new DatePickerDialog(EventLeaderActivity.this, onDateSetListener, mYear, mMonth, mDay).show();
+//                new DatePickerDialog(EventLeaderActivity.this, onDateSetListener, mYear, mMonth, mDay).show();
+                showCustomTimePicker();
                 break;
             case R.id.activity_event_leader_rl_left:
                 showCallType(CALL_TYPE);
                 break;
+        }
+    }
+
+    /**
+     * 默认的周开始时间，格式如：yyyy-MM-dd
+     **/
+    public String defaultWeekBegin;
+    /**
+     * 默认的周结束时间，格式如：yyyy-MM-dd
+     */
+    public String defaultWeekEnd;
+
+    public void showCustomTimePicker() {
+        String beginDeadTime = "2017-01-01";
+        if (mDoubleTimeSelectDialog == null) {
+            mDoubleTimeSelectDialog = new DoubleTimeSelectDialog(this, beginDeadTime, defaultWeekBegin, defaultWeekEnd);
+            mDoubleTimeSelectDialog.setOnDateSelectFinished(new DoubleTimeSelectDialog.OnDateSelectFinished() {
+                @Override
+                public void onSelectFinished(String startTime, String endTime) {
+//                    ui_button1.setText(startTime.replace("-", ".") + "至\n" + endTime.replace("-", "."));
+                    Log.e("123123", startTime.replace("-", ".") + "至\n" + endTime.replace("-", "."));
+                }
+            });
+
+            mDoubleTimeSelectDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                }
+            });
+        }
+        if (!mDoubleTimeSelectDialog.isShowing()) {
+            mDoubleTimeSelectDialog.recoverButtonState();
+            mDoubleTimeSelectDialog.show();
         }
     }
 

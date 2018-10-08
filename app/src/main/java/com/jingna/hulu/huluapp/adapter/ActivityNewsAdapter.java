@@ -50,7 +50,7 @@ public class ActivityNewsAdapter extends RecyclerView.Adapter<ActivityNewsAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.tvTitle.setText(mFilterList.get(position).getNewsTitle());
         Glide.with(context).load(mFilterList.get(position).getNewsPic()).into(holder.ivTitle);
         holder.tvTime.setText(DateUtils.stampToDate(mFilterList.get(position).getCreateDate()+""));
@@ -58,6 +58,7 @@ public class ActivityNewsAdapter extends RecyclerView.Adapter<ActivityNewsAdapte
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, NewsWebActivity.class);
+                intent.putExtra("newid", data.get(position).getId());
                 context.startActivity(intent);
             }
         });

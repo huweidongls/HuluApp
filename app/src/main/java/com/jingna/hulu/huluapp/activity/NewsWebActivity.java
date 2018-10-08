@@ -1,5 +1,6 @@
 package com.jingna.hulu.huluapp.activity;
 
+import android.content.Intent;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +37,10 @@ public class NewsWebActivity extends BaseActivity {
     }
 
     public void initWebView(){
+
+        Intent intent = getIntent();
+        String newid = intent.getIntExtra("newid", 0)+"";
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
@@ -55,7 +60,7 @@ public class NewsWebActivity extends BaseActivity {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         }
-        webView.loadUrl("http://hl.5ijiaoyu.cn/hulu_h5/news.html?newsId=19");
+        webView.loadUrl("http://hl.5ijiaoyu.cn/hulu_h5/news.html?newsId="+newid);
     }
 
     @OnClick({R.id.activity_news_web_rl_back})

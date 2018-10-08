@@ -8,4 +8,12 @@
     <string name="long_click_record">按住 说话</string>
     <string name="hang_up_finsh">松开 结束</string>
     <string name="release_cancel">松开 取消</string>
+
+    <string name="ok">确 认</string>
+    <string name="cancel">取 消</string>
+
+    <string name="begin_at">开始于\n</string>
+    <string name="end_at">结束于\n</string>
+    <string name="time_start_larger_end_not_allowed">开始时间不能大于结束时间</string>
+
 </resources>
