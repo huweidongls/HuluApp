@@ -29,7 +29,9 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -258,6 +260,29 @@ public class DetailsDangerActivity extends BaseActivity {
                                     showAdapter1 = new ActivityDetailsDangerShowAdapter(showList1);
                                     recyclerView1Show.setAdapter(showAdapter1);
                                 }
+
+                                //地图显示隐患位置
+                                String s = model.getData().get(0).getLpCoordinate().substring(1, model.getData().get(0).getLpCoordinate().length()-1);
+                                String[] ss = s.split(",");
+
+                                MyLocationData locData = new MyLocationData.Builder()
+//                        .accuracy(location.getRadius())
+                                        // 此处设置开发者获取到的方向信息，顺时针0-360
+//                        .direction(100)
+                                        .latitude(Double.valueOf(ss[1]))
+                                        .longitude(Double.valueOf(ss[0]))
+                                        .build();
+
+                                // 设置定位数据
+                                mBaiduMap.setMyLocationData(locData);
+
+                                // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
+                                mCurrentMarker = BitmapDescriptorFactory
+                                        .fromResource(R.drawable.danger);
+                                MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker);
+                                mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(13));
+                                mBaiduMap.setMyLocationConfiguration(config);
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -634,22 +659,22 @@ public class DetailsDangerActivity extends BaseActivity {
         @Override
         public void onReceiveLocation(BDLocation location) {
             // 构造定位数据
-            MyLocationData locData = new MyLocationData.Builder()
-//                        .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-//                        .direction(100)
-                    .latitude(location.getLatitude())
-                    .longitude(location.getLongitude())
-                    .build();
-
-            // 设置定位数据
-            mBaiduMap.setMyLocationData(locData);
-
-            // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
-            mCurrentMarker = BitmapDescriptorFactory
-                    .fromResource(R.drawable.location);
-            MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker);
-            mBaiduMap.setMyLocationConfiguration(config);
+//            MyLocationData locData = new MyLocationData.Builder()
+////                        .accuracy(location.getRadius())
+//                    // 此处设置开发者获取到的方向信息，顺时针0-360
+////                        .direction(100)
+//                    .latitude(location.getLatitude())
+//                    .longitude(location.getLongitude())
+//                    .build();
+//
+//            // 设置定位数据
+//            mBaiduMap.setMyLocationData(locData);
+//
+//            // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
+//            mCurrentMarker = BitmapDescriptorFactory
+//                    .fromResource(R.drawable.location);
+//            MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker);
+//            mBaiduMap.setMyLocationConfiguration(config);
         }
     }
 
