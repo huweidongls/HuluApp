@@ -8,6 +8,8 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
 import com.jingna.hulu.huluapp.utils.Constant;
 import com.jingna.hulu.huluapp.utils.FTPTimeCount;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.vise.xsnow.http.ViseHttp;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
@@ -64,6 +66,9 @@ public class MyApp extends Application {
                 .baseUrl(Constant.BASE_URL);
 
         ftptimecount = new FTPTimeCount(60000, 1000);
+
+//        IWXAPI mWxApi = WXAPIFactory.createWXAPI(this, ShareKey.WX_ID, true);
+//        mWxApi.registerApp(ShareKey.WX_ID);
 
     }
 

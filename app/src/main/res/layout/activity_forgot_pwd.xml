@@ -43,6 +43,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/activity_forgot_pwd_et_username"
             android:layout_marginLeft="70px"
             android:layout_gravity="center_vertical"
             android:textColor="@color/black_333333"
@@ -99,6 +100,7 @@
             android:layout_height="32px"/>
 
         <EditText
+            android:id="@+id/activity_forgot_pwd_et_code"
             android:layout_marginLeft="70px"
             android:layout_toLeftOf="@+id/activity_forgot_pwd_v"
             android:layout_toRightOf="@+id/activity_forgot_pwd_tv_yzm"
@@ -136,6 +138,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/activity_forgot_pwd_et_pwd"
             android:layout_marginLeft="70px"
             android:layout_gravity="center_vertical"
             android:textColor="@color/black_333333"
@@ -171,6 +174,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/activity_forgot_pwd_et_pwd_sure"
             android:layout_marginLeft="40px"
             android:layout_gravity="center_vertical"
             android:textColor="@color/black_333333"
@@ -190,6 +194,7 @@
         android:layout_height="2px"/>
     
     <Button
+        android:id="@+id/activity_forgot_pwd_btn_complete"
         android:background="@drawable/bg_login"
         android:textSize="32px"
         android:textColor="@color/white_ffffff"

@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.jingna.hulu.huluapp.LoginActivity;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.ActivityEventListAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.model.EventListModel;
+import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -53,7 +55,6 @@ public class EventListActivity extends BaseActivity {
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
 
         ButterKnife.bind(EventListActivity.this);
-
         initData();
 
     }

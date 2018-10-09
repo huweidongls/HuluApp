@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#E1E1E1"
     tools:context="com.jingna.hulu.huluapp.activity.EventContentActivity">
 
     <RelativeLayout
+        android:id="@+id/activity_event_content_rl_top"
         style="@style/rl_top_bar">
 
         <TextView
@@ -43,6 +43,8 @@
     </RelativeLayout>
 
     <ScrollView
+        android:layout_above="@+id/rl_bottom"
+        android:layout_below="@+id/activity_event_content_rl_top"
         android:layout_marginRight="24px"
         android:layout_marginBottom="40px"
         android:layout_marginTop="40px"
@@ -81,7 +83,6 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="30px"
                         android:textColor="@color/black_333333"
-                        android:text="事件标题标题标题标题标题标题标题"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -114,7 +115,6 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="30px"
                         android:textColor="@color/black_333333"
-                        android:text="分类分类分类"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -148,7 +148,6 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="30px"
                         android:textColor="@color/black_333333"
-                        android:text="事件内容，内容不超过200字，事件详情不可修改，只能补充，查看处理情况。"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -214,7 +213,6 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="30px"
                         android:textColor="@color/black_333333"
-                        android:text="自动获取用户当前位置"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -253,6 +251,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/list_ll1"
                 android:layout_marginTop="30px"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -288,6 +287,51 @@
                     <android.support.v7.widget.RecyclerView
                         android:layout_marginTop="10px"
                         android:id="@+id/activity_event_content_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/list_ll2"
+                android:layout_marginTop="30px"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/rectangle"
+                        android:layout_width="8px"
+                        android:layout_height="40px" />
+
+                    <TextView
+                        android:textSize="30px"
+                        android:textColor="@color/black_333333"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="12px"
+                        android:text="处置建议"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:background="@drawable/bg_change_pwd"
+                        android:layout_marginTop="10px"
+                        android:id="@+id/activity_event_content_rv1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -355,4 +399,72 @@
 
     </ScrollView>
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/rl_bottom"
+        android:background="#F8F8F8"
+        android:layout_width="match_parent"
+        android:layout_height="114px">
+
+        <ImageView
+            android:id="@+id/activity_event_content_iv_jianpan_or_yuyin"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24px"
+            android:src="@drawable/yuyin"
+            android:layout_width="60px"
+            android:layout_height="60px" />
+
+        <com.jingna.hulu.huluapp.manager.AudioRecordButton
+            android:visibility="gone"
+            android:layout_marginRight="24px"
+            android:layout_marginLeft="16px"
+            android:layout_toRightOf="@+id/activity_event_content_iv_jianpan_or_yuyin"
+            android:layout_centerInParent="true"
+            android:id="@+id/em_tv_btn"
+            android:layout_width="match_parent"
+            android:layout_height="78px"
+            android:background="@drawable/bg_audio_button"
+            android:gravity="center"
+            android:text="@string/long_click_record"
+            android:textColor="#646464"
+            android:textSize="32px"/>
+
+        <RelativeLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:id="@+id/activity_event_content_rl_send_msg"
+            android:layout_marginRight="24px"
+            android:layout_marginLeft="16px"
+            android:layout_toRightOf="@+id/activity_event_content_iv_jianpan_or_yuyin"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="66px">
+
+            <TextView
+                android:id="@+id/activity_event_content_tv_send_msg"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textSize="30px"
+                android:textColor="#31C80D"
+                android:text="发送"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:background="@drawable/bg_event_leader_send_msg"
+                android:gravity="center_vertical|start"
+                android:paddingLeft="30px"
+                android:textColor="@color/black_333333"
+                android:textSize="28px"
+                android:hint="请输入内容..."
+                android:layout_marginRight="13px"
+                android:id="@+id/activity_event_content_et_msg"
+                android:layout_toLeftOf="@+id/activity_event_content_tv_send_msg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

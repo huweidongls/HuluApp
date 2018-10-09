@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExampleShowAdapter extends RecyclerView.Adapter<ExampleShowAdapter.ViewHolder> {
-    List<String> mRecords;
-    Context mContext;
-    List<AnimationDrawable> mAnimationDrawables;
-    int pos = -1;//标记当前录音索引，默认没有播放任何一个
+    private List<String> mRecords;
+    private Context mContext;
+    private List<AnimationDrawable> mAnimationDrawables;
+    private int pos = -1;//标记当前录音索引，默认没有播放任何一个
 
     public ExampleShowAdapter(Context context, List<String> records) {
         this.mContext = context;

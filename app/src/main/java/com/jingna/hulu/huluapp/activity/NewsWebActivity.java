@@ -63,11 +63,14 @@ public class NewsWebActivity extends BaseActivity {
         webView.loadUrl("http://hl.5ijiaoyu.cn/hulu_h5/news.html?newsId="+newid);
     }
 
-    @OnClick({R.id.activity_news_web_rl_back})
+    @OnClick({R.id.activity_news_web_rl_back, R.id.activity_news_web_rl_share})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.activity_news_web_rl_back:
                 finish();
+                break;
+            case R.id.activity_news_web_rl_share:
+                //微信分享
                 break;
         }
     }
