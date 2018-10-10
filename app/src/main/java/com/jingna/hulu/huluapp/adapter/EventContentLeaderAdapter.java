@@ -68,6 +68,7 @@ public class EventContentLeaderAdapter extends RecyclerView.Adapter<EventContent
             holder.tvContent.setText(mRecords.get(position).getEventContent());
         }
         holder.tvTime.setText(DateUtils.stampToDateSecond(mRecords.get(position).getCreateDate()+""));
+        holder.tvLeaderName.setText(mRecords.get(position).getLeaderName()+": ");
         if(!TextUtils.isEmpty(mRecords.get(position).getEventRecordings())){
             holder.llContent.setVisibility(View.VISIBLE);
             final String path = Constant.BASE_URL+mRecords.get(position).getEventRecordings();
@@ -129,6 +130,7 @@ public class EventContentLeaderAdapter extends RecyclerView.Adapter<EventContent
         LinearLayout llContent;
         TextView tvContent;
         TextView tvTime;
+        TextView tvLeaderName;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -140,6 +142,7 @@ public class EventContentLeaderAdapter extends RecyclerView.Adapter<EventContent
             llContent = itemView.findViewById(R.id.ll_content);
             tvContent = itemView.findViewById(R.id.tv_content);
             tvTime = itemView.findViewById(R.id.tv_time);
+            tvLeaderName = itemView.findViewById(R.id.tv_leader_name);
         }
     }
 

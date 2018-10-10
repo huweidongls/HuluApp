@@ -18,6 +18,7 @@ import com.jingna.hulu.huluapp.activity.NewsContentActivity;
 import com.jingna.hulu.huluapp.activity.NewsWebActivity;
 import com.jingna.hulu.huluapp.model.NewsModel;
 import com.jingna.hulu.huluapp.model.TelModel;
+import com.jingna.hulu.huluapp.utils.Constant;
 import com.jingna.hulu.huluapp.utils.DateUtils;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
@@ -52,13 +53,16 @@ public class ActivityNewsAdapter extends RecyclerView.Adapter<ActivityNewsAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.tvTitle.setText(mFilterList.get(position).getNewsTitle());
-        Glide.with(context).load(mFilterList.get(position).getNewsPic()).into(holder.ivTitle);
-        holder.tvTime.setText(DateUtils.stampToDate(mFilterList.get(position).getCreateDate()+""));
+        Glide.with(context).load(Constant.BASE_URL + mFilterList.get(position).getNewsPic()).into(holder.ivTitle);
+        holder.tvTime.setText(DateUtils.stampToDate(mFilterList.get(position).getCreateDate() + ""));
         holder.rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, NewsWebActivity.class);
-                intent.putExtra("newid", data.get(position).getId());
+                intent.putExtra("newid", mFilterList.get(position).getId());
+                intent.putExtra("title", mFilterList.get(position).getNewsTitle());
+                intent.putExtra("subtitle", mFilterList.get(position).getSubtitle());
+                intent.putExtra("pic", mFilterList.get(position).getNewsPic());
                 context.startActivity(intent);
             }
         });
@@ -87,8 +91,8 @@ public class ActivityNewsAdapter extends RecyclerView.Adapter<ActivityNewsAdapte
 //                            filteredList.add(str.);
 //                        }
 //                    }
-                    for (int i = 0; i<data.size(); i++){
-                        if(data.get(i).getNewsTitle().contains(charString)){
+                    for (int i = 0; i < data.size(); i++) {
+                        if (data.get(i).getNewsTitle().contains(charString)) {
                             filteredList.add(data.get(i));
                         }
                     }
@@ -100,6 +104,7 @@ public class ActivityNewsAdapter extends RecyclerView.Adapter<ActivityNewsAdapte
                 filterResults.values = mFilterList;
                 return filterResults;
             }
+
             //把过滤后的值返回出来
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {

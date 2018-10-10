@@ -1,28 +1,25 @@
 package com.jingna.hulu.huluapp.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.location.Poi;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
@@ -32,17 +29,13 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.CoordinateConverter;
 import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.ActivityMyTaskAdapter;
 import com.jingna.hulu.huluapp.app.MyApp;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
-import com.jingna.hulu.huluapp.model.BaiduCityModel;
 import com.jingna.hulu.huluapp.model.LocationListModel;
-import com.jingna.hulu.huluapp.model.LocationModel;
-import com.jingna.hulu.huluapp.model.MyTaskDangerEventListModel;
 import com.jingna.hulu.huluapp.model.MyTaskModel;
 import com.jingna.hulu.huluapp.service.UploadLocationService;
 import com.jingna.hulu.huluapp.sp.SpImp;
@@ -72,6 +65,22 @@ public class MyTaskActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.mapview)
     MapView mapView;
+    @BindView(R.id.ll_start)
+    LinearLayout llStart;
+    @BindView(R.id.ll_end)
+    LinearLayout llEnd;
+    @BindView(R.id.iv_deng)
+    ImageView ivDeng;
+    @BindView(R.id.tv_deng)
+    TextView tvDeng;
+    @BindView(R.id.iv_start)
+    ImageView ivStart;
+    @BindView(R.id.tv_start)
+    TextView tvStart;
+    @BindView(R.id.iv_end)
+    ImageView ivEnd;
+    @BindView(R.id.tv_end)
+    TextView tvEnd;
 
     private ActivityMyTaskAdapter adapter;
     private List<MyTaskModel.DataBean.PlatformSolvesBean> mList;
@@ -121,6 +130,27 @@ public class MyTaskActivity extends BaseActivity {
                     .color(Color.parseColor("#38DA11")).points(list);
             mPolyline1 = (Polyline) mBaiduMap.addOverlay(ooPolyline1);
         }
+
+        if(spImp.getDATAID() == 0){
+            ivDeng.setImageResource(R.drawable.deng_gray);
+            tvDeng.setText("未护路");
+            ivStart.setImageResource(R.drawable.start);
+            tvStart.setTextColor(Color.parseColor("#333333"));
+            ivEnd.setImageResource(R.drawable.end_g);
+            tvEnd.setTextColor(Color.parseColor("#979797"));
+            llStart.setEnabled(true);
+            llEnd.setEnabled(false);
+        }else {
+            ivDeng.setImageResource(R.drawable.deng_green);
+            tvDeng.setText("护路中");
+            ivStart.setImageResource(R.drawable.start_g);
+            tvStart.setTextColor(Color.parseColor("#979797"));
+            ivEnd.setImageResource(R.drawable.end);
+            tvEnd.setTextColor(Color.parseColor("#333333"));
+            llStart.setEnabled(false);
+            llEnd.setEnabled(true);
+        }
+
     }
 
     private void initLocation() {
@@ -265,6 +295,14 @@ public class MyTaskActivity extends BaseActivity {
                                                 Intent intent = new Intent(MyTaskActivity.this, UploadLocationService.class);
                                                 startService(intent);
                                                 ToastUtil.showShort(MyTaskActivity.this, "开始巡检");
+                                                ivDeng.setImageResource(R.drawable.deng_green);
+                                                tvDeng.setText("护路中");
+                                                ivStart.setImageResource(R.drawable.start_g);
+                                                tvStart.setTextColor(Color.parseColor("#979797"));
+                                                ivEnd.setImageResource(R.drawable.end);
+                                                tvEnd.setTextColor(Color.parseColor("#333333"));
+                                                llStart.setEnabled(false);
+                                                llEnd.setEnabled(true);
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -311,6 +349,16 @@ public class MyTaskActivity extends BaseActivity {
                                                                         spImp.setDATAID(0);
                                                                         Gson gson = new Gson();
                                                                         LocationListModel model = gson.fromJson(data, LocationListModel.class);
+
+                                                                        ivDeng.setImageResource(R.drawable.deng_gray);
+                                                                        tvDeng.setText("未护路");
+                                                                        ivStart.setImageResource(R.drawable.start);
+                                                                        tvStart.setTextColor(Color.parseColor("#333333"));
+                                                                        ivEnd.setImageResource(R.drawable.end_g);
+                                                                        tvEnd.setTextColor(Color.parseColor("#979797"));
+                                                                        llStart.setEnabled(true);
+                                                                        llEnd.setEnabled(false);
+
                                                                         List<LatLng> points = new ArrayList<LatLng>();
                                                                         for (int i = 0; i<model.getData().getInfo().size(); i++){
                                                                             String s = model.getData().getInfo().get(i).getCoordinate();

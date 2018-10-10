@@ -4,15 +4,33 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.jingna.hulu.huluapp.R;
+import com.jingna.hulu.huluapp.utils.Constant;
+import com.jingna.hulu.huluapp.utils.ImageUtils;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.nio.ByteBuffer;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/10/9.
@@ -20,7 +38,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class WXShare {
 
-    public static final String APP_ID = "wx0123456789";
+    public static final String APP_ID = "wx9801c9ed3cedae91";
     public static final String ACTION_SHARE_RESPONSE = "action_wx_share_response";
     public static final String EXTRA_RESULT = "result";
 
@@ -69,6 +87,36 @@ public class WXShare {
         boolean result = api.sendReq(req);
 //        Logger.i("text shared: " + result);
         return this;
+    }
+
+    public void shareUrl(final String url, final String title, final String subtitle, final String pic) {
+
+        ImageUtils imageUtils = ImageUtils.getIntance();
+        imageUtils.getImage(Constant.BASE_URL + pic, new HttpCallBackListener() {
+            @Override
+            public void onFinish(Bitmap bitmap) {
+                WXWebpageObject webpage = new WXWebpageObject();
+                webpage.webpageUrl = url;
+
+                final WXMediaMessage msg = new WXMediaMessage(webpage);
+                msg.title = title;
+                msg.description = subtitle;
+                msg.setThumbImage(bitmap);
+
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = buildTransaction("webpage");
+                req.message = msg;
+                req.scene = SendMessageToWX.Req.WXSceneSession;
+
+                api.sendReq(req);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+
     }
 
     public IWXAPI getApi() {

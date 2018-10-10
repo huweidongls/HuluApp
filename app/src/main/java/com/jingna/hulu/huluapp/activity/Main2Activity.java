@@ -51,7 +51,7 @@ public class Main2Activity extends BaseActivity {
         ButterKnife.bind(Main2Activity.this);
         mHelper = new PermissionHelper(this);
 
-        checkVersion();
+//        checkVersion();
         initBanner();
 
     }

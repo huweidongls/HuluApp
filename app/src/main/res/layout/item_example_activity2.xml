@@ -10,6 +10,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_leader_name"
             android:layout_marginLeft="20px"
             android:layout_marginTop="34px"
             android:textStyle="bold"
