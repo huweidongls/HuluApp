@@ -62,17 +62,18 @@ public class ImageUtils {
                     e.printStackTrace();
                 }
             }
-            public Bitmap createBitmapThumbnail(Bitmap bitmap,boolean needRecycler){
-                int width=bitmap.getWidth();
-                int height=bitmap.getHeight();
-                int newWidth=80;
-                int newHeight=80;
-                float scaleWidth=((float)newWidth)/width;
-                float scaleHeight=((float)newHeight)/height;
-                Matrix matrix=new Matrix();
-                matrix.postScale(scaleWidth,scaleHeight);
-                Bitmap newBitMap=Bitmap.createBitmap(bitmap,0,0,width,height,matrix,true);
-                if(needRecycler)bitmap.recycle();
+
+            public Bitmap createBitmapThumbnail(Bitmap bitmap, boolean needRecycler) {
+                int width = bitmap.getWidth();
+                int height = bitmap.getHeight();
+                int newWidth = 80;
+                int newHeight = 80;
+                float scaleWidth = ((float) newWidth) / width;
+                float scaleHeight = ((float) newHeight) / height;
+                Matrix matrix = new Matrix();
+                matrix.postScale(scaleWidth, scaleHeight);
+                Bitmap newBitMap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+                if (needRecycler) bitmap.recycle();
                 return newBitMap;
             }
         }).start();
