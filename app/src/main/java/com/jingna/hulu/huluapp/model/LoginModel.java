@@ -150,7 +150,7 @@ public class LoginModel {
             private String createBy;
             private String userAge;
             private int status;
-            private Object num1;
+            private String num1;
             private Object num2;
             private Object num3;
             private Object num4;
@@ -294,11 +294,11 @@ public class LoginModel {
                 this.status = status;
             }
 
-            public Object getNum1() {
+            public String getNum1() {
                 return num1;
             }
 
-            public void setNum1(Object num1) {
+            public void setNum1(String num1) {
                 this.num1 = num1;
             }
 

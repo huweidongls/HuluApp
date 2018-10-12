@@ -13,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,8 +27,13 @@ import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.adapter.ActivityEventLeaderAdapter;
 import com.jingna.hulu.huluapp.adapter.ActivityEventListAdapter;
+import com.jingna.hulu.huluapp.adapter.ShowBumenAdapter;
+import com.jingna.hulu.huluapp.adapter.ShowBumenSonAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
+import com.jingna.hulu.huluapp.model.BumenOneModel;
+import com.jingna.hulu.huluapp.model.BumenSonModel;
 import com.jingna.hulu.huluapp.model.EventListModel;
+import com.jingna.hulu.huluapp.utils.Constant;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.widget.DoubleTimeSelectDialog;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -34,6 +41,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.vise.xsnow.cache.SpCache;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
@@ -87,10 +95,16 @@ public class EventLeaderActivity extends BaseActivity {
     private int page = 1;
 
     private PopupWindow popupWindow;
+    private PopupWindow popupWindow1;
 
     private int CALL_TYPE = 1;
 
     private DoubleTimeSelectDialog mDoubleTimeSelectDialog;
+
+    private SpCache spCache;
+
+    private String bumenId;
+    private String time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +119,15 @@ public class EventLeaderActivity extends BaseActivity {
         mMonth = ca.get(Calendar.MONTH);
         mDay = ca.get(Calendar.DAY_OF_MONTH);
 
+        spCache = new SpCache(EventLeaderActivity.this);
+
         initData();
 
     }
 
     private void initData() {
 
+        bumenId = spCache.get(Constant.BUMEN, "0");
         mList = new ArrayList<>();
         mList0 = new ArrayList<>();
         mList1 = new ArrayList<>();
@@ -127,9 +144,11 @@ public class EventLeaderActivity extends BaseActivity {
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
-                if(CALL_TYPE == 2){
+                map1.put("pd", bumenId);
+                map1.put("time", time);
+                if (CALL_TYPE == 2) {
                     map1.put("isSolve", 0);
-                }else if(CALL_TYPE == 3){
+                } else if (CALL_TYPE == 3) {
                     map1.put("isSolve", 1);
                 }
                 map.put("eventExt", map1);
@@ -142,7 +161,7 @@ public class EventLeaderActivity extends BaseActivity {
                                 Log.e("123123", data);
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                    if (jsonObject.getString("status").equals("SUCCESS")) {
                                         Gson gson = new Gson();
                                         EventListModel model = gson.fromJson(data, EventListModel.class);
                                         mData.clear();
@@ -172,9 +191,11 @@ public class EventLeaderActivity extends BaseActivity {
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
-                if(CALL_TYPE == 2){
+                map1.put("pd", bumenId);
+                map1.put("time", time);
+                if (CALL_TYPE == 2) {
                     map1.put("isSolve", 0);
-                }else if(CALL_TYPE == 3){
+                } else if (CALL_TYPE == 3) {
                     map1.put("isSolve", 1);
                 }
                 map.put("eventExt", map1);
@@ -187,7 +208,7 @@ public class EventLeaderActivity extends BaseActivity {
                                 Log.e("123123", data);
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                    if (jsonObject.getString("status").equals("SUCCESS")) {
                                         Gson gson = new Gson();
                                         EventListModel model = gson.fromJson(data, EventListModel.class);
                                         mData.addAll(model.getData());
@@ -214,6 +235,8 @@ public class EventLeaderActivity extends BaseActivity {
         Map<String, Object> map1 = new LinkedHashMap<>();
         map1.put("orderBy", "create_date desc");
         map1.put("eventType", 1);
+        map1.put("pd", bumenId);
+        map1.put("time", time);
         map.put("eventExt", map1);
         String json = Map2Json.map2json(map);
         Log.e("123123", json);
@@ -225,14 +248,14 @@ public class EventLeaderActivity extends BaseActivity {
                         Log.e("123123", data);
                         try {
                             JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.getString("status").equals("SUCCESS")){
+                            if (jsonObject.getString("status").equals("SUCCESS")) {
                                 Gson gson = new Gson();
                                 EventListModel model = gson.fromJson(data, EventListModel.class);
                                 mList.addAll(model.getData());
                                 for (int i = 0; i < mList.size(); i++) {
-                                    if(mList.get(i).getIsSolve() == 0){
+                                    if (mList.get(i).getIsSolve() == 0) {
                                         mList0.add(mList.get(i));
-                                    }else if(mList.get(i).getIsSolve() == 1){
+                                    } else if (mList.get(i).getIsSolve() == 1) {
                                         mList1.add(mList.get(i));
                                     }
                                 }
@@ -274,8 +297,8 @@ public class EventLeaderActivity extends BaseActivity {
     }
 
     @OnClick({R.id.activity_event_leader_rl_back, R.id.iv_calendar, R.id.activity_event_leader_rl_left, R.id.activity_event_leader_rl_right})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.activity_event_leader_rl_back:
                 finish();
                 break;
@@ -299,6 +322,7 @@ public class EventLeaderActivity extends BaseActivity {
                 tvBumen.setTextColor(Color.parseColor("#32CC0D"));
                 ivBumen1.setImageResource(R.drawable.top_g);
                 ivBumen2.setImageResource(R.drawable.bottom_g);
+                showBumen();
                 break;
         }
     }
@@ -320,7 +344,48 @@ public class EventLeaderActivity extends BaseActivity {
                 @Override
                 public void onSelectFinished(String startTime, String endTime) {
 //                    ui_button1.setText(startTime.replace("-", ".") + "至\n" + endTime.replace("-", "."));
-                    Log.e("123123", startTime.replace("-", ".") + "至\n" + endTime.replace("-", "."));
+//                    Log.e("123123", startTime.replace("-", ".") + "至\n" + endTime.replace("-", "."));
+                    time = startTime + "," + endTime;
+                    Map<String, Object> map = new LinkedHashMap<>();
+                    map.put("pageNum", 1);
+                    map.put("pageSize", 5);
+                    Map<String, Object> map1 = new LinkedHashMap<>();
+                    map1.put("orderBy", "create_date desc");
+                    map1.put("eventType", 1);
+                    map1.put("pd", bumenId);
+                    map1.put("time", time);
+                    if (CALL_TYPE == 2) {
+                        map1.put("isSolve", 0);
+                    } else if (CALL_TYPE == 3) {
+                        map1.put("isSolve", 1);
+                    }
+                    map.put("eventExt", map1);
+                    String json = Map2Json.map2json(map);
+                    ViseHttp.POST("/eventApi/queryList")
+                            .setJson(json)
+                            .request(new ACallback<String>() {
+                                @Override
+                                public void onSuccess(String data) {
+                                    Log.e("123123", data);
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(data);
+                                        if (jsonObject.getString("status").equals("SUCCESS")) {
+                                            Gson gson = new Gson();
+                                            EventListModel model = gson.fromJson(data, EventListModel.class);
+                                            mData.clear();
+                                            mData.addAll(model.getData());
+                                            adapter.notifyDataSetChanged();
+                                            page = 2;
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFail(int errCode, String errMsg) {
+                                }
+                            });
                 }
             });
 
@@ -334,6 +399,155 @@ public class EventLeaderActivity extends BaseActivity {
             mDoubleTimeSelectDialog.recoverButtonState();
             mDoubleTimeSelectDialog.show();
         }
+    }
+
+    private void showBumen() {
+        View view = LayoutInflater.from(EventLeaderActivity.this).inflate(R.layout.popupwindow_show_bumen, null);
+        ScreenAdapterTools.getInstance().loadView(view);
+
+        final ListView lv1 = view.findViewById(R.id.lv1);
+        final ListView lv2 = view.findViewById(R.id.lv2);
+        final ListView lv3 = view.findViewById(R.id.lv3);
+
+        final ShowBumenAdapter[] bumenAdapter1 = {null};
+        final ShowBumenSonAdapter[] bumenAdapter2 = new ShowBumenSonAdapter[1];
+        final ShowBumenSonAdapter[] bumenAdapter3 = new ShowBumenSonAdapter[1];
+
+        final List<BumenOneModel.DataBean> bumenList1 = new ArrayList<>();
+        final List<BumenSonModel.DataBean> bumenList2 = new ArrayList<>();
+        final List<BumenSonModel.DataBean> bumenList3 = new ArrayList<>();
+
+        ViseHttp.POST("/SystemDepartment/getOne")
+                .addParam("id", spCache.get(Constant.BUMEN, "0"))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("123123", data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getString("status").equals("SUCCESS")) {
+                                Gson gson = new Gson();
+                                BumenOneModel model = gson.fromJson(data, BumenOneModel.class);
+                                bumenList1.add(model.getData());
+                                bumenAdapter1[0] = new ShowBumenAdapter(EventLeaderActivity.this, bumenList1);
+                                lv1.setAdapter(bumenAdapter1[0]);
+                                lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        ViseHttp.POST("/SystemDepartment/getSon")
+                                                .addParam("id", bumenList1.get(position).getId() + "")
+                                                .request(new ACallback<String>() {
+                                                    @Override
+                                                    public void onSuccess(String data) {
+                                                        try {
+                                                            JSONObject jsonObject1 = new JSONObject(data);
+                                                            if (jsonObject1.getString("status").equals("SUCCESS")) {
+                                                                Gson gson1 = new Gson();
+                                                                BumenSonModel model1 = gson1.fromJson(data, BumenSonModel.class);
+                                                                bumenList2.clear();
+                                                                bumenList2.add(new BumenSonModel.DataBean(Integer.valueOf(spCache.get(Constant.BUMEN, "0")), "全部"));
+                                                                bumenList2.addAll(model1.getData());
+                                                                bumenAdapter2[0] = new ShowBumenSonAdapter(EventLeaderActivity.this, bumenList2);
+                                                                lv2.setAdapter(bumenAdapter2[0]);
+                                                                lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                                    @Override
+                                                                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                                                                        if (position == 0) {
+                                                                            tvBumen.setText("全部");
+                                                                            bumenId = spCache.get(Constant.BUMEN, "0");
+                                                                            updataView(bumenId);
+                                                                        } else {
+                                                                            ViseHttp.POST("/SystemDepartment/getSon")
+                                                                                    .addParam("id", bumenList2.get(position).getId() + "")
+                                                                                    .request(new ACallback<String>() {
+                                                                                        @Override
+                                                                                        public void onSuccess(String data) {
+                                                                                            try {
+                                                                                                JSONObject jsonObject2 = new JSONObject(data);
+                                                                                                if (jsonObject2.getString("status").equals("SUCCESS")) {
+                                                                                                    Gson gson2 = new Gson();
+                                                                                                    BumenSonModel model2 = gson2.fromJson(data, BumenSonModel.class);
+                                                                                                    if (model2.getData().size() == 0) {
+                                                                                                        tvBumen.setText(bumenList2.get(position).getDepartmentName());
+                                                                                                        bumenId = bumenList2.get(position).getId() + "";
+                                                                                                        updataView(bumenId);
+                                                                                                    } else {
+                                                                                                        bumenList3.clear();
+                                                                                                        bumenList3.addAll(model2.getData());
+                                                                                                        bumenAdapter3[0] = new ShowBumenSonAdapter(EventLeaderActivity.this, bumenList3);
+                                                                                                        lv3.setAdapter(bumenAdapter3[0]);
+                                                                                                        lv3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                                                                            @Override
+                                                                                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                                                                tvBumen.setText(bumenList3.get(position).getDepartmentName());
+                                                                                                                bumenId = bumenList3.get(position).getId() + "";
+                                                                                                                updataView(bumenId);
+                                                                                                            }
+                                                                                                        });
+                                                                                                    }
+                                                                                                }
+                                                                                            } catch (JSONException e) {
+                                                                                                e.printStackTrace();
+                                                                                            }
+                                                                                        }
+
+                                                                                        @Override
+                                                                                        public void onFail(int errCode, String errMsg) {
+
+                                                                                        }
+                                                                                    });
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFail(int errCode, String errMsg) {
+
+                                                    }
+                                                });
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+
+        popupWindow1 = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
+        popupWindow1.setTouchable(true);
+        popupWindow1.setFocusable(true);
+        // 设置点击窗口外边窗口消失
+        popupWindow1.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow1.setOutsideTouchable(true);
+//        popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+        popupWindow1.showAsDropDown(llSelect);
+        // 设置popWindow的显示和消失动画
+//        popupWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+//        WindowManager.LayoutParams params = getWindow().getAttributes();
+//        params.alpha = 0.5f;
+//        getWindow().setAttributes(params);
+        popupWindow1.update();
+
+        popupWindow1.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            // 在dismiss中恢复透明度
+            public void onDismiss() {
+//                WindowManager.LayoutParams params = getWindow().getAttributes();
+//                params.alpha = 1f;
+//                getWindow().setAttributes(params);
+            }
+        });
     }
 
     private void showCallType(int callType) {
@@ -407,6 +621,8 @@ public class EventLeaderActivity extends BaseActivity {
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
+                map1.put("time", time);
+                map1.put("pd", bumenId);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -418,7 +634,7 @@ public class EventLeaderActivity extends BaseActivity {
                                 Log.e("123123", data);
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                    if (jsonObject.getString("status").equals("SUCCESS")) {
                                         Gson gson = new Gson();
                                         EventListModel model = gson.fromJson(data, EventListModel.class);
                                         mData.clear();
@@ -454,6 +670,8 @@ public class EventLeaderActivity extends BaseActivity {
                 map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
                 map1.put("isSolve", 0);
+                map1.put("time", time);
+                map1.put("pd", bumenId);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -465,7 +683,7 @@ public class EventLeaderActivity extends BaseActivity {
                                 Log.e("123123", data);
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                    if (jsonObject.getString("status").equals("SUCCESS")) {
                                         Gson gson = new Gson();
                                         EventListModel model = gson.fromJson(data, EventListModel.class);
                                         mData.clear();
@@ -501,6 +719,8 @@ public class EventLeaderActivity extends BaseActivity {
                 map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
                 map1.put("isSolve", 1);
+                map1.put("time", time);
+                map1.put("pd", bumenId);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -512,7 +732,7 @@ public class EventLeaderActivity extends BaseActivity {
                                 Log.e("123123", data);
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                    if (jsonObject.getString("status").equals("SUCCESS")) {
                                         Gson gson = new Gson();
                                         EventListModel model = gson.fromJson(data, EventListModel.class);
                                         mData.clear();
@@ -568,5 +788,50 @@ public class EventLeaderActivity extends BaseActivity {
             }
         }
     };
+
+    private void updataView(String bumen) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("pageNum", 1);
+        map.put("pageSize", 5);
+        Map<String, Object> map1 = new LinkedHashMap<>();
+        map1.put("orderBy", "create_date desc");
+        map1.put("eventType", 1);
+        map1.put("time", time);
+        map1.put("pd", bumen);
+        if (CALL_TYPE == 2) {
+            map1.put("isSolve", 0);
+        } else if (CALL_TYPE == 3) {
+            map1.put("isSolve", 1);
+        }
+        map.put("eventExt", map1);
+        String json = Map2Json.map2json(map);
+        ViseHttp.POST("/eventApi/queryList")
+                .setJson(json)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("123123", data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getString("status").equals("SUCCESS")) {
+                                Gson gson = new Gson();
+                                EventListModel model = gson.fromJson(data, EventListModel.class);
+                                mData.clear();
+                                mData.addAll(model.getData());
+                                adapter.notifyDataSetChanged();
+                                page = 2;
+                            }
+                            popupWindow1.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        popupWindow1.dismiss();
+                    }
+                });
+    }
 
 }

@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                                             spImp.setPASSWORD(password);
                                             spCache.put("avatar", model.getData().getUser().getUserPic());
                                             spCache.put("username", model.getData().getUser().getUserName());
+                                            spCache.put(Constant.BUMEN, model.getData().getUser().getNum1());
                                             getOne(model.getData().getUser().getRoleId());
                                         }else {
                                             ToastUtil.showShort(LoginActivity.this, "登录失败");
