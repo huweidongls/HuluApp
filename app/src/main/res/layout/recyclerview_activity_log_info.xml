@@ -10,6 +10,7 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/tv_line_title"
         android:layout_marginRight="30px"
         android:layout_marginLeft="30px"
         android:layout_marginTop="24px"
@@ -29,6 +30,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_name"
             android:textColor="@color/black_333333"
             android:textSize="30px"
             android:text="护路员：张四"
@@ -36,6 +38,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_phone_num"
             android:layout_marginLeft="50px"
             android:textColor="@color/black_333333"
             android:textSize="30px"
@@ -54,6 +57,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_danger_num"
             android:textColor="#FF3636"
             android:textSize="30px"
             android:text="隐患事件：3件"
@@ -61,6 +65,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_reporte_num"
             android:layout_marginLeft="34px"
             android:textColor="#2ABB0A"
             android:textSize="30px"
@@ -71,6 +76,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_time"
         android:layout_marginBottom="30px"
         android:layout_gravity="right"
         android:text="2018年08月31日"

@@ -125,9 +125,9 @@ public class ActivityEventLeaderAdapter extends RecyclerView.Adapter<ActivityEve
                         if(data.get(i).getLmTitle().contains(charString)){
                             filteredList.add(data.get(i));
                         }
-                        if(data.get(i).getPeopleName().contains(charString)){
-                            filteredList.add(data.get(i));
-                        }
+//                        if(data.get(i).getPeopleName().contains(charString)){
+//                            filteredList.add(data.get(i));
+//                        }
                     }
 
                     mFilterList = filteredList;

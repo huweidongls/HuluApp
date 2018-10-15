@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,8 +26,15 @@ import com.jingna.hulu.huluapp.adapter.ShowBumenSonAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.model.BumenOneModel;
 import com.jingna.hulu.huluapp.model.BumenSonModel;
+import com.jingna.hulu.huluapp.model.LogInfoModel;
 import com.jingna.hulu.huluapp.utils.Constant;
+import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.widget.DoubleTimeSelectDialog;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vise.xsnow.cache.SpCache;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -36,7 +44,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +54,8 @@ import butterknife.OnClick;
 
 public class LogInfoActivity extends BaseActivity {
 
+    @BindView(R.id.activity_log_info_refreshLayout)
+    RefreshLayout refreshLayout;
     @BindView(R.id.activity_log_info_rv)
     RecyclerView recyclerView;
     @BindView(R.id.activity_log_info_bumen)
@@ -62,15 +74,17 @@ public class LogInfoActivity extends BaseActivity {
     LinearLayout llSelect;
 
     private ActivityLogInfoAdapter adapter;
-    private List<String> data;
+    private List<LogInfoModel.DataBean> mList;
 
     private DoubleTimeSelectDialog mDoubleTimeSelectDialog;
 
     private PopupWindow popupWindow1;
-
+    private int page = 1;
     private SpCache spCache;
 
     private String bumenId;
+
+    private String time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,21 +103,128 @@ public class LogInfoActivity extends BaseActivity {
 
         bumenId = spCache.get(Constant.BUMEN, "0");
 
-        data = new ArrayList<>();
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        adapter = new ActivityLogInfoAdapter(data);
-        LinearLayoutManager manager = new LinearLayoutManager(LogInfoActivity.this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
+        refreshLayout.setRefreshHeader(new ClassicsHeader(LogInfoActivity.this));
+        refreshLayout.setRefreshFooter(new ClassicsFooter(LogInfoActivity.this));
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                Map<String, Object> map = new LinkedHashMap<>();
+                map.put("pageNum", 1);
+                map.put("pageSize", 5);
+                Map<String, Object> map1 = new LinkedHashMap<>();
+                map1.put("orderBy", "create_date desc");
+                map1.put("time", time);
+                map.put("roadprotectionLoggerExt", map1);
+                String json = Map2Json.map2json(map);
+                Log.e("123123", json);
+                ViseHttp.POST("/RoadprotectionLoggerApi/queryList")
+                        .setJson(json)
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                Log.e("123123", data);
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                        Gson gson = new Gson();
+                                        LogInfoModel model = gson.fromJson(data, LogInfoModel.class);
+                                        mList.clear();
+                                        mList.addAll(model.getData());
+                                        adapter.notifyDataSetChanged();
+                                        page = 2;
+                                    }
+                                    refreshLayout.finishRefresh(1000);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                refreshLayout.finishRefresh(1000);
+                            }
+                        });
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                Map<String, Object> map = new LinkedHashMap<>();
+                map.put("pageNum", page);
+                map.put("pageSize", 5);
+                Map<String, Object> map1 = new LinkedHashMap<>();
+                map1.put("orderBy", "create_date desc");
+                map1.put("time", time);
+                map.put("roadprotectionLoggerExt", map1);
+                String json = Map2Json.map2json(map);
+                Log.e("123123", json);
+                ViseHttp.POST("/RoadprotectionLoggerApi/queryList")
+                        .setJson(json)
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                Log.e("123123", data);
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.getString("status").equals("SUCCESS")){
+                                        Gson gson = new Gson();
+                                        LogInfoModel model = gson.fromJson(data, LogInfoModel.class);
+                                        mList.addAll(model.getData());
+                                        adapter.notifyDataSetChanged();
+                                        page = page+1;
+                                    }
+                                    refreshLayout.finishLoadMore(1000);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                refreshLayout.finishLoadMore(1000);
+                            }
+                        });
+            }
+        });
+
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("pageNum", 1);
+        map.put("pageSize", 5);
+        Map<String, Object> map1 = new LinkedHashMap<>();
+        map1.put("orderBy", "create_date desc");
+        map1.put("time", time);
+        map.put("roadprotectionLoggerExt", map1);
+        String json = Map2Json.map2json(map);
+        Log.e("123123", json);
+        ViseHttp.POST("/RoadprotectionLoggerApi/queryList")
+                .setJson(json)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("123123", data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.getString("status").equals("SUCCESS")){
+                                Gson gson = new Gson();
+                                LogInfoModel model = gson.fromJson(data, LogInfoModel.class);
+                                mList = model.getData();
+                                adapter = new ActivityLogInfoAdapter(mList);
+                                LinearLayoutManager manager = new LinearLayoutManager(LogInfoActivity.this);
+                                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(manager);
+                                recyclerView.setAdapter(adapter);
+                                page = 2;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
 
     }
 
@@ -301,6 +422,41 @@ public class LogInfoActivity extends BaseActivity {
                 public void onSelectFinished(String startTime, String endTime) {
 //                    ui_button1.setText(startTime.replace("-", ".") + "至\n" + endTime.replace("-", "."));
                     Log.e("123123", startTime.replace("-", ".") + "至\n" + endTime.replace("-", "."));
+                    time = startTime + "," + endTime;
+                    Map<String, Object> map = new LinkedHashMap<>();
+                    map.put("pageNum", 1);
+                    map.put("pageSize", 5);
+                    Map<String, Object> map1 = new LinkedHashMap<>();
+                    map1.put("orderBy", "create_date desc");
+                    map1.put("time", time);
+                    map.put("roadprotectionLoggerExt", map1);
+                    String json = Map2Json.map2json(map);
+                    Log.e("123123", json);
+                    ViseHttp.POST("/RoadprotectionLoggerApi/queryList")
+                            .setJson(json)
+                            .request(new ACallback<String>() {
+                                @Override
+                                public void onSuccess(String data) {
+                                    Log.e("123123", data);
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(data);
+                                        if(jsonObject.getString("status").equals("SUCCESS")){
+                                            Gson gson = new Gson();
+                                            LogInfoModel model = gson.fromJson(data, LogInfoModel.class);
+                                            mList.clear();
+                                            mList.addAll(model.getData());
+                                            adapter.notifyDataSetChanged();
+                                            page = 2;
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFail(int errCode, String errMsg) {
+                                }
+                            });
                 }
             });
 
