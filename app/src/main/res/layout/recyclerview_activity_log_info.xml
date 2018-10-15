@@ -4,6 +4,7 @@
     android:layout_marginRight="20px"
     android:layout_marginTop="30px"
     android:elevation="4px"
+    android:id="@+id/ll"
     android:orientation="vertical"
     android:background="@color/white_ffffff"
     android:layout_width="match_parent"

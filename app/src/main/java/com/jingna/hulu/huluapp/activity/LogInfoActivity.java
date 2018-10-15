@@ -26,6 +26,7 @@ import com.jingna.hulu.huluapp.adapter.ShowBumenSonAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.model.BumenOneModel;
 import com.jingna.hulu.huluapp.model.BumenSonModel;
+import com.jingna.hulu.huluapp.model.EventListModel;
 import com.jingna.hulu.huluapp.model.LogInfoModel;
 import com.jingna.hulu.huluapp.utils.Constant;
 import com.jingna.hulu.huluapp.utils.Map2Json;
@@ -114,6 +115,7 @@ public class LogInfoActivity extends BaseActivity {
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
                 map1.put("time", time);
+                map1.put("pd", bumenId);
                 map.put("roadprotectionLoggerExt", map1);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -155,6 +157,7 @@ public class LogInfoActivity extends BaseActivity {
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
                 map1.put("time", time);
+                map1.put("pd", bumenId);
                 map.put("roadprotectionLoggerExt", map1);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -193,6 +196,7 @@ public class LogInfoActivity extends BaseActivity {
         Map<String, Object> map1 = new LinkedHashMap<>();
         map1.put("orderBy", "create_date desc");
         map1.put("time", time);
+        map1.put("pd", bumenId);
         map.put("roadprotectionLoggerExt", map1);
         String json = Map2Json.map2json(map);
         Log.e("123123", json);
@@ -309,7 +313,7 @@ public class LogInfoActivity extends BaseActivity {
                                                                         if(position == 0){
                                                                             tvBumen.setText("全部");
                                                                             bumenId = spCache.get(Constant.BUMEN, "0");
-//                                                                            updataView(bumenId);
+                                                                            updataView(bumenId);
                                                                         }else {
                                                                             ViseHttp.POST("/SystemDepartment/getSon")
                                                                                     .addParam("id", bumenList2.get(position).getId()+"")
@@ -324,7 +328,7 @@ public class LogInfoActivity extends BaseActivity {
                                                                                                     if(model2.getData().size() == 0){
                                                                                                         tvBumen.setText(bumenList2.get(position).getDepartmentName());
                                                                                                         bumenId = bumenList2.get(position).getId()+"";
-//                                                                                                        updataView(bumenId);
+                                                                                                        updataView(bumenId);
                                                                                                     }else {
                                                                                                         bumenList3.clear();
                                                                                                         bumenList3.addAll(model2.getData());
@@ -335,7 +339,7 @@ public class LogInfoActivity extends BaseActivity {
                                                                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                                                                 tvBumen.setText(bumenList3.get(position).getDepartmentName());
                                                                                                                 bumenId = bumenList3.get(position).getId()+"";
-//                                                                                                                updataView(bumenId);
+                                                                                                                updataView(bumenId);
                                                                                                             }
                                                                                                         });
                                                                                                     }
@@ -429,6 +433,7 @@ public class LogInfoActivity extends BaseActivity {
                     Map<String, Object> map1 = new LinkedHashMap<>();
                     map1.put("orderBy", "create_date desc");
                     map1.put("time", time);
+                    map1.put("pd", bumenId);
                     map.put("roadprotectionLoggerExt", map1);
                     String json = Map2Json.map2json(map);
                     Log.e("123123", json);
@@ -470,6 +475,45 @@ public class LogInfoActivity extends BaseActivity {
             mDoubleTimeSelectDialog.recoverButtonState();
             mDoubleTimeSelectDialog.show();
         }
+    }
+
+    private void updataView(String bumen) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("pageNum", 1);
+        map.put("pageSize", 5);
+        Map<String, Object> map1 = new LinkedHashMap<>();
+        map1.put("orderBy", "create_date desc");
+        map1.put("time", time);
+        map1.put("pd", bumen);
+        map.put("roadprotectionLoggerExt", map1);
+        String json = Map2Json.map2json(map);
+        ViseHttp.POST("/RoadprotectionLoggerApi/queryList")
+                .setJson(json)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("123123", data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getString("status").equals("SUCCESS")) {
+                                Gson gson = new Gson();
+                                LogInfoModel model = gson.fromJson(data, LogInfoModel.class);
+                                mList.clear();
+                                mList.addAll(model.getData());
+                                adapter.notifyDataSetChanged();
+                                page = 2;
+                            }
+                            popupWindow1.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        popupWindow1.dismiss();
+                    }
+                });
     }
 
 }

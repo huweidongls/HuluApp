@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jingna.hulu.huluapp.activity.DetailsLogInfoActivity">
+
+    <RelativeLayout
+        style="@style/rl_top_bar">
+
+        <TextView
+            android:text="事件详情"
+            style="@style/tv_top_title" />
+
+        <RelativeLayout
+            android:id="@+id/activity_details_log_info_rl_back"
+            style="@style/rl_return">
+
+            <ImageView
+                style="@style/iv_return" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

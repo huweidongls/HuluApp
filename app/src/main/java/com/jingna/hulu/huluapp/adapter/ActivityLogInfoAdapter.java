@@ -1,10 +1,12 @@
 package com.jingna.hulu.huluapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jingna.hulu.huluapp.R;
@@ -44,6 +46,12 @@ public class ActivityLogInfoAdapter extends RecyclerView.Adapter<ActivityLogInfo
         holder.tvDangerNum.setText("隐患事件: "+data.get(position).getSolveNum()+"件");
         holder.tvReporteNum.setText("上报事件: "+data.get(position).getEventNum()+"件");
         holder.tvTime.setText(DateUtils.stampToDate(data.get(position).getCreateDate()+""));
+        holder.ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+            }
+        });
     }
 
     @Override
@@ -59,6 +67,7 @@ public class ActivityLogInfoAdapter extends RecyclerView.Adapter<ActivityLogInfo
         private TextView tvDangerNum;
         private TextView tvReporteNum;
         private TextView tvTime;
+        private LinearLayout ll;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -68,6 +77,7 @@ public class ActivityLogInfoAdapter extends RecyclerView.Adapter<ActivityLogInfo
             tvDangerNum = itemView.findViewById(R.id.tv_danger_num);
             tvReporteNum = itemView.findViewById(R.id.tv_reporte_num);
             tvTime = itemView.findViewById(R.id.tv_time);
+            ll = itemView.findViewById(R.id.ll);
         }
     }
 
