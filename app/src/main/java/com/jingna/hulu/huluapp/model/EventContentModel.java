@@ -117,7 +117,7 @@ public class EventContentModel {
         private String eventTitle;
         private Object solveBy;
         private int isSolve;
-        private Object solveContent;
+        private String solveContent;
         private Object solveTime;
         private String num1;
         private String num2;
@@ -200,11 +200,11 @@ public class EventContentModel {
             this.isSolve = isSolve;
         }
 
-        public Object getSolveContent() {
+        public String getSolveContent() {
             return solveContent;
         }
 
-        public void setSolveContent(Object solveContent) {
+        public void setSolveContent(String solveContent) {
             this.solveContent = solveContent;
         }
 

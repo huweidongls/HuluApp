@@ -90,7 +90,7 @@ public class UploadLocationService extends Service {
                             }
                         });
             }
-        }, 20000, 20000);
+        }, 20000, 100000);
 
         startLocate();
 

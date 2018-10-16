@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -73,6 +76,8 @@ public class LogInfoActivity extends BaseActivity {
     ImageView ivTime2;
     @BindView(R.id.ll_select)
     LinearLayout llSelect;
+    @BindView(R.id.et_search)
+    EditText etSearch;
 
     private ActivityLogInfoAdapter adapter;
     private List<LogInfoModel.DataBean> mList;
@@ -115,7 +120,7 @@ public class LogInfoActivity extends BaseActivity {
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
                 map1.put("time", time);
-                map1.put("pd", bumenId);
+                map1.put("num1", bumenId);
                 map.put("roadprotectionLoggerExt", map1);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -157,7 +162,7 @@ public class LogInfoActivity extends BaseActivity {
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
                 map1.put("time", time);
-                map1.put("pd", bumenId);
+                map1.put("num1", bumenId);
                 map.put("roadprotectionLoggerExt", map1);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -196,7 +201,7 @@ public class LogInfoActivity extends BaseActivity {
         Map<String, Object> map1 = new LinkedHashMap<>();
         map1.put("orderBy", "create_date desc");
         map1.put("time", time);
-        map1.put("pd", bumenId);
+        map1.put("num1", bumenId);
         map.put("roadprotectionLoggerExt", map1);
         String json = Map2Json.map2json(map);
         Log.e("123123", json);
@@ -218,6 +223,22 @@ public class LogInfoActivity extends BaseActivity {
                                 recyclerView.setLayoutManager(manager);
                                 recyclerView.setAdapter(adapter);
                                 page = 2;
+                                etSearch.addTextChangedListener(new TextWatcher() {
+                                    @Override
+                                    public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
+
+                                    }
+
+                                    @Override
+                                    public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+                                        adapter.getFilter().filter(sequence.toString());
+                                    }
+
+                                    @Override
+                                    public void afterTextChanged(Editable editable) {
+
+                                    }
+                                });
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -433,7 +454,7 @@ public class LogInfoActivity extends BaseActivity {
                     Map<String, Object> map1 = new LinkedHashMap<>();
                     map1.put("orderBy", "create_date desc");
                     map1.put("time", time);
-                    map1.put("pd", bumenId);
+                    map1.put("num1", bumenId);
                     map.put("roadprotectionLoggerExt", map1);
                     String json = Map2Json.map2json(map);
                     Log.e("123123", json);
@@ -484,7 +505,7 @@ public class LogInfoActivity extends BaseActivity {
         Map<String, Object> map1 = new LinkedHashMap<>();
         map1.put("orderBy", "create_date desc");
         map1.put("time", time);
-        map1.put("pd", bumen);
+        map1.put("num1", bumen);
         map.put("roadprotectionLoggerExt", map1);
         String json = Map2Json.map2json(map);
         ViseHttp.POST("/RoadprotectionLoggerApi/queryList")

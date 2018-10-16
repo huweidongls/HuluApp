@@ -7,6 +7,7 @@
     tools:context="com.jingna.hulu.huluapp.activity.DetailsLogInfoActivity">
 
     <RelativeLayout
+        android:id="@+id/activity_details_log_info_rl_top"
         style="@style/rl_top_bar">
 
         <TextView
@@ -23,5 +24,151 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_details_log_info_ll"
+        android:layout_below="@+id/activity_details_log_info_rl_top"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.baidu.mapapi.map.MapView
+            android:clickable="true"
+            android:id="@+id/mapview"
+            android:layout_marginTop="30px"
+            android:layout_marginRight="40px"
+            android:layout_marginLeft="40px"
+            android:layout_below="@+id/rl_state"
+            android:layout_width="match_parent"
+            android:layout_height="400px" />
+
+        <LinearLayout
+            android:layout_gravity="right"
+            android:id="@+id/ll"
+            android:layout_marginLeft="40px"
+            android:layout_marginRight="40px"
+            android:layout_marginTop="30px"
+            android:layout_below="@+id/mapview"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/danger"
+                android:layout_width="38px"
+                android:layout_height="34px" />
+
+            <TextView
+                android:layout_marginLeft="8px"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_333333"
+                android:textSize="24px"
+                android:text="线路隐患"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_marginLeft="40px"
+                android:layout_gravity="center_vertical"
+                android:background="#0088FF"
+                android:layout_width="30px"
+                android:layout_height="2px"/>
+
+            <TextView
+                android:layout_marginLeft="10px"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_333333"
+                android:textSize="24px"
+                android:text="规定路线"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_marginLeft="40px"
+                android:layout_gravity="center_vertical"
+                android:background="#38DA11"
+                android:layout_width="30px"
+                android:layout_height="2px"/>
+
+            <TextView
+                android:layout_marginLeft="10px"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_333333"
+                android:textSize="24px"
+                android:text="行走路线"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="30px"
+        android:layout_below="@+id/activity_details_log_info_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <View
+            android:background="#EBEBEB"
+            android:layout_width="match_parent"
+            android:layout_height="10px"/>
+
+        <LinearLayout
+            android:layout_marginTop="30px"
+            android:layout_marginRight="30px"
+            android:layout_marginLeft="30px"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0px">
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="34px"
+                android:textColor="@color/black_333333"
+                android:text="上报事件:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_reporte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <View
+            android:background="#EBEBEB"
+            android:layout_width="match_parent"
+            android:layout_height="10px"/>
+
+        <LinearLayout
+            android:layout_marginRight="30px"
+            android:layout_marginLeft="30px"
+            android:layout_marginTop="30px"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0px">
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="34px"
+                android:textColor="@color/black_333333"
+                android:text="隐患事件:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_danger"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -84,6 +84,8 @@ public class EventContentActivity extends BaseActivity {
     LinearLayout listLL1;
     @BindView(R.id.list_ll2)
     LinearLayout listLL2;
+    @BindView(R.id.tv_solve_content)
+    TextView tvSolveContent;
 
     private int id;
 
@@ -191,6 +193,7 @@ public class EventContentActivity extends BaseActivity {
                                 tvTitle.setText(eventType1.get(0).getEventTitle());
                                 tvType.setText(eventType1.get(0).getTypeName());
                                 tvContent.setText(eventType1.get(0).getEventContent());
+                                tvSolveContent.setText(eventType1.get(0).getSolveContent());
                                 String a = eventType1.get(0).getNum2();
                                 String s = a.substring(2, a.length()-2);
                                 String[] aaaa = s.split(",");
