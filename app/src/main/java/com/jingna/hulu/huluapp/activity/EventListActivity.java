@@ -47,13 +47,15 @@ public class EventListActivity extends BaseActivity {
 
     private int page = 1;
 
+    private SpImp spImp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
 
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
-
+        spImp = new SpImp(EventListActivity.this);
         ButterKnife.bind(EventListActivity.this);
         initData();
 
@@ -70,7 +72,8 @@ public class EventListActivity extends BaseActivity {
                 map.put("pageNum", 1);
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
+                map1.put("createBy", spImp.getUID());
                 map1.put("eventType", 1);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
@@ -110,7 +113,8 @@ public class EventListActivity extends BaseActivity {
                 map.put("pageNum", page);
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
+                map1.put("createBy", spImp.getUID());
                 map1.put("eventType", 1);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
@@ -147,7 +151,8 @@ public class EventListActivity extends BaseActivity {
         map.put("pageNum", 1);
         map.put("pageSize", 5);
         Map<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("orderBy", "create_date desc");
+//        map1.put("orderBy", "create_date desc");
+        map1.put("createBy", spImp.getUID());
         map1.put("eventType", 1);
         map.put("eventExt", map1);
         String json = Map2Json.map2json(map);

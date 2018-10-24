@@ -120,7 +120,7 @@ public class LogInfoActivity extends BaseActivity {
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
                 map1.put("time", time);
-                map1.put("num1", bumenId);
+                map1.put("pd", bumenId);
                 map.put("roadprotectionLoggerExt", map1);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -162,7 +162,7 @@ public class LogInfoActivity extends BaseActivity {
                 Map<String, Object> map1 = new LinkedHashMap<>();
                 map1.put("orderBy", "create_date desc");
                 map1.put("time", time);
-                map1.put("num1", bumenId);
+                map1.put("pd", bumenId);
                 map.put("roadprotectionLoggerExt", map1);
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
@@ -201,7 +201,7 @@ public class LogInfoActivity extends BaseActivity {
         Map<String, Object> map1 = new LinkedHashMap<>();
         map1.put("orderBy", "create_date desc");
         map1.put("time", time);
-        map1.put("num1", bumenId);
+        map1.put("pd", bumenId);
         map.put("roadprotectionLoggerExt", map1);
         String json = Map2Json.map2json(map);
         Log.e("123123", json);
@@ -454,7 +454,7 @@ public class LogInfoActivity extends BaseActivity {
                     Map<String, Object> map1 = new LinkedHashMap<>();
                     map1.put("orderBy", "create_date desc");
                     map1.put("time", time);
-                    map1.put("num1", bumenId);
+                    map1.put("pd", bumenId);
                     map.put("roadprotectionLoggerExt", map1);
                     String json = Map2Json.map2json(map);
                     Log.e("123123", json);
@@ -505,7 +505,7 @@ public class LogInfoActivity extends BaseActivity {
         Map<String, Object> map1 = new LinkedHashMap<>();
         map1.put("orderBy", "create_date desc");
         map1.put("time", time);
-        map1.put("num1", bumen);
+        map1.put("pd", bumen);
         map.put("roadprotectionLoggerExt", map1);
         String json = Map2Json.map2json(map);
         ViseHttp.POST("/RoadprotectionLoggerApi/queryList")
