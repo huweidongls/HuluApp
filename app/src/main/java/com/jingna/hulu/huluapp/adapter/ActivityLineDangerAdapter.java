@@ -10,11 +10,18 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jingna.hulu.huluapp.R;
 import com.jingna.hulu.huluapp.activity.DetailsDangerActivity;
+import com.jingna.hulu.huluapp.model.BaiduCityModel;
 import com.jingna.hulu.huluapp.model.LineDangerModel;
 import com.jingna.hulu.huluapp.utils.DateUtils;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -41,10 +48,39 @@ public class ActivityLineDangerAdapter extends RecyclerView.Adapter<ActivityLine
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.tvTitle.setText(data.get(position).getLpTitle());
         holder.tvDangerLocation.setText(data.get(position).getNum4());
+
+        String a = data.get(position).getLpCoordinate();
+        String aa = a.substring(1, a.length()-1);
+        String[] aaaa = aa.split(",");
+        String url = "http://api.map.baidu.com/geocoder?output=json&location=" + aaaa[1] + "," + aaaa[0] + "&key=ovbH9tDk74DcpRTv59n1zEOkRrmdSPf2";
+        ViseHttp.GET(url)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getString("status").equals("OK")) {
+                                Gson gson = new Gson();
+                                BaiduCityModel model = gson.fromJson(data, BaiduCityModel.class);
+//                                                        holder.tvLocation.setText(model.getResult().getFormatted_address());
+//                                tvLocation.setText(model.getResult().getFormatted_address());
+                                holder.tvDangerLocation.setText(model.getResult().getFormatted_address());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+
         holder.tvDangerContent.setText(data.get(position).getLpContent());
         holder.tvDangerTypename.setText(data.get(position).getTypeName());
         holder.tvDangerType.setText(data.get(position).getIsSolve() == 0 ? "未处理" : "已处理");
