@@ -142,7 +142,7 @@ public class EventLeaderActivity extends BaseActivity {
                 map.put("pageNum", 1);
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
                 map1.put("pd", bumenId);
                 map1.put("time", time);
@@ -189,7 +189,7 @@ public class EventLeaderActivity extends BaseActivity {
                 map.put("pageNum", page);
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
                 map1.put("pd", bumenId);
                 map1.put("time", time);
@@ -233,7 +233,7 @@ public class EventLeaderActivity extends BaseActivity {
         map.put("pageNum", 1);
         map.put("pageSize", 5);
         Map<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("orderBy", "create_date desc");
+//        map1.put("orderBy", "create_date desc");
         map1.put("eventType", 1);
         map1.put("pd", bumenId);
         map1.put("time", time);
@@ -350,7 +350,7 @@ public class EventLeaderActivity extends BaseActivity {
                     map.put("pageNum", 1);
                     map.put("pageSize", 5);
                     Map<String, Object> map1 = new LinkedHashMap<>();
-                    map1.put("orderBy", "create_date desc");
+//                    map1.put("orderBy", "create_date desc");
                     map1.put("eventType", 1);
                     map1.put("pd", bumenId);
                     map1.put("time", time);
@@ -619,7 +619,7 @@ public class EventLeaderActivity extends BaseActivity {
                 map.put("pageNum", 1);
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
                 map1.put("time", time);
                 map1.put("pd", bumenId);
@@ -667,7 +667,7 @@ public class EventLeaderActivity extends BaseActivity {
                 map.put("pageNum", 1);
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
                 map1.put("isSolve", 0);
                 map1.put("time", time);
@@ -716,7 +716,7 @@ public class EventLeaderActivity extends BaseActivity {
                 map.put("pageNum", 1);
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
                 map1.put("isSolve", 1);
                 map1.put("time", time);
@@ -794,7 +794,7 @@ public class EventLeaderActivity extends BaseActivity {
         map.put("pageNum", 1);
         map.put("pageSize", 5);
         Map<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("orderBy", "create_date desc");
+//        map1.put("orderBy", "create_date desc");
         map1.put("eventType", 1);
         map1.put("time", time);
         map1.put("pd", bumen);
