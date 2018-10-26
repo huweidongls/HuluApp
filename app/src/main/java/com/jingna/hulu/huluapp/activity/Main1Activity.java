@@ -12,7 +12,9 @@ import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.custom.GlideImageLoader;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
 import com.jingna.hulu.huluapp.dialog.DialogCustom1;
+import com.jingna.hulu.huluapp.model.BannerModel;
 import com.jingna.hulu.huluapp.model.VersionModel;
+import com.jingna.hulu.huluapp.utils.Constant;
 import com.jingna.hulu.huluapp.utils.PermissionHelper;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
 import com.jingna.hulu.huluapp.utils.VersionUtils;
@@ -22,6 +24,7 @@ import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -123,28 +126,64 @@ public class Main1Activity extends BaseActivity {
                 }, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE);
 
-        List<String> images = new ArrayList<>();
-        images.add("http://47.92.127.1:8088/upload/jn_1.jpg");
-        images.add("http://47.92.127.1:8088/upload/jn_2.jpg");
-        images.add("http://47.92.127.1:8088/upload/jn_3.jpg");
-        //设置banner样式
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        //设置图片加载器
-        banner.setImageLoader(new GlideImageLoader());
-        //设置图片集合
-        banner.setImages(images);
-        //设置banner动画效果
-        banner.setBannerAnimation(Transformer.DepthPage);
-        //设置标题集合（当banner样式有显示title时）
+        final List<String> images = new ArrayList<>();
+        ViseHttp.POST("/bannerApi/queryList")
+                .setJson("{\n" +
+                        "  \"pageNum\": 0,\n" +
+                        "  \"pageSize\": 0,\n" +
+                        "  \"platformBannerExt\": {\n" +
+                        "   \n" +
+                        "  }\n" +
+                        "}")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.getString("status").equals("SUCCESS")){
+                                Gson gson = new Gson();
+                                final BannerModel model = gson.fromJson(data, BannerModel.class);
+                                for (int i = 0; i<model.getData().size(); i++){
+                                    images.add(Constant.BASE_URL+model.getData().get(i).getNum1());
+                                }
+                                //设置banner样式
+                                banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+                                //设置图片加载器
+                                banner.setImageLoader(new GlideImageLoader());
+                                //设置图片集合
+                                banner.setImages(images);
+                                //设置banner动画效果
+                                banner.setBannerAnimation(Transformer.DepthPage);
+                                //设置标题集合（当banner样式有显示title时）
 //        banner.setBannerTitles(titles);
-        //设置自动轮播，默认为true
-        banner.isAutoPlay(true);
-        //设置轮播时间
-        banner.setDelayTime(1500);
-        //设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.CENTER);
-        //banner设置方法全部调用完毕时最后调用
-        banner.start();
+                                //设置自动轮播，默认为true
+                                banner.isAutoPlay(true);
+                                //设置轮播时间
+                                banner.setDelayTime(1500);
+                                //设置指示器位置（当banner模式中有指示器时）
+                                banner.setIndicatorGravity(BannerConfig.CENTER);
+                                //banner设置方法全部调用完毕时最后调用
+                                banner.start();
+                                banner.setOnBannerListener(new OnBannerListener() {
+                                    @Override
+                                    public void OnBannerClick(int position) {
+                                        Intent intent = new Intent();
+                                        intent.putExtra("url", model.getData().get(position).getBannerUrl());
+                                        intent.setClass(Main1Activity.this, BannerWebActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
 
     }
 

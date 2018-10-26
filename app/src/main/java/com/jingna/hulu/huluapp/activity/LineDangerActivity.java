@@ -77,7 +77,7 @@ public class LineDangerActivity extends BaseActivity {
                 map.put("pageNum", 1);
                 map.put("pageSize", 10);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
                 map1.put("lpUser", spImp.getUID());
                 map.put("platformSolveExt", map1);
                 String json = Map2Json.map2json(map);
@@ -117,7 +117,7 @@ public class LineDangerActivity extends BaseActivity {
                 map.put("pageNum", page);
                 map.put("pageSize", 10);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
                 map1.put("lpUser", spImp.getUID());
                 map.put("platformSolveExt", map1);
                 String json = Map2Json.map2json(map);
@@ -154,7 +154,7 @@ public class LineDangerActivity extends BaseActivity {
         map.put("pageNum", 1);
         map.put("pageSize", 10);
         Map<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("orderBy", "create_date desc");
+//        map1.put("orderBy", "create_date desc");
         map1.put("lpUser", spImp.getUID());
         map.put("platformSolveExt", map1);
         String json = Map2Json.map2json(map);

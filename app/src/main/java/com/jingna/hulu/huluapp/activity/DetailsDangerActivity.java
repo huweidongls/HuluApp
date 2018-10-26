@@ -47,6 +47,7 @@ import com.jingna.hulu.huluapp.adapter.ActivityLineDangerAdapter;
 import com.jingna.hulu.huluapp.adapter.IntercalationAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
+import com.jingna.hulu.huluapp.model.BaiduCityModel;
 import com.jingna.hulu.huluapp.model.FileUploadByAPPModel;
 import com.jingna.hulu.huluapp.model.FileUploadModel;
 import com.jingna.hulu.huluapp.model.LineDangerModel;
@@ -219,7 +220,34 @@ public class DetailsDangerActivity extends BaseActivity {
                                 tvTitle.setText(model.getData().get(0).getLpTitle());
                                 tvContent.setText(model.getData().get(0).getLpContent());
                                 tvType.setText(model.getData().get(0).getTypeName());
-                                tvLocation.setText(model.getData().get(0).getNum4());
+
+                                String a = model.getData().get(0).getLpCoordinate();
+                                String aa = a.substring(1, a.length()-1);
+                                String[] aaaa = aa.split(",");
+                                String url = "http://api.map.baidu.com/geocoder?output=json&location=" + aaaa[1] + "," + aaaa[0] + "&key=ovbH9tDk74DcpRTv59n1zEOkRrmdSPf2";
+                                ViseHttp.GET(url)
+                                        .request(new ACallback<String>() {
+                                            @Override
+                                            public void onSuccess(String data) {
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(data);
+                                                    if (jsonObject.getString("status").equals("OK")) {
+                                                        Gson gson = new Gson();
+                                                        BaiduCityModel model = gson.fromJson(data, BaiduCityModel.class);
+//                                                        holder.tvLocation.setText(model.getResult().getFormatted_address());
+                                                        tvLocation.setText(model.getResult().getFormatted_address());
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFail(int errCode, String errMsg) {
+
+                                            }
+                                        });
+
                                 if (model.getData().get(0).getIsSolve() == 0) {
                                     etUpload.setVisibility(View.VISIBLE);
                                     recyclerView.setVisibility(View.VISIBLE);

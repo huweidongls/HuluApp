@@ -277,6 +277,7 @@ public class MyTaskActivity extends BaseActivity {
                         map.put("createBy", spImp.getNAME());
                         map.put("lmBy", lmByid);
                         String json = Map2Json.map2json(map);
+                        Log.e("121212", json);
 
                         MyApp.getInstance().setClear();
                         MyApp.getInstance().setPoints(new LatLng(latitude, longitude));
