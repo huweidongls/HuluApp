@@ -118,7 +118,7 @@ public class LogInfoActivity extends BaseActivity {
                 map.put("pageNum", 1);
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
                 map1.put("time", time);
                 map1.put("pd", bumenId);
                 map.put("roadprotectionLoggerExt", map1);
@@ -160,7 +160,7 @@ public class LogInfoActivity extends BaseActivity {
                 map.put("pageNum", page);
                 map.put("pageSize", 5);
                 Map<String, Object> map1 = new LinkedHashMap<>();
-                map1.put("orderBy", "create_date desc");
+//                map1.put("orderBy", "create_date desc");
                 map1.put("time", time);
                 map1.put("pd", bumenId);
                 map.put("roadprotectionLoggerExt", map1);
@@ -199,7 +199,7 @@ public class LogInfoActivity extends BaseActivity {
         map.put("pageNum", 1);
         map.put("pageSize", 5);
         Map<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("orderBy", "create_date desc");
+//        map1.put("orderBy", "create_date desc");
         map1.put("time", time);
         map1.put("pd", bumenId);
         map.put("roadprotectionLoggerExt", map1);
@@ -452,7 +452,7 @@ public class LogInfoActivity extends BaseActivity {
                     map.put("pageNum", 1);
                     map.put("pageSize", 5);
                     Map<String, Object> map1 = new LinkedHashMap<>();
-                    map1.put("orderBy", "create_date desc");
+//                    map1.put("orderBy", "create_date desc");
                     map1.put("time", time);
                     map1.put("pd", bumenId);
                     map.put("roadprotectionLoggerExt", map1);
@@ -503,7 +503,7 @@ public class LogInfoActivity extends BaseActivity {
         map.put("pageNum", 1);
         map.put("pageSize", 5);
         Map<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("orderBy", "create_date desc");
+//        map1.put("orderBy", "create_date desc");
         map1.put("time", time);
         map1.put("pd", bumen);
         map.put("roadprotectionLoggerExt", map1);

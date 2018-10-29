@@ -333,19 +333,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <android.support.v7.widget.RecyclerView
+                <RelativeLayout
+                    android:descendantFocusability="blocksDescendants"
                     android:layout_marginTop="20px"
                     android:layout_below="@+id/tv7"
-                    android:id="@+id/activity_details_danger_rv_pic"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_marginTop="20px"
-                    android:layout_below="@+id/tv7"
-                    android:id="@+id/activity_details_danger_rv_pic_show"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/activity_details_danger_rv_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/activity_details_danger_rv_pic_show"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -427,19 +432,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <android.support.v7.widget.RecyclerView
+                <RelativeLayout
+                    android:descendantFocusability="blocksDescendants"
                     android:layout_marginTop="20px"
                     android:layout_below="@+id/tv9"
-                    android:id="@+id/activity_details_danger_rv_pic1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_marginTop="20px"
-                    android:layout_below="@+id/tv9"
-                    android:id="@+id/activity_details_danger_rv_pic1_show"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/activity_details_danger_rv_pic1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/activity_details_danger_rv_pic1_show"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
 
             </RelativeLayout>
 

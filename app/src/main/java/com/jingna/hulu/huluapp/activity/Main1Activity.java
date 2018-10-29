@@ -132,7 +132,8 @@ public class Main1Activity extends BaseActivity {
                         "  \"pageNum\": 0,\n" +
                         "  \"pageSize\": 0,\n" +
                         "  \"platformBannerExt\": {\n" +
-                        "   \n" +
+                        "  \t\"orderBy\":\"banner_weight desc\",\n" +
+                        "    \"isShow\":1\n" +
                         "  }\n" +
                         "}")
                 .request(new ACallback<String>() {

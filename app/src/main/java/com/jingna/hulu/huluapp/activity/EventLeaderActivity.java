@@ -10,9 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -146,6 +148,7 @@ public class EventLeaderActivity extends BaseActivity {
                 map1.put("eventType", 1);
                 map1.put("pd", bumenId);
                 map1.put("time", time);
+                map1.put("num3", etSearch.getText().toString());
                 if (CALL_TYPE == 2) {
                     map1.put("isSolve", 0);
                 } else if (CALL_TYPE == 3) {
@@ -193,6 +196,7 @@ public class EventLeaderActivity extends BaseActivity {
                 map1.put("eventType", 1);
                 map1.put("pd", bumenId);
                 map1.put("time", time);
+                map1.put("num3", etSearch.getText().toString());
                 if (CALL_TYPE == 2) {
                     map1.put("isSolve", 0);
                 } else if (CALL_TYPE == 3) {
@@ -237,6 +241,7 @@ public class EventLeaderActivity extends BaseActivity {
         map1.put("eventType", 1);
         map1.put("pd", bumenId);
         map1.put("time", time);
+        map1.put("num3", etSearch.getText().toString());
         map.put("eventExt", map1);
         String json = Map2Json.map2json(map);
         Log.e("123123", json);
@@ -266,20 +271,36 @@ public class EventLeaderActivity extends BaseActivity {
                                 recyclerView.setLayoutManager(manager);
                                 recyclerView.setAdapter(adapter);
                                 page = 2;
-                                etSearch.addTextChangedListener(new TextWatcher() {
+//                                etSearch.addTextChangedListener(new TextWatcher() {
+//                                    @Override
+//                                    public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+//                                        adapter.getFilter().filter(sequence.toString());
+//                                    }
+//
+//                                    @Override
+//                                    public void afterTextChanged(Editable editable) {
+//
+//                                    }
+//                                });
+                                etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
                                     @Override
-                                    public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
-
-                                    }
-
-                                    @Override
-                                    public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
-                                        adapter.getFilter().filter(sequence.toString());
-                                    }
-
-                                    @Override
-                                    public void afterTextChanged(Editable editable) {
-
+                                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                        //当actionId == XX_SEND 或者 XX_DONE时都触发
+                                        //或者event.getKeyCode == ENTER 且 event.getAction == ACTION_DOWN时也触发
+                                        //注意，这是一定要判断event != null。因为在某些输入法上会返回null。
+                                        if (actionId == EditorInfo.IME_ACTION_SEND
+                                                || actionId == EditorInfo.IME_ACTION_DONE
+                                                || (event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction())) {
+                                            //处理事件
+                                            onSearch();
+                                        }
+                                        return false;
                                     }
                                 });
                             }
@@ -296,7 +317,8 @@ public class EventLeaderActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.activity_event_leader_rl_back, R.id.iv_calendar, R.id.activity_event_leader_rl_left, R.id.activity_event_leader_rl_right})
+    @OnClick({R.id.activity_event_leader_rl_back, R.id.iv_calendar, R.id.activity_event_leader_rl_left, R.id.activity_event_leader_rl_right,
+    R.id.iv_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.activity_event_leader_rl_back:
@@ -323,6 +345,9 @@ public class EventLeaderActivity extends BaseActivity {
                 ivBumen1.setImageResource(R.drawable.top_g);
                 ivBumen2.setImageResource(R.drawable.bottom_g);
                 showBumen();
+                break;
+            case R.id.iv_search:
+                onSearch();
                 break;
         }
     }
@@ -354,6 +379,7 @@ public class EventLeaderActivity extends BaseActivity {
                     map1.put("eventType", 1);
                     map1.put("pd", bumenId);
                     map1.put("time", time);
+                    map1.put("num3", etSearch.getText().toString());
                     if (CALL_TYPE == 2) {
                         map1.put("isSolve", 0);
                     } else if (CALL_TYPE == 3) {
@@ -622,6 +648,7 @@ public class EventLeaderActivity extends BaseActivity {
 //                map1.put("orderBy", "create_date desc");
                 map1.put("eventType", 1);
                 map1.put("time", time);
+                map1.put("num3", etSearch.getText().toString());
                 map1.put("pd", bumenId);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
@@ -671,6 +698,7 @@ public class EventLeaderActivity extends BaseActivity {
                 map1.put("eventType", 1);
                 map1.put("isSolve", 0);
                 map1.put("time", time);
+                map1.put("num3", etSearch.getText().toString());
                 map1.put("pd", bumenId);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
@@ -720,6 +748,7 @@ public class EventLeaderActivity extends BaseActivity {
                 map1.put("eventType", 1);
                 map1.put("isSolve", 1);
                 map1.put("time", time);
+                map1.put("num3", etSearch.getText().toString());
                 map1.put("pd", bumenId);
                 map.put("eventExt", map1);
                 String json = Map2Json.map2json(map);
@@ -789,6 +818,50 @@ public class EventLeaderActivity extends BaseActivity {
         }
     };
 
+    private void onSearch(){
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("pageNum", 1);
+        map.put("pageSize", 5);
+        Map<String, Object> map1 = new LinkedHashMap<>();
+//                map1.put("orderBy", "create_date desc");
+        map1.put("eventType", 1);
+        map1.put("pd", bumenId);
+        map1.put("time", time);
+        map1.put("num3", etSearch.getText().toString());
+        if (CALL_TYPE == 2) {
+            map1.put("isSolve", 0);
+        } else if (CALL_TYPE == 3) {
+            map1.put("isSolve", 1);
+        }
+        map.put("eventExt", map1);
+        String json = Map2Json.map2json(map);
+        ViseHttp.POST("/eventApi/queryList")
+                .setJson(json)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("123123", data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getString("status").equals("SUCCESS")) {
+                                Gson gson = new Gson();
+                                EventListModel model = gson.fromJson(data, EventListModel.class);
+                                mData.clear();
+                                mData.addAll(model.getData());
+                                adapter.notifyDataSetChanged();
+                                page = 2;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                    }
+                });
+    }
+
     private void updataView(String bumen) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("pageNum", 1);
@@ -797,6 +870,7 @@ public class EventLeaderActivity extends BaseActivity {
 //        map1.put("orderBy", "create_date desc");
         map1.put("eventType", 1);
         map1.put("time", time);
+        map1.put("num3", etSearch.getText().toString());
         map1.put("pd", bumen);
         if (CALL_TYPE == 2) {
             map1.put("isSolve", 0);
