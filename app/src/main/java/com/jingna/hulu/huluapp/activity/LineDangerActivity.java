@@ -19,6 +19,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.vise.xsnow.cache.SpCache;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
@@ -48,6 +49,7 @@ public class LineDangerActivity extends BaseActivity {
     private int page = 1;
 
     private SpImp spImp;
+    private SpCache spCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class LineDangerActivity extends BaseActivity {
 
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
         spImp = new SpImp(LineDangerActivity.this);
+        spCache = new SpCache(LineDangerActivity.this);
         ButterKnife.bind(LineDangerActivity.this);
 
     }
@@ -78,7 +81,8 @@ public class LineDangerActivity extends BaseActivity {
                 map.put("pageSize", 10);
                 Map<String, Object> map1 = new LinkedHashMap<>();
 //                map1.put("orderBy", "create_date desc");
-                map1.put("lpUser", spImp.getUID());
+//        map1.put("lpUser", spImp.getUID());
+                map1.put("groupId", spCache.get("num4", ""));
                 map.put("platformSolveExt", map1);
                 String json = Map2Json.map2json(map);
                 ViseHttp.POST("/platformSolve/queryList")
@@ -118,7 +122,8 @@ public class LineDangerActivity extends BaseActivity {
                 map.put("pageSize", 10);
                 Map<String, Object> map1 = new LinkedHashMap<>();
 //                map1.put("orderBy", "create_date desc");
-                map1.put("lpUser", spImp.getUID());
+//        map1.put("lpUser", spImp.getUID());
+                map1.put("groupId", spCache.get("num4", ""));
                 map.put("platformSolveExt", map1);
                 String json = Map2Json.map2json(map);
                 ViseHttp.POST("/platformSolve/queryList")
@@ -155,7 +160,8 @@ public class LineDangerActivity extends BaseActivity {
         map.put("pageSize", 10);
         Map<String, Object> map1 = new LinkedHashMap<>();
 //        map1.put("orderBy", "create_date desc");
-        map1.put("lpUser", spImp.getUID());
+//        map1.put("lpUser", spImp.getUID());
+        map1.put("groupId", spCache.get("num4", ""));
         map.put("platformSolveExt", map1);
         String json = Map2Json.map2json(map);
 

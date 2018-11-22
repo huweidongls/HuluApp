@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -112,8 +113,8 @@ public class DetailsLogInfoActivity extends BaseActivity {
                                 recyclerView1.setAdapter(adapter1);
                                 //绘制地图
                                 //绘制规定路线
-                                if(model.getData().getEvents()!=null&&model.getData().getEvents().size()>0){
-                                    JSONArray jsonArray = new JSONArray(model.getData().getEvents().get(0).getLmContent());
+                                if(model.getData().getEvents()!=null&&model.getData().getPlatformSolves().size()>0&&!TextUtils.isEmpty(model.getData().getPlatformSolves().get(0).getLmContent())){
+                                    JSONArray jsonArray = new JSONArray(model.getData().getPlatformSolves().get(0).getLmContent());
                                     List<LatLng> points = new ArrayList<LatLng>();
                                     for(int a = 0; a<jsonArray.length(); a++){
                                         String s = jsonArray.get(a)+"";
@@ -140,11 +141,11 @@ public class DetailsLogInfoActivity extends BaseActivity {
                                         }
                                     }
                                     OverlayOptions ooPolyline1 = new PolylineOptions().width(10)
-                                            .color(Color.parseColor("#38DA11")).points(points);
+                                            .color(Color.parseColor("#38DA11")).points(points1);
                                     List<OverlayOptions> oo = new ArrayList<>();
                                     oo.add(ooPolyline);
                                     oo.add(ooPolyline1);
-                                    mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
+                                    mBaiduMap.addOverlays(oo);
                                     //绘制行走路线
 //                                List<LatLng> points1 = new ArrayList<>();
 //                                for (int i = 0; i<model.getData().getInfo().size(); i++){
