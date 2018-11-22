@@ -153,7 +153,7 @@ public class LoginModel {
             private String num1;
             private Object num2;
             private Object num3;
-            private Object num4;
+            private String num4;
             private String num5;
             private String roleName;
             private int roleId;
@@ -318,11 +318,11 @@ public class LoginModel {
                 this.num3 = num3;
             }
 
-            public Object getNum4() {
+            public String getNum4() {
                 return num4;
             }
 
-            public void setNum4(Object num4) {
+            public void setNum4(String num4) {
                 this.num4 = num4;
             }
 

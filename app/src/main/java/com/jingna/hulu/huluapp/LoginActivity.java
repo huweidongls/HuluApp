@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                                             spImp.setUID(model.getData().getUser().getId());
                                             spImp.setNAME(model.getData().getUser().getPeopleName());
                                             spImp.setPASSWORD(password);
+                                            spCache.put("num4", model.getData().getUser().getNum4());
                                             spCache.put("avatar", model.getData().getUser().getUserPic());
                                             spCache.put("username", model.getData().getUser().getUserName());
                                             spCache.put(Constant.BUMEN, model.getData().getUser().getNum1());

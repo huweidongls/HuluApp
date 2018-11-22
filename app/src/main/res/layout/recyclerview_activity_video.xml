@@ -22,6 +22,7 @@
         android:layout_height="wrap_content" />
     
     <ImageView
+        android:id="@+id/call_video"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/video"

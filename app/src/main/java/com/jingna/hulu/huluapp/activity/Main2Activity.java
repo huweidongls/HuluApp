@@ -1,6 +1,7 @@
 package com.jingna.hulu.huluapp.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,9 @@ import com.jingna.hulu.huluapp.utils.Constant;
 import com.jingna.hulu.huluapp.utils.PermissionHelper;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
 import com.jingna.hulu.huluapp.utils.VersionUtils;
+import com.jingna.hulu.huluapp.video.Constents;
+import com.jingna.hulu.huluapp.video.SDKCoreHelper;
+import com.vise.xsnow.cache.SpCache;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
@@ -37,12 +41,15 @@ import butterknife.OnClick;
 
 public class Main2Activity extends BaseActivity {
 
+    private Context context = Main2Activity.this;
+
     @BindView(R.id.banner)
     Banner banner;
 
     private PermissionHelper mHelper;
 
     private int versionCode;
+    private SpCache spCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,10 @@ public class Main2Activity extends BaseActivity {
 
         ButterKnife.bind(Main2Activity.this);
         mHelper = new PermissionHelper(this);
+
+        spCache = new SpCache(Main2Activity.this);
+        Constents.id = "654321";
+        SDKCoreHelper.init(context);
 
 //        checkVersion();
         initBanner();

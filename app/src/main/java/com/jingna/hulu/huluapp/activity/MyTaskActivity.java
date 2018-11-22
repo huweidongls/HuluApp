@@ -42,6 +42,7 @@ import com.jingna.hulu.huluapp.sp.SpImp;
 import com.jingna.hulu.huluapp.utils.Map2Json;
 import com.jingna.hulu.huluapp.utils.PermissionHelper;
 import com.jingna.hulu.huluapp.utils.ToastUtil;
+import com.vise.xsnow.cache.SpCache;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
@@ -103,13 +104,17 @@ public class MyTaskActivity extends BaseActivity {
 
     private int lmByid;
 
+    private SpCache spCache;
+    private String num4 = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_task);
 
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
-
+        spCache = new SpCache(MyTaskActivity.this);
+        num4 = spCache.get("num4", "");
         ButterKnife.bind(MyTaskActivity.this);
         spImp = new SpImp(MyTaskActivity.this);
         mHelper = new PermissionHelper(this);
@@ -176,6 +181,7 @@ public class MyTaskActivity extends BaseActivity {
 
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("num2", spImp.getUID());
+        map.put("num4", num4);
         String json = Map2Json.map2json(map);
 
         ViseHttp.POST("/RoadprotectionLoggerApi/myTask")
