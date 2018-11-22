@@ -152,7 +152,11 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
         jieting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VoIPCallHelper.acceptCall(mCallId);
+                if(isConnect){
+
+                }else {
+                    VoIPCallHelper.acceptCall(mCallId);
+                }
             }
         });
 
@@ -260,6 +264,8 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
 
     private void initResVideoSuccess() {
         isConnect = true;
+
+        jieting.setBackgroundResource(R.drawable.zhuanhuan);
 
         mTimer = new Timer();
         mTimer.schedule(new TimerTask() {
