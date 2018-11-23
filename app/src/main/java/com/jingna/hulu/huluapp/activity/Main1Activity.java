@@ -51,6 +51,7 @@ public class Main1Activity extends BaseActivity {
 
     private int versionCode;
     private SpCache spCache;
+    private String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,8 @@ public class Main1Activity extends BaseActivity {
         ButterKnife.bind(Main1Activity.this);
         mHelper = new PermissionHelper(this);
         spCache = new SpCache(Main1Activity.this);
-        Constents.id = "654321";
+        username = spCache.get("username", "");
+        Constents.id = username;
         SDKCoreHelper.init(context);
 
 //        checkVersion();

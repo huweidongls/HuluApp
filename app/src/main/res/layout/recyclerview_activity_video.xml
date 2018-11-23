@@ -13,12 +13,17 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginRight="20dp"
+        android:lines="1"
+        android:ellipsize="end"
+        android:layout_toLeftOf="@+id/call_video"
+        android:id="@+id/tv_bumen"
         android:layout_marginTop="4px"
         android:layout_below="@+id/tv_name"
         android:textSize="30px"
         android:textColor="@color/black_333333"
         android:text="部门名称(123123)"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
     <ImageView

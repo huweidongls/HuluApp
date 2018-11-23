@@ -33,12 +33,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="60dp"
         android:orientation="horizontal"
         >
 
         <Button
-            android:background="@drawable/call_g"
+            android:background="@drawable/jieting"
             android:id="@+id/jieting"
             android:layout_width="60dp"
             android:layout_height="60dp"

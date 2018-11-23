@@ -12,6 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jingna.hulu.huluapp.R;
+import com.jingna.hulu.huluapp.sp.SpImp;
+import com.jingna.hulu.huluapp.utils.Map2Json;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
@@ -21,6 +25,8 @@ import com.yuntongxun.ecsdk.voip.video.ECCaptureTextureView;
 import com.yuntongxun.ecsdk.voip.video.ECOpenGlView;
 import com.yuntongxun.ecsdk.voip.video.OnCameraInitListener;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,11 +48,14 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
     private Timer mTimer;
     private long callTimes = -1;
 
+    private boolean isQianzhi = true;
+    private SpImp spImp;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vedio);
-
+        spImp = new SpImp(VedioActivity.this);
         findView();
         VoIPCallHelper.setOnCallEventNotifyListener(this);
         initCallEvent();
@@ -97,7 +106,7 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
 
         if (isConnect) {
             mLocalvideo_view.setVisibility(View.VISIBLE);
-            jieting.setVisibility(View.GONE);
+//            jieting.setVisibility(View.GONE);
         } else {
             mLocalvideo_view.setVisibility(View.GONE);
         }
@@ -153,7 +162,13 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
             @Override
             public void onClick(View v) {
                 if(isConnect){
-
+                    if(isQianzhi){
+                        ECDevice.getECVoIPSetupManager().selectCamera(0, 0, 120, ECVoIPSetupManager.Rotate.ROTATE_AUTO, false);
+                        isQianzhi = false;
+                    }else {
+                        ECDevice.getECVoIPSetupManager().selectCamera(1, 0, 120, ECVoIPSetupManager.Rotate.ROTATE_AUTO, false);
+                        isQianzhi = true;
+                    }
                 }else {
                     VoIPCallHelper.acceptCall(mCallId);
                 }
@@ -232,9 +247,36 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
         if (callId != null && callId.equals(mCallId)) {
             VoIPCallHelper.releaseMuteAndHandFree();
             stopCallTimer();
+//            updataVideoInfo();
             isConnect = false;
             finish();
         }
+    }
+
+    /**
+     * 上传视频通话信息
+     */
+    private void updataVideoInfo() {
+
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("acceptBy", Constents.acceptId);
+        map.put("createBy", spImp.getUID());
+        String json = Map2Json.map2json(map);
+
+        ViseHttp.POST("/videoInfo/toUpdate")
+                .setJson(json)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("123123", data);
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+
     }
 
     @Override

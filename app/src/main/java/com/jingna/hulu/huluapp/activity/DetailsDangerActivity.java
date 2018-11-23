@@ -593,6 +593,7 @@ public class DetailsDangerActivity extends BaseActivity {
                 map.put("num2", imgs);
                 map.put("num3", imgs1);
                 map.put("num5", spImp.getDATAID());
+                map.put("lpUser", spImp.getUID());
                 String json = Map2Json.map2json(map);
 
                 ViseHttp.POST("/platformSolve/toUpdate")

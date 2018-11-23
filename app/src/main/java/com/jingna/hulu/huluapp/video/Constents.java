@@ -10,4 +10,7 @@ public class Constents {
     public static String call_id = "";
     public static String appKey = "8a216da8662360a4016651988d5e0aa7";
     public static String appToken = "38e8aee5614b4f9fa3bb85251772aa86";
+
+    public static int acceptId;
+
 }

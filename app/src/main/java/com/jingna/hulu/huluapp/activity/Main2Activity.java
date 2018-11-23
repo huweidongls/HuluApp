@@ -50,6 +50,7 @@ public class Main2Activity extends BaseActivity {
 
     private int versionCode;
     private SpCache spCache;
+    private String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,8 @@ public class Main2Activity extends BaseActivity {
         mHelper = new PermissionHelper(this);
 
         spCache = new SpCache(Main2Activity.this);
-        Constents.id = "654321";
+        username = spCache.get("username", "");
+        Constents.id = username;
         SDKCoreHelper.init(context);
 
 //        checkVersion();
