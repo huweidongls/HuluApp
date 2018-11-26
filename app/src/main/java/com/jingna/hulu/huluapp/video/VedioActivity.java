@@ -50,6 +50,8 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
 
     private boolean isQianzhi = true;
     private SpImp spImp;
+    private boolean isJieting = false;
+    private boolean isOut = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
             Log.i("info", "===vedio==对方的号码==" + mCallNumber);
 
         }else{//呼出
-
+            isOut = true;
             ECDevice.getECVoIPSetupManager().setVideoView(mRemote_video_view, mLocalvideo_view);
             String mCurrentCallId = ECDevice.getECVoIPCallManager().makeCall(ECVoIPCallManager.CallType.VIDEO, id);
             if (TextUtils.isEmpty(mCurrentCallId)) {
@@ -185,6 +187,9 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
     }
 
     private void doHandUpReleaseCall() {
+//        if(isOut){
+//            updataVideoInfo();
+//        }
         try {
             if (mCallId != null) {
 
@@ -226,7 +231,7 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
     public void onCallAnswered(String callId) {
         Log.i("info","===vedio==onCallAnswered= "+ callId );
         if (callId != null && callId.equals(mCallId)) {
-
+            isJieting = true;
             initResVideoSuccess();
         }
     }
@@ -238,6 +243,9 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
 
         Toast.makeText(this, "呼叫失败,对方可能不在线", Toast.LENGTH_SHORT).show();
         VoIPCallHelper.releaseCall(mCallId);
+        if(isOut){
+            updataVideoInfo();
+        }
         finish();
     }
 
@@ -247,7 +255,9 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
         if (callId != null && callId.equals(mCallId)) {
             VoIPCallHelper.releaseMuteAndHandFree();
             stopCallTimer();
-//            updataVideoInfo();
+            if(isOut){
+                updataVideoInfo();
+            }
             isConnect = false;
             finish();
         }
@@ -257,10 +267,15 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
      * 上传视频通话信息
      */
     private void updataVideoInfo() {
-
+        Log.e("123123", "updataVideoInfo");
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("acceptBy", Constents.acceptId);
         map.put("createBy", spImp.getUID());
+        if(isJieting){
+            map.put("num1", "已接听");
+        }else {
+            map.put("num1", "未接听");
+        }
         String json = Map2Json.map2json(map);
 
         ViseHttp.POST("/videoInfo/toUpdate")

@@ -1,6 +1,8 @@
 package com.jingna.hulu.huluapp.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.LocationManager;
@@ -120,13 +122,13 @@ public class MyTaskActivity extends BaseActivity {
         mHelper = new PermissionHelper(this);
         mBaiduMap = mapView.getMap();
 
-        initLocation();
-        initData();
 
     }
 
     @Override
     protected void onStart() {
+        initLocation();
+        initData();
         super.onStart();
         List<LatLng> list = MyApp.getInstance().getPoints();
         if(list.size()>1){
@@ -182,6 +184,7 @@ public class MyTaskActivity extends BaseActivity {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("num2", spImp.getUID());
         map.put("num4", num4);
+        Log.e("123123", "id=="+spImp.getUID()+"==num4=="+num4);
         String json = Map2Json.map2json(map);
 
         ViseHttp.POST("/RoadprotectionLoggerApi/myTask")
@@ -189,35 +192,37 @@ public class MyTaskActivity extends BaseActivity {
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
+                        Log.e("123123", data);
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if(jsonObject.getString("status").equals("SUCCESS")){
                                 Gson gson = new Gson();
                                 MyTaskModel model = gson.fromJson(data, MyTaskModel.class);
-                                mList = model.getData().getPlatformSolves();
-                                LinearLayoutManager manager = new LinearLayoutManager(MyTaskActivity.this);
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                adapter = new ActivityMyTaskAdapter(mList);
-                                recyclerView.setAdapter(adapter);
+                                if(model.getData() != null){
+                                    mList = model.getData().getPlatformSolves();
+                                    LinearLayoutManager manager = new LinearLayoutManager(MyTaskActivity.this);
+                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                    recyclerView.setLayoutManager(manager);
+                                    adapter = new ActivityMyTaskAdapter(mList);
+                                    recyclerView.setAdapter(adapter);
 
-                                lmByid = model.getData().getPlatformLineManages().get(0).getId();
+                                    lmByid = model.getData().getPlatformLineManages().get(0).getId();
 
-                                //构建Marker图标
-                                BitmapDescriptor bitmap = BitmapDescriptorFactory
-                                        .fromResource(R.drawable.danger);
+                                    //构建Marker图标
+                                    BitmapDescriptor bitmap = BitmapDescriptorFactory
+                                            .fromResource(R.drawable.danger);
 
-                                List<OverlayOptions> options = new ArrayList<OverlayOptions>();
-                                for (int i = 0; i<mList.size(); i++){
-                                    String s = mList.get(i).getLpCoordinate().substring(1, mList.get(i).getLpCoordinate().length()-1);
-                                    String[] ss = s.split(",");
+                                    List<OverlayOptions> options = new ArrayList<OverlayOptions>();
+                                    for (int i = 0; i<mList.size(); i++){
+                                        String s = mList.get(i).getLpCoordinate().substring(1, mList.get(i).getLpCoordinate().length()-1);
+                                        String[] ss = s.split(",");
 //                                    Log.e("123123", Double.valueOf(ss[0])+"......"+Double.valueOf(ss[1]));
 //                                    LatLng point1 = new LatLng(39.92235, 116.380338);
 //                                    OverlayOptions option1 =  new MarkerOptions()
 //                                            .position(point1)
 //                                            .icon(bdA);
-                                    options.add(new MarkerOptions().position(new LatLng(Double.valueOf(ss[1]), Double.valueOf(ss[0]))).icon(bitmap));
-                                }
+                                        options.add(new MarkerOptions().position(new LatLng(Double.valueOf(ss[1]), Double.valueOf(ss[0]))).icon(bitmap));
+                                    }
 
 //                                //定义Maker坐标点
 //                                LatLng point = new LatLng(45.745916, 126.668362);
@@ -227,28 +232,45 @@ public class MyTaskActivity extends BaseActivity {
 //                                        .icon(bitmap);
 //                                //在地图上添加Marker，并显示
 //                                mBaiduMap.addOverlay(option);
-                                mBaiduMap.addOverlays(options);
+                                    mBaiduMap.addOverlays(options);
 
-                                JSONArray jsonArray = new JSONArray(model.getData().getPlatformLineManages().get(0).getLmContent());
-                                List<LatLng> points = new ArrayList<LatLng>();
-                                for(int a = 0; a<jsonArray.length(); a++){
-                                    String s = jsonArray.get(a)+"";
-                                    String ss = s.substring(1, s.length()-1);
-                                    String[] sss = ss.split(",");
+                                    JSONArray jsonArray = new JSONArray(model.getData().getPlatformLineManages().get(0).getLmContent());
+                                    List<LatLng> points = new ArrayList<LatLng>();
+                                    for(int a = 0; a<jsonArray.length(); a++){
+                                        String s = jsonArray.get(a)+"";
+                                        String ss = s.substring(1, s.length()-1);
+                                        String[] sss = ss.split(",");
 //                                    Log.e("123123", Double.valueOf(sss[0])+"......"+Double.valueOf(sss[1]));
-                                    points.add(new LatLng(Double.valueOf(sss[1]), Double.valueOf(sss[0])));
-                                }
+                                        points.add(new LatLng(Double.valueOf(sss[1]), Double.valueOf(sss[0])));
+                                    }
 
-                                //构建折线点坐标
+                                    //构建折线点坐标
 //                                LatLng p1 = new LatLng(45.751199, 126.662757);
 //                                LatLng p2 = new LatLng(45.742545, 126.676986);
 //                                points.add(p1);
 //                                points.add(p2);
 
-                                //绘制折线
-                                OverlayOptions ooPolyline = new PolylineOptions().width(10)
-                                        .color(Color.parseColor("#0088FF")).points(points);
-                                mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
+                                    //绘制折线
+                                    OverlayOptions ooPolyline = new PolylineOptions().width(10)
+                                            .color(Color.parseColor("#0088FF")).points(points);
+                                    mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
+                                }else {
+                                    AlertDialog.Builder normalDialog =
+                                            new AlertDialog.Builder(MyTaskActivity.this);
+                                    normalDialog.setIcon(R.mipmap.ic_launcher);
+                                    normalDialog.setTitle("提示");
+                                    normalDialog.setMessage("您当前登录的用户未添加排班线路，请联系后台管理员添加");
+                                    normalDialog.setPositiveButton("确定",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    //...To-do
+                                                    finish();
+                                                }
+                                            });
+                                    // 显示
+                                    normalDialog.show();
+                                }
 
                             }
                         } catch (JSONException e) {
