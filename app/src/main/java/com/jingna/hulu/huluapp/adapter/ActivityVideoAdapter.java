@@ -50,7 +50,7 @@ public class ActivityVideoAdapter extends RecyclerView.Adapter<ActivityVideoAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        holder.tvName.setText(mFilterList.get(position).getPeopleName());
+        holder.tvName.setText(mFilterList.get(position).getPeopleName()+"("+mFilterList.get(position).getUserName()+")");
         holder.tvBumen.setText(mFilterList.get(position).getDepartmentName());
 
         holder.ivCallVideo.setOnClickListener(new View.OnClickListener() {

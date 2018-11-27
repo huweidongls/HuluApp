@@ -60,7 +60,7 @@ public class PersonActivity extends BaseActivity {
 
         String userPic = Constant.BASE_URL+spCache.get("avatar", "0");
         Glide.with(PersonActivity.this).load(userPic).into(ivAvatar);
-        tvUsername.setText(spCache.get("username", ""));
+        tvUsername.setText(spImp.getNAME()+"("+spCache.get("username", "")+")");
 
     }
 

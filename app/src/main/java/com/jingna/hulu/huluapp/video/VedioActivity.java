@@ -1,6 +1,8 @@
 package com.jingna.hulu.huluapp.video;
 
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -25,6 +27,7 @@ import com.yuntongxun.ecsdk.voip.video.ECCaptureTextureView;
 import com.yuntongxun.ecsdk.voip.video.ECOpenGlView;
 import com.yuntongxun.ecsdk.voip.video.OnCameraInitListener;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -52,12 +55,19 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
     private SpImp spImp;
     private boolean isJieting = false;
     private boolean isOut = false;
+    private Vibrator vibrator;
+    //创建一个SoundPool对象
+    private SoundPool soundPool;
+    //定义一个HashMap用于存放音频流的ID
+    private HashMap<Integer, Integer> musicId=new HashMap<Integer, Integer>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vedio);
         spImp = new SpImp(VedioActivity.this);
+        soundPool = new SoundPool(12, 0,5);
+        musicId.put(1, soundPool.load(this, R.raw.laidian, 1));
         findView();
         VoIPCallHelper.setOnCallEventNotifyListener(this);
         initCallEvent();
@@ -82,8 +92,19 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
             mCallNumber = getIntent().getStringExtra(ECDevice.CALLER);
             Log.i("info", "===vedio==对方的号码==" + mCallNumber);
 
+            vibrator = (Vibrator)this.getSystemService(this.VIBRATOR_SERVICE);
+            long[] patter = {1000, 1000};
+            vibrator.vibrate(patter, 0);
+            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                @Override
+                public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                    soundPool.play(musicId.get(1),1,1, 0, -1, 1);
+                }
+            });
+
         }else{//呼出
             isOut = true;
+            jieting.setBackgroundResource(R.drawable.zhuanhuan);
             ECDevice.getECVoIPSetupManager().setVideoView(mRemote_video_view, mLocalvideo_view);
             String mCurrentCallId = ECDevice.getECVoIPCallManager().makeCall(ECVoIPCallManager.CallType.VIDEO, id);
             if (TextUtils.isEmpty(mCurrentCallId)) {
@@ -94,6 +115,7 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
 
         ECDevice.getECVoIPSetupManager().setNeedCapture(true);
         ECDevice.getECVoIPSetupManager().controlRemoteVideoEnable(true);
+        ECDevice.getECVoIPSetupManager().setVideoBitRates(150);
 
         attachGlView();
     }
@@ -163,7 +185,7 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
         jieting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnect){
+                if(isConnect||isOut){
                     if(isQianzhi){
                         ECDevice.getECVoIPSetupManager().selectCamera(0, 0, 120, ECVoIPSetupManager.Rotate.ROTATE_AUTO, false);
                         isQianzhi = false;
@@ -180,6 +202,10 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(vibrator != null){
+                    vibrator.cancel();
+                }
+                soundPool.stop(musicId.get(1));
                 doHandUpReleaseCall();
             }
         });
@@ -232,6 +258,10 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
         Log.i("info","===vedio==onCallAnswered= "+ callId );
         if (callId != null && callId.equals(mCallId)) {
             isJieting = true;
+            if(vibrator != null){
+                vibrator.cancel();
+            }
+            soundPool.stop(musicId.get(1));
             initResVideoSuccess();
         }
     }
@@ -325,7 +355,7 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
 
     private void initResVideoSuccess() {
         isConnect = true;
-
+        ECDevice. getECVoIPSetupManager().enableLoudSpeaker(true);
         jieting.setBackgroundResource(R.drawable.zhuanhuan);
 
         mTimer = new Timer();
