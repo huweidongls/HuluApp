@@ -12,9 +12,9 @@ public class Constant {
 //    public static final String BASE_URL = "http://192.168.2.136:8088/";
 //    public static final String BASE_URL = "http://47.92.4.37:8088/";
 //    public static final String BASE_URL = "http://47.92.127.1:8088/";
-    public static final String BASE_URL = "http://47.92.79.181:8088/";
+//    public static final String BASE_URL = "http://47.92.79.181:8088/";
 //    public static final String BASE_URL = "http://192.168.2.120:8088/";
-//    public static final String BASE_URL = "http://192.168.2.36:8088/";
+    public static final String BASE_URL = "http://192.168.2.36:8088/";
 
     public static final String BUMEN = "bumen";
 

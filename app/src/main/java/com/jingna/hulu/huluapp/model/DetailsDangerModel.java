@@ -1,19 +1,17 @@
 package com.jingna.hulu.huluapp.model;
 
-import java.util.List;
-
 /**
- * Created by Administrator on 2018/9/16.
+ * Created by Administrator on 2018/11/28.
  */
 
-public class LineDangerModel {
+public class DetailsDangerModel {
 
     /**
      * status : SUCCESS
      * errorCode : null
      * errorTitle : null
      * errorMsg : null
-     * data : [{"id":10,"createBy":"值班人","createDate":1543305344000,"updateTime":null,"lpTitle":"防护栅栏出现丢失","lpContent":"防护栅栏出现丢失，请确认是否丢失","lpLm":"4","lpCoordinate":"[126.632304,45.760298]","lpUser":"111","isSolve":1,"solveContent":"没丢，挺好的","solveTime":1543307985000,"num1":"12","num2":"/upload/9b6fdbeb49d14b8f80d4698ce94a4eb1.jpeg","num3":"/upload/05021762e3ea43f196a14f3784ea1fdf.jpeg","num4":"0","num5":null,"typeName":"防护栅栏隐患","lmTitle":"哈站-哈西站10-25KM","lmContent":"[[126.638251,45.766894],[126.637497,45.766215],[126.636598,45.764933],[126.635556,45.763826],[126.634514,45.762694],[126.633616,45.761864],[126.632394,45.760431],[126.631747,45.759425],[126.630598,45.758066],[126.629807,45.756809],[126.628478,45.755174],[126.627759,45.753765],[126.627687,45.752105],[126.627723,45.752457]]","amount":null}]
+     * data : {"id":11,"createBy":"后台_黑龙江_01","createDate":1543372870000,"updateTime":null,"lpTitle":"test","lpContent":"01","lpLm":"2","lpCoordinate":"[126.63198,45.743219]","lpUser":"null","isSolve":0,"solveContent":null,"solveTime":null,"num1":"13","num2":null,"num3":null,"num4":"0","num5":null,"typeName":null,"lmTitle":null,"lmContent":null,"amount":null}
      * totalPage : null
      * totalCount : null
      */
@@ -22,9 +20,9 @@ public class LineDangerModel {
     private Object errorCode;
     private Object errorTitle;
     private Object errorMsg;
+    private DataBean data;
     private Object totalPage;
     private Object totalCount;
-    private List<DataBean> data;
 
     public String getStatus() {
         return status;
@@ -58,6 +56,14 @@ public class LineDangerModel {
         this.errorMsg = errorMsg;
     }
 
+    public DataBean getData() {
+        return data;
+    }
+
+    public void setData(DataBean data) {
+        this.data = data;
+    }
+
     public Object getTotalPage() {
         return totalPage;
     }
@@ -74,36 +80,28 @@ public class LineDangerModel {
         this.totalCount = totalCount;
     }
 
-    public List<DataBean> getData() {
-        return data;
-    }
-
-    public void setData(List<DataBean> data) {
-        this.data = data;
-    }
-
     public static class DataBean {
         /**
-         * id : 10
-         * createBy : 值班人
-         * createDate : 1543305344000
+         * id : 11
+         * createBy : 后台_黑龙江_01
+         * createDate : 1543372870000
          * updateTime : null
-         * lpTitle : 防护栅栏出现丢失
-         * lpContent : 防护栅栏出现丢失，请确认是否丢失
-         * lpLm : 4
-         * lpCoordinate : [126.632304,45.760298]
-         * lpUser : 111
-         * isSolve : 1
-         * solveContent : 没丢，挺好的
-         * solveTime : 1543307985000
-         * num1 : 12
-         * num2 : /upload/9b6fdbeb49d14b8f80d4698ce94a4eb1.jpeg
-         * num3 : /upload/05021762e3ea43f196a14f3784ea1fdf.jpeg
+         * lpTitle : test
+         * lpContent : 01
+         * lpLm : 2
+         * lpCoordinate : [126.63198,45.743219]
+         * lpUser : null
+         * isSolve : 0
+         * solveContent : null
+         * solveTime : null
+         * num1 : 13
+         * num2 : null
+         * num3 : null
          * num4 : 0
          * num5 : null
-         * typeName : 防护栅栏隐患
-         * lmTitle : 哈站-哈西站10-25KM
-         * lmContent : [[126.638251,45.766894],[126.637497,45.766215],[126.636598,45.764933],[126.635556,45.763826],[126.634514,45.762694],[126.633616,45.761864],[126.632394,45.760431],[126.631747,45.759425],[126.630598,45.758066],[126.629807,45.756809],[126.628478,45.755174],[126.627759,45.753765],[126.627687,45.752105],[126.627723,45.752457]]
+         * typeName : null
+         * lmTitle : null
+         * lmContent : null
          * amount : null
          */
 
@@ -118,15 +116,15 @@ public class LineDangerModel {
         private String lpUser;
         private int isSolve;
         private String solveContent;
-        private long solveTime;
+        private Object solveTime;
         private String num1;
         private String num2;
         private String num3;
         private String num4;
         private Object num5;
         private String typeName;
-        private String lmTitle;
-        private String lmContent;
+        private Object lmTitle;
+        private Object lmContent;
         private Object amount;
 
         public int getId() {
@@ -217,11 +215,11 @@ public class LineDangerModel {
             this.solveContent = solveContent;
         }
 
-        public long getSolveTime() {
+        public Object getSolveTime() {
             return solveTime;
         }
 
-        public void setSolveTime(long solveTime) {
+        public void setSolveTime(Object solveTime) {
             this.solveTime = solveTime;
         }
 
@@ -273,19 +271,19 @@ public class LineDangerModel {
             this.typeName = typeName;
         }
 
-        public String getLmTitle() {
+        public Object getLmTitle() {
             return lmTitle;
         }
 
-        public void setLmTitle(String lmTitle) {
+        public void setLmTitle(Object lmTitle) {
             this.lmTitle = lmTitle;
         }
 
-        public String getLmContent() {
+        public Object getLmContent() {
             return lmContent;
         }
 
-        public void setLmContent(String lmContent) {
+        public void setLmContent(Object lmContent) {
             this.lmContent = lmContent;
         }
 

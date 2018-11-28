@@ -48,6 +48,7 @@ import com.jingna.hulu.huluapp.adapter.IntercalationAdapter;
 import com.jingna.hulu.huluapp.base.BaseActivity;
 import com.jingna.hulu.huluapp.dialog.DialogCustom;
 import com.jingna.hulu.huluapp.model.BaiduCityModel;
+import com.jingna.hulu.huluapp.model.DetailsDangerModel;
 import com.jingna.hulu.huluapp.model.FileUploadByAPPModel;
 import com.jingna.hulu.huluapp.model.FileUploadModel;
 import com.jingna.hulu.huluapp.model.LineDangerModel;
@@ -206,8 +207,9 @@ public class DetailsDangerActivity extends BaseActivity {
         map.put("platformSolveExt", map1);
         String json = Map2Json.map2json(map);
 
-        ViseHttp.POST("/platformSolve/queryList")
-                .setJson(json)
+        String url = "/platformSolve/getOne?id="+id;
+
+        ViseHttp.GET(url)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
@@ -216,12 +218,12 @@ public class DetailsDangerActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getString("status").equals("SUCCESS")) {
                                 Gson gson = new Gson();
-                                LineDangerModel model = gson.fromJson(data, LineDangerModel.class);
-                                tvTitle.setText(model.getData().get(0).getLpTitle());
-                                tvContent.setText(model.getData().get(0).getLpContent());
-                                tvType.setText(model.getData().get(0).getTypeName());
+                                DetailsDangerModel model = gson.fromJson(data, DetailsDangerModel.class);
+                                tvTitle.setText(model.getData().getLpTitle());
+                                tvContent.setText(model.getData().getLpContent());
+                                tvType.setText(model.getData().getTypeName());
 
-                                String a = model.getData().get(0).getLpCoordinate();
+                                String a = model.getData().getLpCoordinate();
                                 String aa = a.substring(1, a.length()-1);
                                 String[] aaaa = aa.split(",");
                                 String url = "http://api.map.baidu.com/geocoder?output=json&location=" + aaaa[1] + "," + aaaa[0] + "&key=ovbH9tDk74DcpRTv59n1zEOkRrmdSPf2";
@@ -248,7 +250,7 @@ public class DetailsDangerActivity extends BaseActivity {
                                             }
                                         });
 
-                                if (model.getData().get(0).getIsSolve() == 0) {
+                                if (model.getData().getIsSolve() == 0) {
                                     etUpload.setVisibility(View.VISIBLE);
                                     recyclerView.setVisibility(View.VISIBLE);
                                     recyclerView1.setVisibility(View.VISIBLE);
@@ -258,7 +260,7 @@ public class DetailsDangerActivity extends BaseActivity {
                                     tvUpload.setVisibility(View.GONE);
                                     recyclerViewShow.setVisibility(View.GONE);
                                     recyclerView1Show.setVisibility(View.GONE);
-                                } else if (model.getData().get(0).getIsSolve() == 1) {
+                                } else if (model.getData().getIsSolve() == 1) {
                                     etUpload.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.GONE);
                                     recyclerView1.setVisibility(View.GONE);
@@ -268,10 +270,10 @@ public class DetailsDangerActivity extends BaseActivity {
                                     tvUpload.setVisibility(View.VISIBLE);
                                     recyclerViewShow.setVisibility(View.VISIBLE);
                                     recyclerView1Show.setVisibility(View.VISIBLE);
-                                    tvUpload.setText(model.getData().get(0).getSolveContent());
+                                    tvUpload.setText(model.getData().getSolveContent());
                                     showList = new ArrayList<>();
                                     showList1 = new ArrayList<>();
-                                    String[] show = model.getData().get(0).getNum2().split(",");
+                                    String[] show = model.getData().getNum2().split(",");
                                     for (int i = 0; i < show.length; i++) {
                                         showList.add(show[i]);
                                     }
@@ -279,7 +281,7 @@ public class DetailsDangerActivity extends BaseActivity {
                                     recyclerViewShow.setLayoutManager(manager);
                                     showAdapter = new ActivityDetailsDangerShowAdapter(showList);
                                     recyclerViewShow.setAdapter(showAdapter);
-                                    String[] show1 = model.getData().get(0).getNum3().split(",");
+                                    String[] show1 = model.getData().getNum3().split(",");
                                     for (int i = 0; i < show1.length; i++) {
                                         showList1.add(show1[i]);
                                     }
@@ -290,7 +292,7 @@ public class DetailsDangerActivity extends BaseActivity {
                                 }
 
                                 //地图显示隐患位置
-                                String s = model.getData().get(0).getLpCoordinate().substring(1, model.getData().get(0).getLpCoordinate().length()-1);
+                                String s = model.getData().getLpCoordinate().substring(1, model.getData().getLpCoordinate().length()-1);
                                 String[] ss = s.split(",");
 
                                 MyLocationData locData = new MyLocationData.Builder()

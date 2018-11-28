@@ -81,7 +81,7 @@ public class LineDangerActivity extends BaseActivity {
                 map.put("pageSize", 10);
                 Map<String, Object> map1 = new LinkedHashMap<>();
 //                map1.put("orderBy", "create_date desc");
-//        map1.put("lpUser", spImp.getUID());
+                map1.put("user", spImp.getUID());
                 map1.put("groupId", spCache.get("num4", ""));
                 map.put("platformSolveExt", map1);
                 String json = Map2Json.map2json(map);
@@ -122,7 +122,7 @@ public class LineDangerActivity extends BaseActivity {
                 map.put("pageSize", 10);
                 Map<String, Object> map1 = new LinkedHashMap<>();
 //                map1.put("orderBy", "create_date desc");
-//        map1.put("lpUser", spImp.getUID());
+                map1.put("user", spImp.getUID());
                 map1.put("groupId", spCache.get("num4", ""));
                 map.put("platformSolveExt", map1);
                 String json = Map2Json.map2json(map);
@@ -160,7 +160,7 @@ public class LineDangerActivity extends BaseActivity {
         map.put("pageSize", 10);
         Map<String, Object> map1 = new LinkedHashMap<>();
 //        map1.put("orderBy", "create_date desc");
-//        map1.put("lpUser", spImp.getUID());
+        map1.put("user", spImp.getUID());
         map1.put("groupId", spCache.get("num4", ""));
         map.put("platformSolveExt", map1);
         String json = Map2Json.map2json(map);
@@ -170,7 +170,7 @@ public class LineDangerActivity extends BaseActivity {
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
-                        Log.e("121212", data);
+                        Log.e("123123", data);
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if(jsonObject.getString("status").equals("SUCCESS")){
@@ -191,7 +191,7 @@ public class LineDangerActivity extends BaseActivity {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-                        Log.e("121212", errMsg);
+                        Log.e("123123", errMsg);
                     }
                 });
 

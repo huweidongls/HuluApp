@@ -115,7 +115,7 @@ public class VedioActivity extends ECSuperActivity implements VoIPCallHelper.OnC
 
         ECDevice.getECVoIPSetupManager().setNeedCapture(true);
         ECDevice.getECVoIPSetupManager().controlRemoteVideoEnable(true);
-        ECDevice.getECVoIPSetupManager().setVideoBitRates(150);
+        ECDevice.getECVoIPSetupManager().setVideoBitRates(512);
 
         attachGlView();
     }
