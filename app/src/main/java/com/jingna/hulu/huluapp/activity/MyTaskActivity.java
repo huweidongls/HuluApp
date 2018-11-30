@@ -84,6 +84,8 @@ public class MyTaskActivity extends BaseActivity {
     ImageView ivEnd;
     @BindView(R.id.tv_end)
     TextView tvEnd;
+    @BindView(R.id.tv_line_name)
+    TextView tvLineName;
 
     private ActivityMyTaskAdapter adapter;
     private List<MyTaskModel.DataBean.PlatformSolvesBean> mList;
@@ -199,6 +201,9 @@ public class MyTaskActivity extends BaseActivity {
                                 Gson gson = new Gson();
                                 MyTaskModel model = gson.fromJson(data, MyTaskModel.class);
                                 if(model.getData() != null){
+
+                                    tvLineName.setText("行程线路: "+model.getData().getPlatformLineManages().get(0).getLmTitle());
+
                                     mList = model.getData().getPlatformSolves();
                                     LinearLayoutManager manager = new LinearLayoutManager(MyTaskActivity.this);
                                     manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -254,24 +259,24 @@ public class MyTaskActivity extends BaseActivity {
                                     OverlayOptions ooPolyline = new PolylineOptions().width(10)
                                             .color(Color.parseColor("#0088FF")).points(points);
                                     mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
-                                }else {
-                                    AlertDialog.Builder normalDialog =
-                                            new AlertDialog.Builder(MyTaskActivity.this);
-                                    normalDialog.setIcon(R.mipmap.ic_launcher);
-                                    normalDialog.setTitle("提示");
-                                    normalDialog.setMessage("您当前登录的用户未添加排班线路，请联系后台管理员添加");
-                                    normalDialog.setPositiveButton("确定",
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    //...To-do
-                                                    finish();
-                                                }
-                                            });
-                                    // 显示
-                                    normalDialog.show();
                                 }
-
+                            }else {
+                                AlertDialog.Builder normalDialog =
+                                        new AlertDialog.Builder(MyTaskActivity.this);
+                                normalDialog.setIcon(R.mipmap.ic_launcher);
+                                normalDialog.setTitle("提示");
+                                normalDialog.setMessage("您当前登录的用户未添加排班线路，请联系后台管理员添加");
+                                normalDialog.setPositiveButton("确定",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                //...To-do
+                                                finish();
+                                            }
+                                        });
+                                // 显示
+                                normalDialog.setCancelable(false);
+                                normalDialog.show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -332,6 +337,23 @@ public class MyTaskActivity extends BaseActivity {
                                                 tvEnd.setTextColor(Color.parseColor("#333333"));
                                                 llStart.setEnabled(false);
                                                 llEnd.setEnabled(true);
+                                            }else {
+                                                AlertDialog.Builder normalDialog =
+                                                        new AlertDialog.Builder(MyTaskActivity.this);
+                                                normalDialog.setIcon(R.mipmap.ic_launcher);
+                                                normalDialog.setTitle("提示");
+                                                normalDialog.setMessage("开始护路失败,护路员当前时间段已开始护路");
+                                                normalDialog.setPositiveButton("确定",
+                                                        new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                //...To-do
+                                                                finish();
+                                                            }
+                                                        });
+                                                // 显示
+                                                normalDialog.setCancelable(false);
+                                                normalDialog.show();
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -340,7 +362,7 @@ public class MyTaskActivity extends BaseActivity {
 
                                     @Override
                                     public void onFail(int errCode, String errMsg) {
-
+                                        Log.e("121212", errMsg);
                                     }
                                 });
 

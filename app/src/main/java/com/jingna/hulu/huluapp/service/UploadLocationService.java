@@ -100,8 +100,9 @@ public class UploadLocationService extends Service {
     public void onDestroy() {
         super.onDestroy();
 //        timer.cancel();
-//        mLocationClient.stop();
+        mLocationClient.stop();
         MyApp.getInstance().setClear();
+        timer.cancel();
     }
 
     @Nullable

@@ -41,6 +41,7 @@
             android:layout_height="40px" />
 
         <TextView
+            android:id="@+id/tv_line_name"
             android:layout_marginLeft="10px"
             android:layout_toRightOf="@+id/iv_rect"
             android:textSize="34px"

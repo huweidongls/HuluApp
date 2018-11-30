@@ -1,5 +1,7 @@
 package com.jingna.hulu.huluapp.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -183,6 +185,23 @@ public class LineDangerActivity extends BaseActivity {
                                 recyclerView.setLayoutManager(manager);
                                 recyclerView.setAdapter(adapter);
                                 page = 2;
+                            }else {
+                                AlertDialog.Builder normalDialog =
+                                        new AlertDialog.Builder(LineDangerActivity.this);
+                                normalDialog.setIcon(R.mipmap.ic_launcher);
+                                normalDialog.setTitle("提示");
+                                normalDialog.setMessage("您当前登录的用户未添加排班线路，请联系后台管理员添加");
+                                normalDialog.setPositiveButton("确定",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                //...To-do
+                                                finish();
+                                            }
+                                        });
+                                // 显示
+                                normalDialog.setCancelable(false);
+                                normalDialog.show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
