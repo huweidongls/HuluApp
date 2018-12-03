@@ -67,7 +67,7 @@ public class Main1Activity extends BaseActivity {
         Constents.id = username;
         SDKCoreHelper.init(context);
 
-//        checkVersion();
+        checkVersion();
         initBanner();
 
     }
