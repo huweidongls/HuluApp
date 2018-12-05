@@ -197,6 +197,7 @@ public class MyTaskActivity extends BaseActivity {
                                 Gson gson = new Gson();
                                 UserGetOneModel userGetOneModel = gson.fromJson(data, UserGetOneModel.class);
                                 num4 = userGetOneModel.getData().getNum4();
+                                spCache.put("num4", num4);
 
                                 Map<String, Object> map = new LinkedHashMap<>();
                                 map.put("num2", spImp.getUID());

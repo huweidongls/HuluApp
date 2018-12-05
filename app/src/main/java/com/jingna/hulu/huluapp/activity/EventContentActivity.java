@@ -167,8 +167,8 @@ public class EventContentActivity extends BaseActivity {
         map.put("eventExt", map1);
         String json = Map2Json.map2json(map);
 
-        ViseHttp.POST("/eventApi/queryList")
-                .setJson(json)
+        String url = "/eventApi/getOne?id="+id;
+        ViseHttp.GET(url)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {

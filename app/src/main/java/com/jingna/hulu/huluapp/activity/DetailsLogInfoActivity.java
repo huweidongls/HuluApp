@@ -113,8 +113,8 @@ public class DetailsLogInfoActivity extends BaseActivity {
                                 recyclerView1.setAdapter(adapter1);
                                 //绘制地图
                                 //绘制规定路线
-                                if(model.getData().getEvents()!=null&&model.getData().getPlatformSolves().size()>0&&!TextUtils.isEmpty(model.getData().getPlatformSolves().get(0).getLmContent())){
-                                    JSONArray jsonArray = new JSONArray(model.getData().getPlatformSolves().get(0).getLmContent());
+                                if(model.getData().getLineInfo()!=null){
+                                    JSONArray jsonArray = new JSONArray(model.getData().getLineInfo().getLmContent());
                                     List<LatLng> points = new ArrayList<LatLng>();
                                     for(int a = 0; a<jsonArray.length(); a++){
                                         String s = jsonArray.get(a)+"";

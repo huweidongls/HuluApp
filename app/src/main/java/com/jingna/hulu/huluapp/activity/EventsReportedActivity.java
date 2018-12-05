@@ -128,6 +128,7 @@ public class EventsReportedActivity extends BaseActivity {
     private String records = "";
 
     private SpImp spImp;
+    private SpCache spCache;
 
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
@@ -143,6 +144,7 @@ public class EventsReportedActivity extends BaseActivity {
 
         ButterKnife.bind(EventsReportedActivity.this);
         spImp = new SpImp(EventsReportedActivity.this);
+        spCache = new SpCache(EventsReportedActivity.this);
         mHelper = new PermissionHelper(this);
 
         initData();
@@ -477,6 +479,7 @@ public class EventsReportedActivity extends BaseActivity {
                 map.put("num5", spImp.getDATAID());
                 map.put("eventPic", value);
                 map.put("eventRecordings", records);
+                map.put("groupId", spCache.get("num4", ""));
                 String json = Map2Json.map2json(map);
                 Log.e("123123", json);
 

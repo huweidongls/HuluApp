@@ -83,9 +83,18 @@ public class DetailsLogInfoModel {
     }
 
     public static class DataBean {
+        private LineInfo lineInfo;
         private List<PlatformSolvesBean> platformSolves;
         private List<EventsBean> events;
         private List<InfoBean> info;
+
+        public LineInfo getLineInfo() {
+            return lineInfo;
+        }
+
+        public void setLineInfo(LineInfo lineInfo) {
+            this.lineInfo = lineInfo;
+        }
 
         public List<PlatformSolvesBean> getPlatformSolves() {
             return platformSolves;
@@ -109,6 +118,132 @@ public class DetailsLogInfoModel {
 
         public void setInfo(List<InfoBean> info) {
             this.info = info;
+        }
+
+        public static class LineInfo {
+            /**
+             * id : 11
+             * createBy : 后台_黑龙江_01
+             * createDate : 1539673370000
+             * updateTime : null
+             * lpTitle : 小垃圾
+             * lpContent : 小垃圾
+             * lpLm : 6
+             * lpCoordinate : [126.618273,45.715314]
+             * lpUser : 43
+             * isSolve : 1
+             * solveContent : 诺基亚了
+             * solveTime : 1539673425000
+             * num1 : 1
+             * num2 : /upload/1e22e096cb524d3f858fca632d3c078f.png
+             * num3 : /upload/6bb1ac04a65643f7894b0c2d00c26329.png
+             * num4 : 0
+             * num5 : null
+             * typeName : 哈尔滨测试分类
+             * lmTitle : 10.16 test
+             * lmContent : [[126.619926,45.709072],[126.616764,45.721155]]
+             * amount : null
+             */
+
+            private int id;
+            private String createBy;
+            private long createDate;
+            private Object updateTime;
+            private String num1;
+            private String num2;
+            private String num3;
+            private String num4;
+            private Object num5;
+            private String lmTitle;
+            private String lmContent;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getCreateBy() {
+                return createBy;
+            }
+
+            public void setCreateBy(String createBy) {
+                this.createBy = createBy;
+            }
+
+            public long getCreateDate() {
+                return createDate;
+            }
+
+            public void setCreateDate(long createDate) {
+                this.createDate = createDate;
+            }
+
+            public Object getUpdateTime() {
+                return updateTime;
+            }
+
+            public void setUpdateTime(Object updateTime) {
+                this.updateTime = updateTime;
+            }
+
+            public String getNum1() {
+                return num1;
+            }
+
+            public void setNum1(String num1) {
+                this.num1 = num1;
+            }
+
+            public String getNum2() {
+                return num2;
+            }
+
+            public void setNum2(String num2) {
+                this.num2 = num2;
+            }
+
+            public String getNum3() {
+                return num3;
+            }
+
+            public void setNum3(String num3) {
+                this.num3 = num3;
+            }
+
+            public String getNum4() {
+                return num4;
+            }
+
+            public void setNum4(String num4) {
+                this.num4 = num4;
+            }
+
+            public Object getNum5() {
+                return num5;
+            }
+
+            public void setNum5(Object num5) {
+                this.num5 = num5;
+            }
+
+            public String getLmTitle() {
+                return lmTitle;
+            }
+
+            public void setLmTitle(String lmTitle) {
+                this.lmTitle = lmTitle;
+            }
+
+            public String getLmContent() {
+                return lmContent;
+            }
+
+            public void setLmContent(String lmContent) {
+                this.lmContent = lmContent;
+            }
         }
 
         public static class PlatformSolvesBean {
