@@ -41,7 +41,7 @@ public class ActivityDetailsLogInfoDangerAdapter extends RecyclerView.Adapter<Ac
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.tv.setText(data.get(position).getLmTitle());
+        holder.tv.setText(data.get(position).getLpTitle());
         holder.rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
