@@ -116,7 +116,7 @@ public class UserGetOneModel {
         private String userPic;
         private String peopleName;
         private int isDelete;
-        private int joinTime;
+        private long joinTime;
         private Object phonenum;
         private String address;
         private int sex;
@@ -185,11 +185,11 @@ public class UserGetOneModel {
             this.isDelete = isDelete;
         }
 
-        public int getJoinTime() {
+        public long getJoinTime() {
             return joinTime;
         }
 
-        public void setJoinTime(int joinTime) {
+        public void setJoinTime(long joinTime) {
             this.joinTime = joinTime;
         }
 
